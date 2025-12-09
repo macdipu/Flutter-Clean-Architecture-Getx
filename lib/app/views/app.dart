@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 import '../../res/routes/app_pages.dart';
 import '../../res/strings/app_translations.dart';
-import '../../features/initialization/presentation/controller/app_init_controller.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -19,7 +18,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Get.put(AppInitController());
   }
 
   @override
