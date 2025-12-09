@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/presentation/widget/snackbar/custom_snackbar.dart';
-import '../../domain/use_case/auth_use_case.dart';
+import '../../../../../core/presentation/widget/snackbar/custom_snackbar.dart';
+import '../../../domain/use_case/auth_use_case.dart';
 
 class LoginScreenController extends GetxController {
-  final AuthUseCase useCase =  AuthUseCase();
+  final AuthUseCase useCase = Get.find<AuthUseCase>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 

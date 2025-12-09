@@ -1,12 +1,12 @@
+import 'package:clean_architecture_getx/core/presentation/widget/buttons/dev_auto_fill_button.dart';
 import 'package:clean_architecture_getx/res/strings/string_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../../core/dev_functions/dev_auto_fill_button.dart';
 import '../../../../../res/resources.dart';
 import '../../../../trades/presentation/screens/trades_screen.dart';
-import '../login_screen_controller.dart';
+import '../controller/login_screen_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

@@ -7,8 +7,8 @@ part 'trade_api_urls.dart';
 
 class ApiUrl implements AuthenticationApiUrls, DashboardApiUrls, TradeApiUrls {
   final AppConfig appConfig = Get.find();
-  get baseUrl => "${appConfig.getApiClientConfig().baseUrl}api/";
-  get apiVersion => appConfig.getApiClientConfig().apiVersion;
+  String get baseUrl => "${appConfig.getApiClientConfig().baseUrl}api/";
+  String get apiVersion => appConfig.getApiClientConfig().apiVersion;
 
   @override
   String get emailLoginUrl => "${baseUrl}Account/Login";

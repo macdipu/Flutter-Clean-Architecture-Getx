@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:clean_architecture_getx/app/flavours/app_config.dart';
 import 'package:clean_architecture_getx/core/data/http/client/api_client.dart';
+import 'package:clean_architecture_getx/core/data/http/urls/api_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,9 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
 //Add GetxControllers which are needed to be initialized before starting the app
 void _initialize(Map<String, dynamic> map) {
-  Get.put(AppConfig(map));
-  Get.put(PreferenceCache());
-  Get.put(ApiClient());
+  Get.lazyPut<AppConfig>(() => AppConfig(map), fenix: true);
+  Get.lazyPut<PreferenceCache>(() => PreferenceCache(), fenix: true);
+  Get.lazyPut<ApiClient>(() => ApiClient(), fenix: true);
+  Get.lazyPut<ApiUrl>(() => ApiUrl(), fenix: true);
+
 }
