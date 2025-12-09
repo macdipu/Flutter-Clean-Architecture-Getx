@@ -5,7 +5,7 @@ import '../domain/entity/trade_item.dart';
 import '../domain/usecase/trades_use_case.dart';
 
 class TradesScreenController extends GetxController {
-  final TradeUseCase _controller = TradeUseCase();
+  final TradeUseCase _controller = Get.find<TradeUseCase>();
 
   final RxBool isLoading = false.obs;
   final RxList<TradeItem> trades = RxList();

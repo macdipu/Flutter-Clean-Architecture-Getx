@@ -5,7 +5,7 @@ import '../../../trades/presentation/screens/trades_screen.dart';
 import '../../domain/use_case/welcome_use_case.dart';
 
 class SplashScreenScreenController extends GetxController {
-  final WelcomeUseCase useCase = WelcomeUseCase();
+  final WelcomeUseCase useCase = Get.find<WelcomeUseCase>();
 
   SplashScreenScreenController() {
     initApp();

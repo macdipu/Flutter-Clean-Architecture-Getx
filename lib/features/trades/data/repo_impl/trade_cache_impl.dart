@@ -9,11 +9,13 @@ import 'trade_http_impl.dart';
 class TradeCacheImpl extends BaseCacheRepository implements TradeRepository {
   static const cacheKey = "project:trades";
 
-  final TradeHttpImp _repo = TradeHttpImp();
+  final TradeHttpImp _repo;
+
+  TradeCacheImpl(super.cache, this._repo);
 
   @override
   Future<Either<Failure, TradeItemList>> getTradeList() async {
-    String? value = await preferenceCache.get(cacheKey);
+    String? value = await cache.get(cacheKey);
     if (value == null) {
       return _getFromSourceAndSave();
     }
@@ -26,7 +28,7 @@ class TradeCacheImpl extends BaseCacheRepository implements TradeRepository {
 
     if (trades.isRight()) {
       TradeItemList? tradeList = trades.fold((l) => null, (r) => r);
-      preferenceCache.put(cacheKey, tradeList!.toJson(), const Duration(days: 1));
+      cache.put(cacheKey, tradeList!.toJson(), const Duration(days: 1));
     }
 
     return trades;

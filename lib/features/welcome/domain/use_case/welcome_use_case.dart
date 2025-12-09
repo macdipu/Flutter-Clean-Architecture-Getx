@@ -1,7 +1,9 @@
-import '../../data/repo_impl/welcome_repository_impl.dart';
+import '../repository/welcome_repository.dart';
 
 class WelcomeUseCase {
-  final WelcomeRepositoryImpl welcomeRepository = WelcomeRepositoryImpl();
+  final WelcomeRepository welcomeRepository;
+
+  WelcomeUseCase(this.welcomeRepository);
 
   Future<bool> isUserLoggedIn() async {
     return await welcomeRepository.isUserLoggedIn();
