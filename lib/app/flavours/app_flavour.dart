@@ -18,12 +18,12 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await dotenv.load();
   _initialize(dotenv.env);
 
-  await getVersion();
+  await VersionService.getVersion();
 
   runApp(await builder());
 }
 
-//? Add GetxControllers which are needed to be initialized before starting the app
+//Add GetxControllers which are needed to be initialized before starting the app
 void _initialize(Map<String, dynamic> map) {
   Get.put(AppConfig(map));
   Get.put(PreferenceCache());
