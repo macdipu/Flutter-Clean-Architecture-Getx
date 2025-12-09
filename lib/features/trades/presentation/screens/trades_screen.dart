@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../domain/entity/trade_item.dart';
-import '../trades_screen_controller.dart';
+import '../controller/trades_screen_controller.dart';
 
 class TradesScreen extends StatefulWidget {
   const TradesScreen({super.key});

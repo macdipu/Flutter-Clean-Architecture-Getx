@@ -3,7 +3,7 @@ import 'package:clean_architecture_getx/features/trades/data/repo_impl/trade_cac
 import 'package:clean_architecture_getx/features/trades/data/repo_impl/trade_http_impl.dart';
 import 'package:clean_architecture_getx/features/trades/domain/repo/trade_repository.dart';
 import 'package:clean_architecture_getx/features/trades/domain/usecase/trades_use_case.dart';
-import 'package:clean_architecture_getx/features/trades/presentation/trades_screen_controller.dart';
+import 'package:clean_architecture_getx/features/trades/presentation/controller/trades_screen_controller.dart';
 import 'package:clean_architecture_getx/core/data/http/client/api_client.dart';
 import 'package:clean_architecture_getx/core/data/http/urls/api_urls.dart';
 import 'package:clean_architecture_getx/core/data/cache/client/preference_cache.dart';

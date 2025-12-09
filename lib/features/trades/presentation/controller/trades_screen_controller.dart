@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
-import '../../../core/presentation/widget/snackbar/custom_snackbar.dart';
-import '../domain/entity/trade_item.dart';
-import '../domain/usecase/trades_use_case.dart';
+import '../../../../core/presentation/widget/snackbar/custom_snackbar.dart';
+import '../../domain/entity/trade_item.dart';
+import '../../domain/usecase/trades_use_case.dart';
 
 class TradesScreenController extends GetxController {
   final TradeUseCase _controller = Get.find<TradeUseCase>();
