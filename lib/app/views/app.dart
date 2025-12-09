@@ -1,0 +1,29 @@
+import 'package:clean_architecture_getx/res/strings/string_enum.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../features/welcome/presentation/splash/screen/splash_screen.dart';
+import '../../res/strings/app_translations.dart';
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final Locale _locale = Locale("en");
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      locale: _locale,
+      fallbackLocale: _locale,
+      supportedLocales: AppTranslations.supportedLocales,
+      translations: AppTranslations(),
+      title: TextEnum.appName.tr,
+      theme: ThemeData(appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF))),
+      home: const SplashScreen(),
+    );
+  }
+}
