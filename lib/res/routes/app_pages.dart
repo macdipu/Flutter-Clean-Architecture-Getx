@@ -1,12 +1,11 @@
+import 'package:get/get.dart';
 import 'package:clean_architecture_getx/res/routes/app_routes.dart';
-import 'package:clean_architecture_getx/features/welcome/presentation/pages.dart';
 import 'package:clean_architecture_getx/features/authentication/presentation/pages.dart';
 
 class AppPages {
-  static const initial = AppRoutes.splash;
+  static const initial = AppRoutes.login;
 
-  static final routes = [
-    ...WelcomePages.routes,
+  static final List<GetPage> routes = [
     ...AuthPages.routes,
   ];
 }

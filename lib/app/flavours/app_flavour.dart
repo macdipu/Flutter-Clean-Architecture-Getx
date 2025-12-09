@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 
 import '../../core/data/cache/client/preference_cache.dart';
 import '../../services/version/version.dart';
+import '../../features/initialization/data/repo_impl/initialization_repository_impl.dart';
+import '../../features/initialization/domain/use_case/initialization_use_case.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
@@ -30,5 +32,6 @@ void _initialize(Map<String, dynamic> map) {
   Get.lazyPut<PreferenceCache>(() => PreferenceCache(), fenix: true);
   Get.lazyPut<ApiClient>(() => ApiClient(), fenix: true);
   Get.lazyPut<ApiUrl>(() => ApiUrl(), fenix: true);
-
+  Get.lazyPut<InitializationRepositoryImpl>(() => InitializationRepositoryImpl(Get.find<ApiClient>(), Get.find<PreferenceCache>()), fenix: true);
+  Get.lazyPut<InitializationUseCase>(() => InitializationUseCase(Get.find<InitializationRepositoryImpl>()), fenix: true);
 }

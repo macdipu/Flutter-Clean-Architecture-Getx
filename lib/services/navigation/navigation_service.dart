@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../features/welcome/presentation/splash/screen/splash_screen.dart';
+import '../../features/authentication/presentation/login/screens/login_screen.dart';
 
 class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -22,7 +22,7 @@ class NavigationService {
     Navigator.pushAndRemoveUntil(
       navigatorKey.currentContext!,
       MaterialPageRoute(
-        builder: (context) => const SplashScreen(),
+        builder: (context) => const LoginScreen(),
       ),
       (Route<dynamic> route) => false,
     );
@@ -45,7 +45,7 @@ class NavigationService {
   }
 
   static Future<void> logoutAndNavigateToLoginScreen() async {
-    Get.offAll(() => SplashScreen());
+    Get.offAll(() => LoginScreen());
   }
 }
 

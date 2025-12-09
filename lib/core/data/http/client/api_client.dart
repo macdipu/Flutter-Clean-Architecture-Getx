@@ -10,7 +10,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../../../features/authentication/data/model/auth_login_response.dart';
 import '../../../../features/authentication/domain/model/user_info.dart';
-import '../../../../features/welcome/presentation/splash/screen/splash_screen.dart';
+import '../../../../features/authentication/presentation/login/screens/login_screen.dart';
 import '../../../domain/domain_export.dart';
 import '../../cache/client/preference_cache.dart';
 import '../../cache/preference/shared_preference_constants.dart';
@@ -74,7 +74,7 @@ class ApiClient extends getx.GetxController {
     _token = null;
 
     _cache.flushAll().then((value) {
-      getx.Get.offAll(() => SplashScreen());
+      getx.Get.offAll(() => LoginScreen());
     });
   }
 

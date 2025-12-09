@@ -24,6 +24,7 @@ dependencies:
   dio: ^5.9.0
   pretty_dio_logger: ^1.4.0
   flutter_svg: ^2.2.3
+  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   flutter_test:
@@ -37,3 +38,8 @@ flutter:
   assets:
     - .env
     - assets/svgs/
+
+flutter_native_splash:
+  color: "#ffffff"
+  android: true
+  ios: true

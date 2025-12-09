@@ -5,12 +5,12 @@ import '../../../../core/data/cache/preference/shared_preference_constants.dart'
 import '../../../../core/data/http/client/base_http_repository.dart';
 import '../../../../core/domain/domain_export.dart';
 import '../../domain/entity/instruction.dart';
-import '../../domain/repository/welcome_repository.dart';
+import '../../domain/repository/initialization_repository.dart';
 
-class WelcomeRepositoryImpl extends BaseHttpRepository implements WelcomeRepository {
+class InitializationRepositoryImpl extends BaseHttpRepository implements InitializationRepository {
   final PreferenceCache preferenceCache;
 
-  WelcomeRepositoryImpl(super.client, this.preferenceCache);
+  InitializationRepositoryImpl(super.client, this.preferenceCache);
 
   @override
   Future<bool> isUserLoggedIn() async {

@@ -19,6 +19,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginScreenController _controller = Get.put(LoginScreenController());
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: DevAutoFillButton(onPressed: _controller.devAutoFill),
