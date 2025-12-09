@@ -2,7 +2,7 @@ import 'package:clean_architecture_getx/res/strings/string_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../features/welcome/presentation/splash/screen/splash_screen.dart';
+import '../../res/routes/app_pages.dart';
 import '../../res/strings/app_translations.dart';
 
 class MyApp extends StatefulWidget {
@@ -23,7 +23,8 @@ class _MyAppState extends State<MyApp> {
       translations: AppTranslations(),
       title: TextEnum.appName.tr,
       theme: ThemeData(appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF))),
-      home: const SplashScreen(),
+      initialRoute: AppPages.initial,
+      getPages: AppPages.routes,
     );
   }
 }
