@@ -58,30 +58,30 @@ extension ThemeExtensions on BuildContext {
   Color get onInverseSurface => colorScheme.onInverseSurface;
   Color get inversePrimary => colorScheme.inversePrimary;
 
-  // Display Text Styles
-  TextStyle? get displayLarge => textTheme.displayLarge;
-  TextStyle? get displayMedium => textTheme.displayMedium;
-  TextStyle? get displaySmall => textTheme.displaySmall;
+  // Display Text Styles (Largest - 57sp, 45sp, 36sp)
+  TextStyle? get displayLarge => textTheme.displayLarge;     // 57sp - Hero text
+  TextStyle? get displayMedium => textTheme.displayMedium;   // 45sp - Very large
+  TextStyle? get displaySmall => textTheme.displaySmall;     // 36sp - Large
 
-  // Headline Text Styles
-  TextStyle? get headlineLarge => textTheme.headlineLarge;
-  TextStyle? get headlineMedium => textTheme.headlineMedium;
-  TextStyle? get headlineSmall => textTheme.headlineSmall;
+  // Headline Text Styles (32sp, 28sp, 24sp)
+  TextStyle? get headlineLarge => textTheme.headlineLarge;   // 32sp - Main headlines
+  TextStyle? get headlineMedium => textTheme.headlineMedium; // 28sp - Sub headlines
+  TextStyle? get headlineSmall => textTheme.headlineSmall;   // 24sp - Small headlines
 
-  // Title Text Styles
-  TextStyle? get titleLarge => textTheme.titleLarge;
-  TextStyle? get titleMedium => textTheme.titleMedium;
-  TextStyle? get titleSmall => textTheme.titleSmall;
+  // Title Text Styles (22sp, 16sp, 14sp)
+  TextStyle? get titleLarge => textTheme.titleLarge;         // 22sp - Large titles
+  TextStyle? get titleMedium => textTheme.titleMedium;       // 16sp - Default ⭐
+  TextStyle? get titleSmall => textTheme.titleSmall;         // 14sp - Small titles
 
-  // Body Text Styles
-  TextStyle? get bodyLarge => textTheme.bodyLarge;
-  TextStyle? get bodyMedium => textTheme.bodyMedium;
-  TextStyle? get bodySmall => textTheme.bodySmall;
+  // Body Text Styles (16sp, 14sp, 12sp)
+  TextStyle? get bodyLarge => textTheme.bodyLarge;           // 16sp - Large body
+  TextStyle? get bodyMedium => textTheme.bodyMedium;         // 14sp - Default ⭐
+  TextStyle? get bodySmall => textTheme.bodySmall;           // 12sp - Small body
 
-  // Label Text Styles
-  TextStyle? get labelLarge => textTheme.labelLarge;
-  TextStyle? get labelMedium => textTheme.labelMedium;
-  TextStyle? get labelSmall => textTheme.labelSmall;
+  // Label Text Styles (14sp, 12sp, 11sp)
+  TextStyle? get labelLarge => textTheme.labelLarge;         // 14sp - Buttons
+  TextStyle? get labelMedium => textTheme.labelMedium;       // 12sp - Labels
+  TextStyle? get labelSmall => textTheme.labelSmall;         // 11sp - Tiny
 }
 
 /// Extension for custom colors (success, warning, info)

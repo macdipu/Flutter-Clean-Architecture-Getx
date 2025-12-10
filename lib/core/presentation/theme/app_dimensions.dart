@@ -107,17 +107,24 @@ class AppIconSize {
 
 /// App Duration Constants for Animations
 ///
+/// Time Reference:
+/// • instant  = 100ms (very quick - micro interactions)
+/// • short    = 200ms (quick - simple animations) ⭐ Most common
+/// • medium   = 300ms (standard - default animations) ⭐
+/// • long     = 500ms (slower - complex animations)
+/// • veryLong = 800ms (slowest - dramatic effects)
+///
 /// Usage:
 /// ```dart
-/// AnimatedContainer(duration: AppDuration.short)
+/// AnimatedContainer(duration: AppDuration.medium)  // 300ms animation
 /// ```
 class AppDuration {
   AppDuration._(); // Private constructor
 
-  static const Duration instant = Duration(milliseconds: 100);
-  static const Duration short = Duration(milliseconds: 200);
-  static const Duration medium = Duration(milliseconds: 300);
-  static const Duration long = Duration(milliseconds: 500);
-  static const Duration veryLong = Duration(milliseconds: 800);
+  static const Duration instant = Duration(milliseconds: 100);   // 100ms - Very Quick
+  static const Duration short = Duration(milliseconds: 200);     // 200ms - Quick ⭐
+  static const Duration medium = Duration(milliseconds: 300);    // 300ms - Standard ⭐
+  static const Duration long = Duration(milliseconds: 500);      // 500ms - Slower
+  static const Duration veryLong = Duration(milliseconds: 800);  // 800ms - Slowest
 }
 
