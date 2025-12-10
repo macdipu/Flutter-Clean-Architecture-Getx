@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../res/resources.dart';
+import '../../theme/theme_extensions.dart';
 
 class CommonSuccessScreen extends StatelessWidget {
   final String? asset;
@@ -57,7 +58,9 @@ class CommonSuccessScreen extends StatelessWidget {
             margin: const EdgeInsets.only(top: 24, bottom: 16),
             child: Text(
               title ?? 'successful',
-              style: titleStyle ?? Resources.style.w700s18(),
+              style: titleStyle ?? context.titleLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -65,7 +68,9 @@ class CommonSuccessScreen extends StatelessWidget {
             margin: const EdgeInsets.only(right: 16, left: 16),
             child: Text(
               subTitle ?? "",
-              style: subtitleStyle ?? Resources.style.w400s16(),
+              style: subtitleStyle ?? context.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w400,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -80,3 +85,4 @@ class CommonSuccessScreen extends StatelessWidget {
     );
   }
 }
+

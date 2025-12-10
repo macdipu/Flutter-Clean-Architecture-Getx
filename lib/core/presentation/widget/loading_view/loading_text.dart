@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
-
-import '../../../../res/resources.dart';
+import '../../theme/theme_extensions.dart';
 
 class LoadingText extends StatelessWidget {
   final bool isLoading;
-  final Text child;
+  final Widget child;
   final Color? color;
+  final double? size;
+  final double? strokeWidth;
 
   const LoadingText({
     super.key,
     required this.isLoading,
     required this.child,
     this.color,
+    this.size,
+    this.strokeWidth,
   });
 
   @override
   Widget build(BuildContext context) {
     return isLoading
         ? SizedBox(
-            height: 20,
-            width: 20,
+            height: size ?? 20,
+            width: size ?? 20,
             child: CircularProgressIndicator(
-              color: color ?? Resources.color.primaryColor,
-              strokeWidth: 3,
+              color: color ?? context.primaryColor,
+              strokeWidth: strokeWidth ?? 3,
             ),
           )
         : child;

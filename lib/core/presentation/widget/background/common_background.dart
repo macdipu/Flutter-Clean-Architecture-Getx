@@ -1,8 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
-import '../../../../res/resources.dart';
+import '../../theme/theme_extensions.dart';
 
 class CommonBackground extends StatelessWidget {
   final Widget? widget;
@@ -13,7 +12,7 @@ class CommonBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Resources.color.secondaryColor,
+        color: context.secondaryColor,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Stack(

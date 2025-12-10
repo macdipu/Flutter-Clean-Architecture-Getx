@@ -1,40 +1,49 @@
 import 'package:flutter/material.dart';
+import '../../theme/theme_extensions.dart';
 
-import '../../../../res/resources.dart';
-
+/// A simple centered loading indicator
 class LoadingView extends StatelessWidget {
-  const LoadingView({super.key});
+  final Color? color;
+
+  const LoadingView({super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        color: Colors.transparent,
-        child: const CircularProgressIndicator(
-            // valueColor: AlwaysStoppedAnimation<Color>(
-            //   ColorConstants.primaryColor,
-            // ),
-            ),
+      child: CircularProgressIndicator(
+        color: color ?? context.primaryColor,
       ),
     );
   }
 }
 
+/// A loading view with a transparent dark overlay
 class LoadingViewTransparent extends StatelessWidget {
   final double? height;
   final double? width;
-  const LoadingViewTransparent({super.key, this.height, this.width});
+  final Color? loaderColor;
+  final Color? backgroundColor;
+
+  const LoadingViewTransparent({
+    super.key,
+    this.height,
+    this.width,
+    this.loaderColor,
+    this.backgroundColor,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: 1,
-      child: Container(
-        color: const Color(0x80000000),
-        height: height ?? MediaQuery.of(context).size.height,
-        width: width ?? MediaQuery.of(context).size.width,
-        child: Align(
-          alignment: Alignment.center,
-          child: CircularProgressIndicator(backgroundColor: const Color(0xfff8f8f8), valueColor: AlwaysStoppedAnimation<Color>(Resources.color.primaryColor)),
+    return Container(
+      color: backgroundColor ?? const Color(0x80000000),
+      height: height ?? MediaQuery.of(context).size.height,
+      width: width ?? MediaQuery.of(context).size.width,
+      child: Center(
+        child: CircularProgressIndicator(
+          backgroundColor: context.surfaceColor,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            loaderColor ?? context.primaryColor,
+          ),
         ),
       ),
     );

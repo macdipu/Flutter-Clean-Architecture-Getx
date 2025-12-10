@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
-import '../../../../res/resources.dart';
+import '../../theme/theme_extensions.dart';
 
 class CommonEmptyView extends StatelessWidget {
-  const CommonEmptyView({super.key});
+  final String? message;
+
+  const CommonEmptyView({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +15,16 @@ class CommonEmptyView extends StatelessWidget {
           height: 120,
           width: 140,
           margin: const EdgeInsets.only(bottom: 24, top: 100),
-          child: Image.asset(context.resources.drawable.noCampaigns),
+          child: Image.asset(Resources.drawable.noCampaigns),
         ),*/
         Container(
           margin: const EdgeInsets.only(bottom: 24),
           child: Text(
-            'Nothing Here',
-            style: Resources.style
-                .w500s14(Resources.color.white.withOpacity(0.7)),
+            message ?? 'Nothing Here',
+            style: context.titleMedium?.copyWith(
+              color: context.onSurface.withValues(alpha: 0.7),
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ],

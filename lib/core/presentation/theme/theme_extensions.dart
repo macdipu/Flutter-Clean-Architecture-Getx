@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Extension on BuildContext to access theme colors easily
 extension ThemeExtensions on BuildContext {
   /// Get the current ColorScheme
   ColorScheme get colorScheme => Theme.of(this).colorScheme;

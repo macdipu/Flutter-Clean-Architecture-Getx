@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../../res/resources.dart';
+import '../../theme/theme_extensions.dart';
 import '../loading_view/loading_text.dart';
-
 
 class CommonButton extends StatelessWidget {
   final String title;
@@ -42,8 +40,7 @@ class CommonButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(48),
           border: Border.all(
-            color:
-                borderColor ?? bgColor ?? Resources.color.primaryColor,
+            color: borderColor ?? bgColor ?? context.primaryColor,
           ),
           color: bgColor ?? Colors.transparent,
         ),
@@ -53,7 +50,10 @@ class CommonButton extends StatelessWidget {
           child: Text(
             title,
             style: textStyle ??
-                Resources.style.w500s14(Resources.color.white),
+                context.titleMedium?.copyWith(
+                  color: titleColor ?? context.onPrimary,
+                  fontWeight: FontWeight.w500,
+                ),
           ),
         ),
       ),
