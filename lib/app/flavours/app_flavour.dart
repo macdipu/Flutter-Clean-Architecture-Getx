@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:clean_architecture_getx/app/flavours/app_config.dart';
-import 'package:clean_architecture_getx/core/data/http/client/api_client.dart';
-import 'package:clean_architecture_getx/core/data/http/urls/api_urls.dart';
+import 'package:flutter_clean_architecture_getx/app/flavours/app_config.dart';
+import 'package:flutter_clean_architecture_getx/core/data/http/client/api_client.dart';
+import 'package:flutter_clean_architecture_getx/core/data/http/urls/api_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';

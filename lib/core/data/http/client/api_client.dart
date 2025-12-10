@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:clean_architecture_getx/app/flavours/app_config.dart';
-import 'package:clean_architecture_getx/res/strings/app_translations.dart';
+import 'package:flutter_clean_architecture_getx/app/flavours/app_config.dart';
+import 'package:flutter_clean_architecture_getx/res/strings/app_translations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' as getx;

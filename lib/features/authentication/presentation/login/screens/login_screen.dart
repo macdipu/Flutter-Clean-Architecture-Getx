@@ -1,5 +1,5 @@
-import 'package:clean_architecture_getx/core/presentation/widget/buttons/dev_auto_fill_button.dart';
-import 'package:clean_architecture_getx/res/strings/string_enum.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/widget/buttons/dev_auto_fill_button.dart';
+import 'package:flutter_clean_architecture_getx/res/strings/string_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';

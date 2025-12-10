@@ -1,4 +1,4 @@
-import 'package:clean_architecture_getx/app/flavours/app_config.dart';
+import 'package:flutter_clean_architecture_getx/app/flavours/app_config.dart';
 import 'package:get/get.dart';
 
 part 'authentication_api_urls.dart';

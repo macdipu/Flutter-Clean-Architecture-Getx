@@ -1,11 +1,11 @@
-name: clean_architecture_getx
+name: flutter_clean_architecture_getx
 description: 'A new Flutter project.'
 publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.3
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
   flutter:
@@ -24,13 +24,15 @@ dependencies:
   dio: ^5.9.0
   pretty_dio_logger: ^1.4.0
   flutter_svg: ^2.2.3
-  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^6.0.0
+
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.7
 
 flutter:
   uses-material-design: true
@@ -43,3 +45,11 @@ flutter_native_splash:
   color: "#ffffff"
   android: true
   ios: true
+
+
+
+#dart run flutter_launcher_icons
+#flutter pub run flutter_native_splash:create
+#rename setAppName --targets ios,android,web,macos,windows,linux --value "Money Track"
+#rename setBundleId --targets ios,android,macos,linux,windows --value "com.chowdhuryelab.money_track"
+#find lib -type f -name "*.dart" -exec sed -i '' 's/package:flutter_clean_architecture_getx\//package:flutter_clean_architecture_getx\//g' {} +

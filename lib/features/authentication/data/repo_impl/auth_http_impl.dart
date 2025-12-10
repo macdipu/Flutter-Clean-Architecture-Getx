@@ -1,7 +1,7 @@
-import 'package:clean_architecture_getx/core/data/http/client/api_client.dart';
-import 'package:clean_architecture_getx/core/data/http/client/base_http_repository.dart';
-import 'package:clean_architecture_getx/core/data/http/urls/api_urls.dart';
-import 'package:clean_architecture_getx/core/domain/error/failure.dart';
+import 'package:flutter_clean_architecture_getx/core/data/http/client/api_client.dart';
+import 'package:flutter_clean_architecture_getx/core/data/http/client/base_http_repository.dart';
+import 'package:flutter_clean_architecture_getx/core/data/http/urls/api_urls.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/error/failure.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../domain/model/auth_facebook_req.dart';

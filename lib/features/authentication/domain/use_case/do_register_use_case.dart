@@ -1,6 +1,6 @@
-import 'package:clean_architecture_getx/core/domain/error/failure.dart';
-import 'package:clean_architecture_getx/core/domain/usecase/usecase.dart';
-import 'package:clean_architecture_getx/features/authentication/domain/repository/auth_repository.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/error/failure.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
+import 'package:flutter_clean_architecture_getx/features/authentication/domain/repository/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 
 import '../model/auth_reg_req.dart';

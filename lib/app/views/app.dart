@@ -1,6 +1,6 @@
-import 'package:clean_architecture_getx/res/strings/string_enum.dart';
-import 'package:clean_architecture_getx/services/navigation/navigation_history_observer.dart';
-import 'package:clean_architecture_getx/services/navigation/navigation_service.dart';
+import 'package:flutter_clean_architecture_getx/res/strings/string_enum.dart';
+import 'package:flutter_clean_architecture_getx/services/navigation/navigation_history_observer.dart';
+import 'package:flutter_clean_architecture_getx/services/navigation/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

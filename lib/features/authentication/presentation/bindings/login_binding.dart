@@ -1,11 +1,11 @@
-import 'package:clean_architecture_getx/features/authentication/presentation/login/controller/login_screen_controller.dart';
+import 'package:flutter_clean_architecture_getx/features/authentication/presentation/login/controller/login_screen_controller.dart';
 import 'package:get/get.dart';
-import 'package:clean_architecture_getx/features/authentication/domain/repository/auth_repository.dart';
-import 'package:clean_architecture_getx/features/authentication/data/repo_impl/auth_cache_impl.dart';
-import 'package:clean_architecture_getx/features/authentication/data/repo_impl/auth_http_impl.dart';
-import 'package:clean_architecture_getx/core/data/http/urls/api_urls.dart';
-import 'package:clean_architecture_getx/core/data/http/client/api_client.dart';
-import 'package:clean_architecture_getx/core/data/cache/client/preference_cache.dart';
+import 'package:flutter_clean_architecture_getx/features/authentication/domain/repository/auth_repository.dart';
+import 'package:flutter_clean_architecture_getx/features/authentication/data/repo_impl/auth_cache_impl.dart';
+import 'package:flutter_clean_architecture_getx/features/authentication/data/repo_impl/auth_http_impl.dart';
+import 'package:flutter_clean_architecture_getx/core/data/http/urls/api_urls.dart';
+import 'package:flutter_clean_architecture_getx/core/data/http/client/api_client.dart';
+import 'package:flutter_clean_architecture_getx/core/data/cache/client/preference_cache.dart';
 
 import '../../domain/use_case/do_login_use_case.dart';
 

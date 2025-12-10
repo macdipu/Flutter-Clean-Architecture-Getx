@@ -1,4 +1,4 @@
-import 'package:clean_architecture_getx/features/trades/presentation/screens/trades_screen.dart';
+import 'package:flutter_clean_architecture_getx/features/trades/presentation/screens/trades_screen.dart';
 import 'package:get/get.dart';
 
 import '../../../res/routes/app_routes.dart';

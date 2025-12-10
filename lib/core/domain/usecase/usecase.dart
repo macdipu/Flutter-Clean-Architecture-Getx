@@ -1,4 +1,4 @@
-import 'package:clean_architecture_getx/core/domain/error/failure.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/error/failure.dart';
 import 'package:dartz/dartz.dart';
 
 typedef ResultFuture<T> = Future<Either<Failure, T>>;
