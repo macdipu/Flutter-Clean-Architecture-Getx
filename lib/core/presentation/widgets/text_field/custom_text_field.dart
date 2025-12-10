@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// A customizable text form field widget with consistent styling
+/// A customizable text form field widgets with consistent styling
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
