@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 /// App Color Constants for Light and Dark Themes
-abstract class AppColorConstants {
+class AppColorConstants {
+  // Singleton instance
+  static final AppColorConstants _instance = AppColorConstants._internal();
+
+  // Factory constructor returns the same instance
+  factory AppColorConstants() => _instance;
+
+  // Private constructor
+  AppColorConstants._internal();
+
+  // Getter for singleton instance
+  static AppColorConstants get instance => _instance;
+
   // ===== LIGHT THEME COLORS =====
 
   // Primary Colors
