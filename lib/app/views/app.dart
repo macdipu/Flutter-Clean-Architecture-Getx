@@ -4,6 +4,8 @@ import 'package:flutter_clean_architecture_getx/services/navigation/navigation_s
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../core/presentation/controllers/theme_controller.dart';
+import '../../core/presentation/theme/app_theme.dart';
 import '../../res/routes/app_pages.dart';
 import '../../res/strings/app_translations.dart';
 
@@ -15,7 +17,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final Locale _locale = Locale("en");
+  final Locale _locale = const Locale("en");
+  final ThemeController _themeController = Get.put(ThemeController());
 
   @override
   void initState() {
@@ -24,17 +27,28 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      locale: _locale,
-      fallbackLocale: _locale,
-      supportedLocales: AppTranslations.supportedLocales,
-      translations: AppTranslations(),
-      title: TextEnum.appName.tr,
-      theme: ThemeData(appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF))),
-      initialRoute: AppPages.initial,
-      getPages: AppPages.routes,
-      navigatorKey: NavigationService.navigatorKey,
-      navigatorObservers: [NavigationHistoryObserver()],
+    return Obx(
+      () => GetMaterialApp(
+        locale: _locale,
+        fallbackLocale: _locale,
+        supportedLocales: AppTranslations.supportedLocales,
+        translations: AppTranslations(),
+        title: TextEnum.appName.tr,
+
+        // Theme Configuration
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: _themeController.themeMode,
+
+        // Navigation Configuration
+        initialRoute: AppPages.initial,
+        getPages: AppPages.routes,
+        navigatorKey: NavigationService.navigatorKey,
+        navigatorObservers: [NavigationHistoryObserver()],
+
+        // Disable debug banner
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
