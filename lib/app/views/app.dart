@@ -1,4 +1,6 @@
 import 'package:clean_architecture_getx/res/strings/string_enum.dart';
+import 'package:clean_architecture_getx/services/navigation/navigation_history_observer.dart';
+import 'package:clean_architecture_getx/services/navigation/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +33,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF))),
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
+      navigatorKey: NavigationService.navigatorKey,
+      navigatorObservers: [NavigationHistoryObserver()],
     );
   }
 }
