@@ -1,35 +1,5 @@
-import 'package:clean_architecture_getx/features/authentication/domain/repository/auth_repository.dart';
-import 'package:dartz/dartz.dart';
+export 'do_login_use_case.dart';
+export 'do_register_use_case.dart';
+export 'do_gmail_login_use_case.dart';
+export 'do_facebook_login_use_case.dart';
 
-import '../../../../core/domain/error/failure.dart';
-import '../model/auth_facebook_req.dart';
-import '../model/auth_gmail_req.dart';
-import '../model/auth_login_req.dart';
-import '../model/auth_reg_req.dart';
-import '../model/user_info.dart';
-
-class AuthUseCase {
-  final AuthRepository _authRepository;
-
-  AuthUseCase(this._authRepository);
-
-  Future<Either<Failure, bool>> doLogin(AuthLoginReq params) async {
-    Either<Failure, UserInfo?> useInfo = await _authRepository.emailLogin(params);
-
-    return useInfo.fold(
-            (l) => Left(l), (r) => Right((r != null) ? true : false));
-  }
-
-  Future<Either<Failure, bool>> doRegister(AuthRegistrationReq params) {
-    throw UnimplementedError();
-  }
-
-  Future<Either<Failure, bool>> doGmailLogin(AuthGmailReq params) {
-    throw UnimplementedError();
-  }
-
-  Future<Either<Failure, bool>> doFacebookLogin(AuthFacebookReq params) {
-    throw UnimplementedError();
-  }
-
-}
