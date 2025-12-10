@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../core/presentation/widget/snackbar/custom_snackbar.dart';
+import '../../../../../core/presentation/widgets/snackbar/custom_snackbar.dart';
 import '../../../domain/use_case/do_login_use_case.dart';
 
 class LoginScreenController extends GetxController {
