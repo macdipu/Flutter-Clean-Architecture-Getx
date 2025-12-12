@@ -1,3 +1,4 @@
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
 
@@ -14,7 +15,7 @@ class TradeHttpImp extends BaseHttpRepository implements TradeRepository {
   TradeHttpImp(super.client, this.urls);
 
   @override
-  Future<Either<Failure, TradeItemList>> getTradeList() async {
+  ResultFuture<TradeItemList> getTradeList() async {
     try {
       final response = await client.authorizedGet(urls.getAllTrade);
       if (response.messageCode == 200) {

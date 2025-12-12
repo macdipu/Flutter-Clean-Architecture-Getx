@@ -1,3 +1,4 @@
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/data/cache/client/base_cache_repository.dart';
@@ -14,7 +15,7 @@ class TradeCacheImpl extends BaseCacheRepository implements TradeRepository {
   TradeCacheImpl(super.cache, this._repo);
 
   @override
-  Future<Either<Failure, TradeItemList>> getTradeList() async {
+  ResultFuture<TradeItemList> getTradeList() async {
     String? value = await cache.get(cacheKey);
     if (value == null) {
       return _getFromSourceAndSave();
@@ -23,7 +24,7 @@ class TradeCacheImpl extends BaseCacheRepository implements TradeRepository {
     return Right(TradeItemList.fromJson(value));
   }
 
-  Future<Either<Failure, TradeItemList>> _getFromSourceAndSave() async {
+  ResultFuture<TradeItemList> _getFromSourceAndSave() async {
     Either<Failure, TradeItemList> trades = await _repo.getTradeList();
 
     if (trades.isRight()) {

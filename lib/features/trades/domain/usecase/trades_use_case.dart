@@ -1,19 +1,20 @@
 import 'package:dartz/dartz.dart';
-
-import '../../../../core/domain/domain_export.dart';
 import '../entity/trade_item.dart';
 import '../repo/trade_repository.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 
-class TradeUseCase {
+class TradeUseCase extends UseCaseWithoutParams<TradeItemList> {
   final TradeRepository _repo;
 
   TradeUseCase(this._repo);
 
-  Future<Either<Failure, TradeItemList>> doGetTradeList() async {
-    return await _repo.getTradeList();
-  }
+  @override
+  ResultFuture<TradeItemList> call() async {
+    var userInfo = await _repo.getTradeList();
 
-  Future<Either<Failure, bool>> doFilterTradeList() {
-    throw UnimplementedError();
+    return userInfo.fold(
+          (l) => Left(l),
+          (r) => Right(TradeItemList(tradeItems: r.tradeItems)),
+    );
   }
 }
