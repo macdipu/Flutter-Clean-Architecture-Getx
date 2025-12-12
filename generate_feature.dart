@@ -57,8 +57,7 @@ void main(List<String> arguments) {
     print('   4. Register the binding in your routes');
     print('');
     print('📖 For detailed instructions, see:');
-    print('   • QUICK_START_CHEAT_SHEET.md - Fast 4-step guide');
-    print('   • FEATURE_SETUP_GUIDE.md - Complete walkthrough with examples');
+    print('   • README.md in your project root');
     print('');
     print('🎉 Happy coding!');
     print('');
