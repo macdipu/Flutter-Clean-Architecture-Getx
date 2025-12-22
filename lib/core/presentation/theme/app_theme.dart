@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'color_schemes.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/theme/color_schemes.dart';
 import 'text_theme.dart';
 
 class AppTheme {
@@ -10,40 +10,40 @@ class AppTheme {
   /// Light Theme
   static ThemeData get lightTheme {
     final colorScheme = ColorScheme.light(
-      primary: AppColorConstants.lightPrimary,
-      onPrimary: AppColorConstants.lightOnPrimary,
-      primaryContainer: AppColorConstants.lightPrimaryContainer,
-      onPrimaryContainer: AppColorConstants.lightOnPrimaryContainer,
-      secondary: AppColorConstants.lightSecondary,
-      onSecondary: AppColorConstants.lightOnSecondary,
-      secondaryContainer: AppColorConstants.lightSecondaryContainer,
-      onSecondaryContainer: AppColorConstants.lightOnSecondaryContainer,
-      tertiary: AppColorConstants.lightTertiary,
-      onTertiary: AppColorConstants.lightOnTertiary,
-      tertiaryContainer: AppColorConstants.lightTertiaryContainer,
-      onTertiaryContainer: AppColorConstants.lightOnTertiaryContainer,
-      error: AppColorConstants.lightError,
-      onError: AppColorConstants.lightOnError,
-      errorContainer: AppColorConstants.lightErrorContainer,
-      onErrorContainer: AppColorConstants.lightOnErrorContainer,
-      surface: AppColorConstants.lightSurface,
-      onSurface: AppColorConstants.lightOnSurface,
-      onSurfaceVariant: AppColorConstants.lightOnSurfaceVariant,
-      outline: AppColorConstants.lightOutline,
-      outlineVariant: AppColorConstants.lightOutlineVariant,
-      shadow: AppColorConstants.lightShadow,
-      scrim: AppColorConstants.lightScrim,
-      inverseSurface: AppColorConstants.lightInverseSurface,
-      onInverseSurface: AppColorConstants.lightOnInverseSurface,
-      inversePrimary: AppColorConstants.lightInversePrimary,
-      surfaceTint: AppColorConstants.lightPrimary,
+      primary: AppColors.primary.light,
+      onPrimary: AppColors.onPrimary.light,
+      primaryContainer: AppColors.primaryContainer.light,
+      onPrimaryContainer: AppColors.onPrimaryContainer.light,
+      secondary: AppColors.secondary.light,
+      onSecondary: AppColors.onSecondary.light,
+      secondaryContainer: AppColors.secondaryContainer.light,
+      onSecondaryContainer: AppColors.onSecondaryContainer.light,
+      tertiary: AppColors.tertiary.light,
+      onTertiary: AppColors.onTertiary.light,
+      tertiaryContainer: AppColors.tertiaryContainer.light,
+      onTertiaryContainer: AppColors.onTertiaryContainer.light,
+      error: AppColors.error.light,
+      onError: AppColors.onError.light,
+      errorContainer: AppColors.errorContainer.light,
+      onErrorContainer: AppColors.onErrorContainer.light,
+      surface: AppColors.surface.light,
+      onSurface: AppColors.onSurface.light,
+      onSurfaceVariant: AppColors.onSurfaceVariant.light,
+      outline: AppColors.outline.light,
+      outlineVariant: AppColors.outlineVariant.light,
+      shadow: AppColors.shadow.light,
+      scrim: AppColors.scrim.light,
+      inverseSurface: AppColors.inverseSurface.light,
+      onInverseSurface: AppColors.onInverseSurface.light,
+      inversePrimary: AppColors.inversePrimary.light,
+      surfaceTint: AppColors.primary.light,
     );
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
       textTheme: AppTextTheme.lightTextTheme,
-      scaffoldBackgroundColor: AppColorConstants.lightBackground,
+      scaffoldBackgroundColor: AppColors.background.light,
 
       // AppBar Theme
       appBarTheme: AppBarTheme(
@@ -110,7 +110,7 @@ class AppTheme {
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColorConstants.lightSurfaceContainerHighest,
+        fillColor: AppColors.surfaceContainerHighest.light,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: colorScheme.outline),
@@ -131,7 +131,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: colorScheme.error, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         labelStyle: AppTextTheme.lightTextTheme.bodyMedium?.copyWith(
           color: colorScheme.onSurfaceVariant,
         ),
@@ -155,7 +156,7 @@ class AppTheme {
 
       // Chip Theme
       chipTheme: ChipThemeData(
-        backgroundColor: AppColorConstants.lightSurfaceContainerHighest,
+        backgroundColor: AppColors.surfaceContainerHighest.light,
         deleteIconColor: colorScheme.onSurfaceVariant,
         labelStyle: AppTextTheme.lightTextTheme.labelMedium?.copyWith(
           color: colorScheme.onSurfaceVariant,
@@ -204,7 +205,7 @@ class AppTheme {
 
       // Divider Theme
       dividerTheme: DividerThemeData(
-        color: AppColorConstants.lightDivider,
+        color: AppColors.divider.light,
         thickness: 1,
         space: 1,
       ),
@@ -240,7 +241,7 @@ class AppTheme {
           if (states.contains(WidgetState.selected)) {
             return colorScheme.primary.withValues(alpha: 0.5);
           }
-          return AppColorConstants.lightSurfaceContainerHighest;
+          return AppColors.surfaceContainerHighest.light;
         }),
       ),
 
@@ -286,40 +287,40 @@ class AppTheme {
   /// Dark Theme
   static ThemeData get darkTheme {
     final colorScheme = ColorScheme.dark(
-      primary: AppColorConstants.darkPrimary,
-      onPrimary: AppColorConstants.darkOnPrimary,
-      primaryContainer: AppColorConstants.darkPrimaryContainer,
-      onPrimaryContainer: AppColorConstants.darkOnPrimaryContainer,
-      secondary: AppColorConstants.darkSecondary,
-      onSecondary: AppColorConstants.darkOnSecondary,
-      secondaryContainer: AppColorConstants.darkSecondaryContainer,
-      onSecondaryContainer: AppColorConstants.darkOnSecondaryContainer,
-      tertiary: AppColorConstants.darkTertiary,
-      onTertiary: AppColorConstants.darkOnTertiary,
-      tertiaryContainer: AppColorConstants.darkTertiaryContainer,
-      onTertiaryContainer: AppColorConstants.darkOnTertiaryContainer,
-      error: AppColorConstants.darkError,
-      onError: AppColorConstants.darkOnError,
-      errorContainer: AppColorConstants.darkErrorContainer,
-      onErrorContainer: AppColorConstants.darkOnErrorContainer,
-      surface: AppColorConstants.darkSurface,
-      onSurface: AppColorConstants.darkOnSurface,
-      onSurfaceVariant: AppColorConstants.darkOnSurfaceVariant,
-      outline: AppColorConstants.darkOutline,
-      outlineVariant: AppColorConstants.darkOutlineVariant,
-      shadow: AppColorConstants.darkShadow,
-      scrim: AppColorConstants.darkScrim,
-      inverseSurface: AppColorConstants.darkInverseSurface,
-      onInverseSurface: AppColorConstants.darkOnInverseSurface,
-      inversePrimary: AppColorConstants.darkInversePrimary,
-      surfaceTint: AppColorConstants.darkPrimary,
+      primary: AppColors.primary.dark,
+      onPrimary: AppColors.onPrimary.dark,
+      primaryContainer: AppColors.primaryContainer.dark,
+      onPrimaryContainer: AppColors.onPrimaryContainer.dark,
+      secondary: AppColors.secondary.dark,
+      onSecondary: AppColors.onSecondary.dark,
+      secondaryContainer: AppColors.secondaryContainer.dark,
+      onSecondaryContainer: AppColors.onSecondaryContainer.dark,
+      tertiary: AppColors.tertiary.dark,
+      onTertiary: AppColors.onTertiary.dark,
+      tertiaryContainer: AppColors.tertiaryContainer.dark,
+      onTertiaryContainer: AppColors.onTertiaryContainer.dark,
+      error: AppColors.error.dark,
+      onError: AppColors.onError.dark,
+      errorContainer: AppColors.errorContainer.dark,
+      onErrorContainer: AppColors.onErrorContainer.dark,
+      surface: AppColors.surface.dark,
+      onSurface: AppColors.onSurface.dark,
+      onSurfaceVariant: AppColors.onSurfaceVariant.dark,
+      outline: AppColors.outline.dark,
+      outlineVariant: AppColors.outlineVariant.dark,
+      shadow: AppColors.shadow.dark,
+      scrim: AppColors.scrim.dark,
+      inverseSurface: AppColors.inverseSurface.dark,
+      onInverseSurface: AppColors.onInverseSurface.dark,
+      inversePrimary: AppColors.inversePrimary.dark,
+      surfaceTint: AppColors.primary.dark,
     );
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
       textTheme: AppTextTheme.darkTextTheme,
-      scaffoldBackgroundColor: AppColorConstants.darkBackground,
+      scaffoldBackgroundColor: AppColors.background.dark,
 
       // AppBar Theme
       appBarTheme: AppBarTheme(
@@ -386,7 +387,7 @@ class AppTheme {
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColorConstants.darkSurfaceContainerHighest,
+        fillColor: AppColors.surfaceContainerHighest.dark,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: colorScheme.outline),
@@ -407,7 +408,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: colorScheme.error, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         labelStyle: AppTextTheme.darkTextTheme.bodyMedium?.copyWith(
           color: colorScheme.onSurfaceVariant,
         ),
@@ -431,7 +433,7 @@ class AppTheme {
 
       // Chip Theme
       chipTheme: ChipThemeData(
-        backgroundColor: AppColorConstants.darkSurfaceContainerHighest,
+        backgroundColor: AppColors.surfaceContainerHighest.dark,
         deleteIconColor: colorScheme.onSurfaceVariant,
         labelStyle: AppTextTheme.darkTextTheme.labelMedium?.copyWith(
           color: colorScheme.onSurfaceVariant,
@@ -480,7 +482,7 @@ class AppTheme {
 
       // Divider Theme
       dividerTheme: DividerThemeData(
-        color: AppColorConstants.darkDivider,
+        color: AppColors.divider.dark,
         thickness: 1,
         space: 1,
       ),
@@ -516,7 +518,7 @@ class AppTheme {
           if (states.contains(WidgetState.selected)) {
             return colorScheme.primary.withValues(alpha: 0.5);
           }
-          return AppColorConstants.darkSurfaceContainerHighest;
+          return AppColors.surfaceContainerHighest.dark;
         }),
       ),
 
@@ -559,4 +561,3 @@ class AppTheme {
     );
   }
 }
-
