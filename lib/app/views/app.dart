@@ -3,6 +3,7 @@ import 'package:flutter_clean_architecture_getx/services/navigation/navigation_h
 import 'package:flutter_clean_architecture_getx/services/navigation/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../../core/presentation/controllers/theme_controller.dart';
 import '../../core/presentation/theme/app_theme.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final Locale _locale = const Locale("en");
+  final Locale _locale = const Locale("bn");
   final ThemeController _themeController = Get.put(ThemeController());
 
   @override
@@ -48,6 +49,13 @@ class _MyAppState extends State<MyApp> {
 
         // Disable debug banner
         debugShowCheckedModeBanner: false,
+
+        // Localization delegates
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
       ),
     );
   }
