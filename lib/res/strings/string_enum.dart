@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-enum TextEnum {
+enum TextEnum{
   appName(en: "Flutter Demo", bn: "ফ্লাটার ডেমো"),
   verify(en: "Verify", bn: "যাচাই করুন"),
   send(en: "Send", bn: "পাঠান"),
