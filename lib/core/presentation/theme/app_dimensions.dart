@@ -1,130 +1,119 @@
 import 'package:flutter/material.dart';
 
-/// App Spacing Constants
-///
-/// Use these instead of Resources.dimension for consistent spacing across the app
+/// Single access point for all design dimensions
 ///
 /// Usage:
 /// ```dart
-/// EdgeInsets.all(AppSpacing.md)
-/// SizedBox(height: AppSpacing.lg)
-/// Padding(padding: EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm))
+/// AppDimens.spacing.s16
+/// AppDimens.spacing.p16
+/// AppDimens.radius.br12
+/// AppDimens.elevation.e4
+/// AppDimens.icon.s24
+/// AppDimens.duration.ms300
 /// ```
-class AppSpacing {
-  AppSpacing._(); // Private constructor to prevent instantiation
+class AppDimens {
+  AppDimens._();
 
-  // Base spacing values
-  static const double xs = 4.0;
-  static const double sm = 8.0;
-  static const double md = 16.0;
-  static const double lg = 24.0;
-  static const double xl = 32.0;
-  static const double xxl = 48.0;
-
-  // Common padding presets
-  static const EdgeInsets paddingXS = EdgeInsets.all(xs);
-  static const EdgeInsets paddingSM = EdgeInsets.all(sm);
-  static const EdgeInsets paddingMD = EdgeInsets.all(md);
-  static const EdgeInsets paddingLG = EdgeInsets.all(lg);
-  static const EdgeInsets paddingXL = EdgeInsets.all(xl);
-
-  // Horizontal padding presets
-  static const EdgeInsets horizontalXS = EdgeInsets.symmetric(horizontal: xs);
-  static const EdgeInsets horizontalSM = EdgeInsets.symmetric(horizontal: sm);
-  static const EdgeInsets horizontalMD = EdgeInsets.symmetric(horizontal: md);
-  static const EdgeInsets horizontalLG = EdgeInsets.symmetric(horizontal: lg);
-  static const EdgeInsets horizontalXL = EdgeInsets.symmetric(horizontal: xl);
-
-  // Vertical padding presets
-  static const EdgeInsets verticalXS = EdgeInsets.symmetric(vertical: xs);
-  static const EdgeInsets verticalSM = EdgeInsets.symmetric(vertical: sm);
-  static const EdgeInsets verticalMD = EdgeInsets.symmetric(vertical: md);
-  static const EdgeInsets verticalLG = EdgeInsets.symmetric(vertical: lg);
-  static const EdgeInsets verticalXL = EdgeInsets.symmetric(vertical: xl);
+  static const spacing = _Spacing();
+  static const radius = _Radius();
+  static const elevation = _Elevation();
+  static const icon = _IconSize();
+  static final duration = _Duration();
 }
 
-/// App Border Radius Constants
-///
-/// Usage:
-/// ```dart
-/// BorderRadius.circular(AppRadius.sm)
-/// decoration: BoxDecoration(borderRadius: AppRadius.roundedSM)
-/// ```
-class AppRadius {
-  AppRadius._(); // Private constructor
+/// --------------------
+/// Spacing
+/// --------------------
+class _Spacing {
+  const _Spacing();
 
-  static const double none = 0.0;
-  static const double xs = 4.0;
-  static const double sm = 8.0;
-  static const double md = 12.0;
-  static const double lg = 16.0;
-  static const double xl = 24.0;
-  static const double full = 9999.0; // For fully rounded corners
+  // raw spacing values (dp)
+  final double s4  = 4;
+  final double s8  = 8;
+  final double s16 = 16;
+  final double s24 = 24;
+  final double s32 = 32;
+  final double s48 = 48;
 
-  // Common BorderRadius presets
-  static final BorderRadius roundedNone = BorderRadius.circular(none);
-  static final BorderRadius roundedXS = BorderRadius.circular(xs);
-  static final BorderRadius roundedSM = BorderRadius.circular(sm);
-  static final BorderRadius roundedMD = BorderRadius.circular(md);
-  static final BorderRadius roundedLG = BorderRadius.circular(lg);
-  static final BorderRadius roundedXL = BorderRadius.circular(xl);
-  static final BorderRadius roundedFull = BorderRadius.circular(full);
+  // padding
+  EdgeInsets get p4  => const EdgeInsets.all(4);
+  EdgeInsets get p8  => const EdgeInsets.all(8);
+  EdgeInsets get p16 => const EdgeInsets.all(16);
+  EdgeInsets get p24 => const EdgeInsets.all(24);
+  EdgeInsets get p32 => const EdgeInsets.all(32);
+
+  // horizontal
+  EdgeInsets get h4  => const EdgeInsets.symmetric(horizontal: 4);
+  EdgeInsets get h8  => const EdgeInsets.symmetric(horizontal: 8);
+  EdgeInsets get h16 => const EdgeInsets.symmetric(horizontal: 16);
+  EdgeInsets get h24 => const EdgeInsets.symmetric(horizontal: 24);
+
+  // vertical
+  EdgeInsets get v4  => const EdgeInsets.symmetric(vertical: 4);
+  EdgeInsets get v8  => const EdgeInsets.symmetric(vertical: 8);
+  EdgeInsets get v16 => const EdgeInsets.symmetric(vertical: 16);
+  EdgeInsets get v24 => const EdgeInsets.symmetric(vertical: 24);
 }
 
-/// App Elevation Constants
-///
-/// Usage:
-/// ```dart
-/// Card(elevation: AppElevation.md)
-/// Material(elevation: AppElevation.high)
-/// ```
-class AppElevation {
-  AppElevation._(); // Private constructor
+/// --------------------
+/// Radius
+/// --------------------
+class _Radius {
+  const _Radius();
 
-  static const double none = 0.0;
-  static const double low = 2.0;
-  static const double medium = 4.0;
-  static const double high = 8.0;
-  static const double veryHigh = 16.0;
+  final double r0  = 0;
+  final double r4  = 4;
+  final double r8  = 8;
+  final double r12 = 12;
+  final double r16 = 16;
+  final double r24 = 24;
+  final double full = 9999;
+
+  BorderRadius get none => BorderRadius.circular(0);
+  BorderRadius get br4  => BorderRadius.circular(4);
+  BorderRadius get br8  => BorderRadius.circular(8);
+  BorderRadius get br12 => BorderRadius.circular(12);
+  BorderRadius get br16 => BorderRadius.circular(16);
+  BorderRadius get br24 => BorderRadius.circular(24);
+  BorderRadius get brFull => BorderRadius.circular(9999);
 }
 
-/// App Icon Size Constants
-///
-/// Usage:
-/// ```dart
-/// Icon(Icons.home, size: AppIconSize.md)
-/// ```
-class AppIconSize {
-  AppIconSize._(); // Private constructor
+/// --------------------
+/// Elevation
+/// --------------------
+class _Elevation {
+  const _Elevation();
 
-  static const double xs = 16.0;
-  static const double sm = 20.0;
-  static const double md = 24.0;
-  static const double lg = 32.0;
-  static const double xl = 48.0;
-  static const double xxl = 64.0;
+  final double e0  = 0;
+  final double e2  = 2;
+  final double e4  = 4;
+  final double e8  = 8;
+  final double e16 = 16;
 }
 
-/// App Duration Constants for Animations
-///
-/// Time Reference:
-/// • instant  = 100ms (very quick - micro interactions)
-/// • short    = 200ms (quick - simple animations) ⭐ Most common
-/// • medium   = 300ms (standard - default animations) ⭐
-/// • long     = 500ms (slower - complex animations)
-/// • veryLong = 800ms (slowest - dramatic effects)
-///
-/// Usage:
-/// ```dart
-/// AnimatedContainer(duration: AppDuration.medium)  // 300ms animation
-/// ```
-class AppDuration {
-  AppDuration._(); // Private constructor
+/// --------------------
+/// Icon Size
+/// --------------------
+class _IconSize {
+  const _IconSize();
 
-  static const Duration instant = Duration(milliseconds: 100);   // 100ms - Very Quick
-  static const Duration short = Duration(milliseconds: 200);     // 200ms - Quick ⭐
-  static const Duration medium = Duration(milliseconds: 300);    // 300ms - Standard ⭐
-  static const Duration long = Duration(milliseconds: 500);      // 500ms - Slower
-  static const Duration veryLong = Duration(milliseconds: 800);  // 800ms - Slowest
+  final double s16 = 16;
+  final double s20 = 20;
+  final double s24 = 24;
+  final double s32 = 32;
+  final double s48 = 48;
+  final double s64 = 64;
 }
 
+/// --------------------
+/// Duration
+/// --------------------
+class _Duration {
+  _Duration();
+
+  final Duration ms100 = Duration(milliseconds: 100);
+  final Duration ms200 = Duration(milliseconds: 200);
+  final Duration ms300 = Duration(milliseconds: 300);
+  final Duration ms500 = Duration(milliseconds: 500);
+  final Duration ms800 = Duration(milliseconds: 800);
+}
