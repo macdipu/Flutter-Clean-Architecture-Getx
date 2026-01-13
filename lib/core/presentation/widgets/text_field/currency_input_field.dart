@@ -34,7 +34,9 @@ class CurrencyInputField extends StatelessWidget {
           signed: false,
         ),
         inputFormatters: [
-          CurrencyInputFormatter(),
+          CurrencyInputFormatter(
+              NumberFormatStyle.indian
+          ),
         ],
         prefixText: '\$',
         prefixStyle: TextStyle(

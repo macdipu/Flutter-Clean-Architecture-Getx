@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_clean_architecture_getx/app/flavours/app_config.dart';
 import 'package:flutter_clean_architecture_getx/core/data/http/client/api_client.dart';
 import 'package:flutter_clean_architecture_getx/core/data/http/urls/api_urls.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture_getx/services/push_notification/notification_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +19,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   };
 
   await dotenv.load();
+  await Firebase.initializeApp();
+  await NotificationService().init();
   _initialize(dotenv.env);
 
   await VersionService.getVersion();
@@ -30,4 +34,6 @@ void _initialize(Map<String, dynamic> map) {
   Get.lazyPut<PreferenceCache>(() => PreferenceCache(), fenix: true);
   Get.lazyPut<ApiClient>(() => ApiClient(), fenix: true);
   Get.lazyPut<ApiUrl>(() => ApiUrl(), fenix: true);
+  Get.lazyPut<NotificationService>(() => NotificationService(), fenix: true);
+
 }
