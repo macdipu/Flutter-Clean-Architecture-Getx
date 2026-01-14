@@ -1,16 +1,24 @@
+
+import 'package:flutter_clean_architecture_getx/core/domain/models/password.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/models/phone_number.dart';
+
 class AuthLoginReq {
-  final String userName;
-  final String password;
+  final PhoneNumber _phoneNumber;
+  final Password _password;
 
   AuthLoginReq({
-    required this.userName,
-    required this.password,
-  });
+    required PhoneNumber phoneNumber,
+    required Password password,
+  })  : _phoneNumber = phoneNumber,
+        _password = password;
+
+  PhoneNumber get phoneNumber => _phoneNumber;
+  Password get password => _password;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['UserName'] = userName;
-    data['Password'] = password;
-    return data;
+    return {
+      'phone_number': _phoneNumber.withoutCountryCode,
+      'password': _password.value,
+    };
   }
 }

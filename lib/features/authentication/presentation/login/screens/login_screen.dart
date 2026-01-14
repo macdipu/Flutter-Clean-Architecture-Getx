@@ -1,11 +1,13 @@
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/dev_auto_fill_button.dart';
-import 'package:flutter_clean_architecture_getx/res/strings/string_enum.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/widgets/images/round_image.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/widgets/text_field/custom_text_field.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/common_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:flutter_clean_architecture_getx/res/routes/app_routes.dart';
+import 'package:flutter_clean_architecture_getx/res/strings/string_enum.dart';
 
 import '../../../../../res/resources.dart';
-import '../../../../trades/presentation/screens/trades_screen.dart';
 import '../controller/login_screen_controller.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,139 +18,169 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final LoginScreenController _controller = Get.put(LoginScreenController());
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final LoginScreenController _controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: DevAutoFillButton(onPressed: _controller.devAutoFill),
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
-          child: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              const _Icon(),
-              const SizedBox(height: 16),
-              const _Text(),
-              const SizedBox(height: 16),
-              _UserNameInput(),
-              const SizedBox(height: 16),
-              _PasswordInput(),
-              const SizedBox(height: 16),
-              _SubmitButton(),
-            ],
-          ),
+        child: Stack(
+          children: [
+            _bottomImage(),
+            SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  const SizedBox(height: 58),
+                  _switchLocaleButton(),
+                  const SizedBox(height: 40),
+                  _branding(),
+                  const SizedBox(height: 40),
+                  _phoneNumber(),
+                  const SizedBox(height: 16),
+                  _passwordInput(),
+                  const SizedBox(height: 16),
+                  _pinReset(),
+                  const SizedBox(height: 16),
+                  _submitButton(),
+                  const SizedBox(height: 8),
+                  // _createAccountLink(),
+                ],
+              ),
+            ),
+
+          ],
         ),
-      )),
+      ),
     );
   }
-}
 
-class _Icon extends StatelessWidget {
-  const _Icon();
+  Widget _switchLocaleButton() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Obx(() {
+        final code = _controller.currentLangCode.value.isEmpty
+            ? Get.locale?.languageCode ?? Get.deviceLocale?.languageCode ?? 'en'
+            : _controller.currentLangCode.value;
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 120,
-      width: 120,
-      child: SvgPicture.asset(Resources.drawable.splashImage),
+        final label = code == 'bn' ? 'বাংলা' : 'English';
+
+        return TextButton.icon(
+          onPressed: _controller.toggleLocale,
+          icon: Icon(
+            Icons.language,
+            size: 14,
+            color: context.theme.primaryColor,
+          ),
+          label: Text(
+            label,
+            style: TextStyle(fontSize: 14, color: context.theme.primaryColor),
+          ),
+          style: TextButton.styleFrom(
+            minimumSize: const Size(48, 36),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        );
+      }),
     );
   }
-}
 
-class _Text extends StatelessWidget {
-  const _Text();
+  Widget _branding() {
+    return CRoundImage(
+      height: 72,
+      imagePath: Resources.drawable.dashboardImage,
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          TextEnum.loginUpperText.tr,
-          style: const TextStyle(
-            color: Color(0xFF445164),
-            fontSize: 24,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w700,
+  Widget _phoneNumber() {
+    return CustomTextField(
+      controller: _controller.phoneNumberController,
+      label: TextEnum.phoneNumber.tr,
+      prefixText: '+88',
+      prefixStyle: const TextStyle(fontSize: 16),
+      keyboardType: TextInputType.phone,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+    );
+  }
+
+  Widget _passwordInput() {
+    return Obx(() {
+      return CustomTextField(
+        controller: _controller.pinController,
+        label: TextEnum.pin.tr,
+        obscureText: _controller.obscureText.value,
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        suffixIcon: IconButton(
+          icon: Icon(
+            _controller.obscureText.value
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
           ),
+          onPressed: _controller.toggleObscureText,
         ),
-        const SizedBox(height: 8),
-        Text(
-          TextEnum.loginDescription.tr,
-          style: const TextStyle(
-            color: Color(0xFF171930),
-            fontSize: 16,
-            fontFamily: 'Inter',
+      );
+    });
+  }
+
+  Widget _pinReset() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: GestureDetector(
+        onTap: () {
+          // Get.toNamed(AppRoutes.forgotPin);
+        },
+        child: Text(
+          TextEnum.forgotPin.tr,
+          style: TextStyle(
+            color: context.theme.primaryColor,
+            fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _UserNameInput extends StatelessWidget {
-  _UserNameInput();
-
-  final LoginScreenController _controller = Get.find();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller.usernameController,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Username',
       ),
     );
   }
-}
 
-class _PasswordInput extends StatelessWidget {
-  _PasswordInput();
-
-  final LoginScreenController _controller = Get.find();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller.passwordController,
-      keyboardType: TextInputType.visiblePassword,
-      obscureText: true,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Password',
+  Widget _bottomImage() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: CRoundImage(
+        imagePath: Resources.drawable.loginUpperImage,
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
       ),
     );
   }
-}
 
-class _SubmitButton extends StatelessWidget {
-  _SubmitButton();
-
-  final LoginScreenController _controller = Get.find();
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
-        minimumSize: const Size(48, 48),
-      ),
-      onPressed: () async {
-        bool success = await _controller.login();
+  Widget _submitButton() {
+    return CommonButton(
+      title: TextEnum.next.tr,
+      height: 48,
+      width: MediaQuery.of(context).size.width - 32,
+      bgColor: context.theme.primaryColor,
+      titleColor: Colors.white,
+      onTap: () async {
+        final success = await _controller.login();
         if (success) {
-          Get.offAll(() => TradesScreen());
+          // Get.offAllNamed(AppRoutes.appShell);
         }
       },
-      child: const Text('Login'),
+    );
+  }
+
+  Widget _createAccountLink() {
+    return CommonButton(
+      title: TextEnum.createAccount.tr,
+      textStyle: TextStyle(fontSize: 16, color: context.theme.primaryColor) ,
+      height: 48,
+      width: MediaQuery.of(context).size.width - 32,
+      bgColor: Colors.transparent,
+      titleColor: Colors.white,
+      onTap: () async {
+       //todo
+      },
     );
   }
 }

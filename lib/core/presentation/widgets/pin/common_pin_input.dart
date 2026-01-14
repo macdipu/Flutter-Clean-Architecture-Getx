@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
-import 'package:zaytoon_merchant/services/navigation/navigation_service.dart';
 
 class CommonPinInputField extends StatefulWidget {
   final ValueChanged<String> onChanged;

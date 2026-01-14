@@ -1,40 +1,31 @@
 class AuthLoginResponse {
-  AuthLoginResponse(
-      {this.accessToken,
-      this.refreshToken,
-      this.isSuperAdmin,
-      this.userName,
-      this.fullName,
-      this.organizationName,
-      this.customerId});
+  String? _role;
+  String? _refreshToken;
+  String? _accessToken;
 
-  AuthLoginResponse.fromJson(dynamic json) {
-    accessToken = json['access_token'];
-    refreshToken = json['refresh_token'];
-    isSuperAdmin = json['IsSuperAdmin'];
-    userName = json['UserName'];
-    fullName = json['FullName'];
-    organizationName = json['OrganizationName'];
-    customerId = json['CustomerId'];
+  AuthLoginResponse({
+    String? role,
+    String? refreshToken,
+    String? accessToken,
+  })  : _role = role,
+        _refreshToken = refreshToken,
+        _accessToken = accessToken;
+
+  String? get role => _role;
+  String? get refreshToken => _refreshToken;
+  String? get accessToken => _accessToken;
+
+  AuthLoginResponse.fromJson(Map<String, dynamic> json) {
+    _role = json['role'];
+    _refreshToken = json['refresh_token'];
+    _accessToken = json['access_token'];
   }
 
-  String? accessToken;
-  String? refreshToken;
-  String? isSuperAdmin;
-  String? userName;
-  String? fullName;
-  String? organizationName;
-  String? customerId;
-
-  Map<String?, dynamic> toJson() {
-    final map = <String?, dynamic>{};
-    map['access_token'] = accessToken;
-    map['refresh_token'] = refreshToken;
-    map['IsSuperAdmin'] = isSuperAdmin;
-    map['UserName'] = userName;
-    map['FullName'] = fullName;
-    map['OrganizationName'] = organizationName;
-    map['CustomerId'] = customerId;
-    return map;
+  Map<String, dynamic> toJson() {
+    return {
+      'role': _role,
+      'refresh_token': _refreshToken,
+      'access_token': _accessToken,
+    };
   }
 }
