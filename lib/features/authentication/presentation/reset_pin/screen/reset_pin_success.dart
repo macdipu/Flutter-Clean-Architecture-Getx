@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/gap/custom_space.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/appbar/common_appbar.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/common_button.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/images/round_image.dart';
@@ -38,12 +37,9 @@ class ResetPinSuccess extends GetView<ForgotPinController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CRoundImage(imagePath: Resources.drawable.checkmark),
-            customSpace(height: 24),
+            CRoundImage(imagePath: Resources.drawable.loginUpperImage),
             Text('PIN Changed!', style: TextStyle(fontSize:20, fontWeight: FontWeight.w500) ,),
-            customSpace(height: 24),
             Text('Your PIN has been Changed successfully!', style: TextStyle(fontSize:14) , textAlign: TextAlign.center,),
-            customSpace(height: 24),
             _continue_btn(),
           ],
         ),

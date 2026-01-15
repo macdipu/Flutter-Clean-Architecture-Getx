@@ -1,12 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/state_status.dart';
 import 'package:get/get.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/gap/custom_space.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/appbar/common_appbar.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/common_button.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/text_field/custom_text_field.dart';
-import 'package:flutter_clean_architecture_getx/core/utils/state_status.dart';
 import 'package:flutter_clean_architecture_getx/features/authentication/presentation/reset_pin/controller/reset_pin_controller.dart';
 import 'package:flutter_clean_architecture_getx/features/authentication/presentation/widgets/intro_header.dart';
 import 'package:flutter_clean_architecture_getx/res/routes/app_routes.dart';
@@ -37,15 +36,11 @@ class ResetPinScreen extends GetView<ForgotPinController> {
         child:ListView(
           shrinkWrap: true,
           children: [
-            customSpace(height: 32),
             IntroHeader(
               title: 'Reset PIN',
             ),
-            customSpace(height: 24),
             _newPin(),
-            customSpace(height: 16),
             _confirmPin(),
-            customSpace(height: 24),
             _next_btn(),
           ],
         ),

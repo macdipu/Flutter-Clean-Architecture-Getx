@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/state_status.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/widgets/appbar/common_appbar.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/gap/custom_space.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/appbar/common_appbar.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/common_button.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/otp_resend_timer.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/pin/common_pin_input.dart';
 import 'package:flutter_clean_architecture_getx/features/authentication/presentation/reset_pin/controller/reset_pin_controller.dart';
 import 'package:flutter_clean_architecture_getx/features/authentication/presentation/widgets/intro_header.dart';
-import 'package:flutter_clean_architecture_getx/core/utils/state_status.dart';
 import 'package:flutter_clean_architecture_getx/res/routes/app_routes.dart';
 
 class ForgotPinOtpVerify extends GetView<ForgotPinController> {
@@ -37,7 +36,6 @@ class ForgotPinOtpVerify extends GetView<ForgotPinController> {
         child: ListView(
           shrinkWrap: true,
           children: [
-            customSpace(height: 18),
             SizedBox(height: 18),
             IntroHeader(
               title: 'OTP Verification',
@@ -58,9 +56,7 @@ class ForgotPinOtpVerify extends GetView<ForgotPinController> {
                     )),
               ],
             ),
-            customSpace(height: 24),
             _otpInput(),
-            customSpace(height: 16),
             _next_btn(),
           ],
         ),
@@ -82,7 +78,6 @@ class ForgotPinOtpVerify extends GetView<ForgotPinController> {
             ),
           ),
         ),
-        customSpace(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
