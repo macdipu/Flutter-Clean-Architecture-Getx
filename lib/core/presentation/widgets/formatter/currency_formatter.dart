@@ -127,30 +127,52 @@ class IntlCurrencyFormatter extends AbstractCurrencyFormatter {
 
 class CurrencyInputFormatter extends TextInputFormatter {
   final NumberFormatStyle formatStyle;
+  final AbstractCurrencyFormatter formatter;
 
-  CurrencyInputFormatter(this.formatStyle);
+  CurrencyInputFormatter(
+      this.formatStyle, {
+        AbstractCurrencyFormatter? formatter,
+      }) : formatter = formatter ?? CustomCurrencyFormatter();
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text.isEmpty) return newValue;
 
-    // Clean the input
     String cleanText = newValue.text.replaceAll(RegExp(r'[^\d.]'), '');
 
-    // Split into integer and decimal
+    if (cleanText.split('.').length > 2) {
+      return oldValue;
+    }
+
     final parts = cleanText.split('.');
     final integerPart = parts[0];
     final decimalPart = parts.length > 1 ? parts[1] : '';
 
-    // Format the integer part based on the provided format style
-    String formattedInteger = CustomCurrencyFormatter().formatAmount(double.parse(integerPart), formatStyle);
-
-    // Combine
-    String formatted = formattedInteger;
-    if (decimalPart.isNotEmpty) {
-      formatted += '.$decimalPart';
+    if (integerPart.isEmpty) {
+      return newValue.copyWith(
+        text: cleanText,
+        selection: TextSelection.collapsed(offset: cleanText.length),
+      );
     }
 
-    return newValue.copyWith(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
+    final amount = double.tryParse(integerPart) ?? 0.0;
+    String formattedInteger = formatter.formatAmount(amount, formatStyle);
+
+    if (formattedInteger.contains('.')) {
+      formattedInteger = formattedInteger.split('.')[0];
+    }
+
+    String formatted = formattedInteger;
+    if (decimalPart.isNotEmpty || cleanText.endsWith('.')) {
+      formatted += '.';
+      if (decimalPart.isNotEmpty) {
+        formatted += decimalPart.length > 2 ? decimalPart.substring(0, 2) : decimalPart;
+      }
+    }
+
+    return newValue.copyWith(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
   }
 }
