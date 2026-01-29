@@ -138,8 +138,12 @@ class CurrencyInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text.isEmpty) return newValue;
 
+    final int cursorPosition = newValue.selection.baseOffset;
+
+    // Clean the text - remove all non-digit and non-decimal characters
     String cleanText = newValue.text.replaceAll(RegExp(r'[^\d.]'), '');
 
+    // Prevent multiple decimal points
     if (cleanText.split('.').length > 2) {
       return oldValue;
     }
@@ -153,6 +157,25 @@ class CurrencyInputFormatter extends TextInputFormatter {
         text: cleanText,
         selection: TextSelection.collapsed(offset: cleanText.length),
       );
+    }
+
+    int digitsBeforeCursor = 0;
+    bool cursorIsAfterDecimal = false;
+    int decimalCursorOffset = 0;
+
+    for (int i = 0; i < cursorPosition && i < newValue.text.length; i++) {
+      final char = newValue.text[i];
+      if (RegExp(r'\d').hasMatch(char)) {
+        if (!cursorIsAfterDecimal) {
+          digitsBeforeCursor++;
+        }
+      } else if (char == '.' && !cursorIsAfterDecimal) {
+        cursorIsAfterDecimal = true;
+        for (int j = i + 1; j < cursorPosition && j < newValue.text.length; j++) {
+          decimalCursorOffset++;
+        }
+        break;
+      }
     }
 
     final amount = double.tryParse(integerPart) ?? 0.0;
@@ -170,9 +193,41 @@ class CurrencyInputFormatter extends TextInputFormatter {
       }
     }
 
+    int newCursorPosition = 0;
+
+    if (cursorIsAfterDecimal && formatted.contains('.')) {
+      final decimalIndex = formatted.indexOf('.');
+      newCursorPosition = decimalIndex + 1 + decimalCursorOffset;
+    } else {
+      int digitCount = 0;
+      for (int i = 0; i < formatted.length; i++) {
+        if (RegExp(r'\d').hasMatch(formatted[i])) {
+          digitCount++;
+          if (digitCount == digitsBeforeCursor) {
+            newCursorPosition = i + 1;
+            break;
+          }
+        }
+      }
+
+      if (newCursorPosition == 0) {
+        if (digitsBeforeCursor == 0) {
+          newCursorPosition = 0;
+        } else {
+          if (formatted.contains('.')) {
+            newCursorPosition = formatted.indexOf('.');
+          } else {
+            newCursorPosition = formatted.length;
+          }
+        }
+      }
+    }
+
+    newCursorPosition = newCursorPosition.clamp(0, formatted.length);
+
     return newValue.copyWith(
       text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
+      selection: TextSelection.collapsed(offset: newCursorPosition),
     );
   }
 }
