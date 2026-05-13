@@ -1,87 +1,112 @@
 import 'package:flutter/material.dart';
 
 extension ThemeExtensions on BuildContext {
-  /// Get the current ColorScheme
-  ColorScheme get colorScheme => Theme.of(this).colorScheme;
+  /// Theme shortcuts
+  ThemeData get theme => Theme.of(this);
+  ColorScheme get colorScheme => theme.colorScheme;
+  TextTheme get textTheme => theme.textTheme;
 
-  /// Get the current TextTheme
-  TextTheme get textTheme => Theme.of(this).textTheme;
+  /// Brightness
+  bool get isDarkMode => theme.brightness == Brightness.dark;
+  bool get isLightMode => theme.brightness == Brightness.light;
 
-  /// Check if current theme is dark
-  bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
+  // ---------------------------------------------------------------------------
+  // ColorScheme aliases
+  // ---------------------------------------------------------------------------
 
-  /// Check if current theme is light
-  bool get isLightMode => Theme.of(this).brightness == Brightness.light;
-
-  // Primary Colors
-  Color get primaryColor => colorScheme.primary;
+  // Primary
+  Color get primary => colorScheme.primary;
   Color get onPrimary => colorScheme.onPrimary;
   Color get primaryContainer => colorScheme.primaryContainer;
   Color get onPrimaryContainer => colorScheme.onPrimaryContainer;
 
-  // Secondary Colors
-  Color get secondaryColor => colorScheme.secondary;
+  // Secondary
+  Color get secondary => colorScheme.secondary;
   Color get onSecondary => colorScheme.onSecondary;
   Color get secondaryContainer => colorScheme.secondaryContainer;
   Color get onSecondaryContainer => colorScheme.onSecondaryContainer;
 
-  // Tertiary Colors
-  Color get tertiaryColor => colorScheme.tertiary;
+  // Tertiary
+  Color get tertiary => colorScheme.tertiary;
   Color get onTertiary => colorScheme.onTertiary;
   Color get tertiaryContainer => colorScheme.tertiaryContainer;
   Color get onTertiaryContainer => colorScheme.onTertiaryContainer;
 
-  // Error Colors
-  Color get errorColor => colorScheme.error;
+  // Error
+  Color get error => colorScheme.error;
   Color get onError => colorScheme.onError;
   Color get errorContainer => colorScheme.errorContainer;
   Color get onErrorContainer => colorScheme.onErrorContainer;
 
-  // Surface Colors
-  Color get surfaceColor => colorScheme.surface;
+  // Surface
+  Color get surface => colorScheme.surface;
   Color get onSurface => colorScheme.onSurface;
   Color get surfaceVariant => colorScheme.surfaceVariant;
   Color get onSurfaceVariant => colorScheme.onSurfaceVariant;
 
-  // Background Colors
-  Color get backgroundColor => colorScheme.background;
+  // Background
+  Color get background => colorScheme.background;
   Color get onBackground => colorScheme.onBackground;
 
-  // Outline Colors
-  Color get outlineColor => colorScheme.outline;
+  // Outline
+  Color get outline => colorScheme.outline;
   Color get outlineVariant => colorScheme.outlineVariant;
 
-  // Other Colors
-  Color get shadowColor => colorScheme.shadow;
-  Color get scrimColor => colorScheme.scrim;
+  // Misc
+  Color get shadow => colorScheme.shadow;
+  Color get scrim => colorScheme.scrim;
   Color get inverseSurface => colorScheme.inverseSurface;
   Color get onInverseSurface => colorScheme.onInverseSurface;
   Color get inversePrimary => colorScheme.inversePrimary;
 
-  // Display Text Styles (Largest - 57sp, 45sp, 36sp)
-  TextStyle? get displayLarge => textTheme.displayLarge;     // 57sp - Hero text
-  TextStyle? get displayMedium => textTheme.displayMedium;   // 45sp - Very large
-  TextStyle? get displaySmall => textTheme.displaySmall;     // 36sp - Large
+  // ---------------------------------------------------------------------------
+  // Custom semantic colors
+  // ---------------------------------------------------------------------------
 
-  // Headline Text Styles (32sp, 28sp, 24sp)
-  TextStyle? get headlineLarge => textTheme.headlineLarge;   // 32sp - Main headlines
-  TextStyle? get headlineMedium => textTheme.headlineMedium; // 28sp - Sub headlines
-  TextStyle? get headlineSmall => textTheme.headlineSmall;   // 24sp - Small headlines
+  Color get success => colorScheme.successColor;
+  Color get onSuccess => colorScheme.onSuccess;
 
-  // Title Text Styles (22sp, 16sp, 14sp)
-  TextStyle? get titleLarge => textTheme.titleLarge;         // 22sp - Large titles
-  TextStyle? get titleMedium => textTheme.titleMedium;       // 16sp - Default ⭐
-  TextStyle? get titleSmall => textTheme.titleSmall;         // 14sp - Small titles
+  Color get successContainer => colorScheme.successContainer;
+  Color get onSuccessContainer => colorScheme.onSuccessContainer;
 
-  // Body Text Styles (16sp, 14sp, 12sp)
-  TextStyle? get bodyLarge => textTheme.bodyLarge;           // 16sp - Large body
-  TextStyle? get bodyMedium => textTheme.bodyMedium;         // 14sp - Default ⭐
-  TextStyle? get bodySmall => textTheme.bodySmall;           // 12sp - Small body
+  Color get warning => colorScheme.warningColor;
+  Color get onWarning => colorScheme.onWarning;
 
-  // Label Text Styles (14sp, 12sp, 11sp)
-  TextStyle? get labelLarge => textTheme.labelLarge;         // 14sp - Buttons
-  TextStyle? get labelMedium => textTheme.labelMedium;       // 12sp - Labels
-  TextStyle? get labelSmall => textTheme.labelSmall;         // 11sp - Tiny
+  Color get warningContainer => colorScheme.warningContainer;
+  Color get onWarningContainer => colorScheme.onWarningContainer;
+
+  Color get info => colorScheme.infoColor;
+  Color get onInfo => colorScheme.onInfo;
+
+  Color get infoContainer => colorScheme.infoContainer;
+  Color get onInfoContainer => colorScheme.onInfoContainer;
+
+  Color get divider => colorScheme.dividerColor;
+  Color get border => colorScheme.borderColor;
+
+  // ---------------------------------------------------------------------------
+  // Text styles
+  // ---------------------------------------------------------------------------
+
+  TextStyle? get displayLarge => textTheme.displayLarge;
+  TextStyle? get displayMedium => textTheme.displayMedium;
+  TextStyle? get displaySmall => textTheme.displaySmall;
+
+  TextStyle? get headlineLarge => textTheme.headlineLarge;
+  TextStyle? get headlineMedium => textTheme.headlineMedium;
+  TextStyle? get headlineSmall => textTheme.headlineSmall;
+
+  TextStyle? get titleLarge => textTheme.titleLarge;
+  TextStyle? get titleMedium => textTheme.titleMedium;
+  TextStyle? get titleSmall => textTheme.titleSmall;
+
+  TextStyle? get bodyLarge => textTheme.bodyLarge;
+  TextStyle? get bodyMedium => textTheme.bodyMedium;
+  TextStyle? get bodySmall => textTheme.bodySmall;
+
+  TextStyle? get labelLarge => textTheme.labelLarge;
+  TextStyle? get labelMedium => textTheme.labelMedium;
+  TextStyle? get labelSmall => textTheme.labelSmall;
 }
 
 /// Extension for custom colors (success, warning, info)
@@ -154,25 +179,3 @@ extension CustomColorsExtension on ColorScheme {
         : const Color(0xFF2F3137);
   }
 }
-
-/// Extension for accessing custom colors via context
-extension CustomColorsContextExtension on BuildContext {
-  Color get successColor => colorScheme.successColor;
-  Color get onSuccess => colorScheme.onSuccess;
-  Color get successContainer => colorScheme.successContainer;
-  Color get onSuccessContainer => colorScheme.onSuccessContainer;
-
-  Color get warningColor => colorScheme.warningColor;
-  Color get onWarning => colorScheme.onWarning;
-  Color get warningContainer => colorScheme.warningContainer;
-  Color get onWarningContainer => colorScheme.onWarningContainer;
-
-  Color get infoColor => colorScheme.infoColor;
-  Color get onInfo => colorScheme.onInfo;
-  Color get infoContainer => colorScheme.infoContainer;
-  Color get onInfoContainer => colorScheme.onInfoContainer;
-
-  Color get dividerColor => colorScheme.dividerColor;
-  Color get borderColor => colorScheme.borderColor;
-}
-
