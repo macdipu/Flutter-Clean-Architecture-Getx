@@ -1,0 +1,42 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget unzip zip qemu-kvm libvirt-clients libvirt-daemon-system libgl1-mesa-dri libgl1-mesa-glx \
+    libpulse0 pulseaudio-utils procps ca-certificates sudo xvfb x11vnc dbus-x11 socat gnupg2 curl openjdk-11-jdk-headless \
+ && rm -rf /var/lib/apt/lists/*
+
+ENV ANDROID_SDK_ROOT=/opt/android-sdk
+ENV PATH=${PATH}:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/emulator
+
+RUN mkdir -p ${ANDROID_SDK_ROOT}
+
+# Install Android commandline tools
+RUN wget -qO /tmp/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip \
+ && unzip /tmp/cmdline-tools.zip -d /tmp/cmdline-tools \
+ && mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools/latest \
+ && mv /tmp/cmdline-tools/cmdline-tools/* ${ANDROID_SDK_ROOT}/cmdline-tools/latest/ \
+ && rm -rf /tmp/cmdline-tools /tmp/cmdline-tools.zip
+
+# Install emulator and system images
+RUN yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true
+RUN sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "emulator" "system-images;android-33;google_apis;arm64-v8a" || true
+
+# Keep the installed SDK at ${ANDROID_SDK_ROOT} in the image so a fresh
+# named volume mounted at this path will be initialised from these files.
+
+# Create non-root user
+RUN useradd -m -s /bin/bash android || true
+WORKDIR /home/android
+# Ensure SDK ownership
+RUN chown -R android:android /home/android ${ANDROID_SDK_ROOT} || true
+ENV HOME=/home/android
+
+# Expose adb and emulator ports
+EXPOSE 5555 5037
+
+COPY docker/emulator/scripts/start-emulator.sh /home/android/start-emulator.sh
+RUN chmod +x /home/android/start-emulator.sh
+
+CMD ["/home/android/start-emulator.sh"]

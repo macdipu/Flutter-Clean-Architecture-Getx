@@ -1,0 +1,12 @@
+.git
+.gitignore
+.idea
+.vscode
+.DS_Store
+.gradle
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.dart_tool
+/.fvm
+/.android

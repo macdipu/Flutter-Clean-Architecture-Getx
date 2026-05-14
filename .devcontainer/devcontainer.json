@@ -1,0 +1,13 @@
+{
+  "name": "Flutter Devcontainer",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "flutter",
+  "workspaceFolder": "/home/developer/app",
+  "extensions": [
+    "Dart-Code.flutter",
+    "Dart-Code.dart-code"
+  ],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  }
+}

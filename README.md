@@ -434,6 +434,81 @@ lib/
 
 ---
 
+## 🐳 Docker Development (Run everything in containers)
+
+You can run and test the app entirely inside Docker. This is the recommended way to ensure everyone on the team has the same SDKs, toolchains and emulator behaviour.
+
+Quick start (emulator-in-container)
+
+1. Build images and start services (emulator + flutter):
+
+   ./scripts/start.sh
+
+2. (If needed) force adb connect:
+
+   ./scripts/start.sh connect
+
+3. Exec into flutter container and run the app:
+
+   ./scripts/start.sh shell
+   # inside container
+   flutter pub get
+   flutter devices
+   flutter run -d <device-id>
+
+Run a single flutter command from the host (convenience via Makefile):
+
+  make flutter run -d <device-id>
+
+Makefile targets (shortcuts):
+
+- make up         # build + start (same as ./scripts/start.sh up)
+- make connect    # connect flutter adb to emulator
+- make shell      # open shell into flutter container
+- make flutter ...# run flutter <args> inside the container
+- make down       # stop and remove containers
+- make logs       # follow emulator logs
+Additional Makefile helpers:
+
+- make ensure-perms     # ensure repo helper scripts are executable
+- make recreate-volumes # remove compose volumes and restart emulator (repopulates SDK bundle)
+- make reset-volumes    # alias for recreate-volumes
+- make devcontainer     # start VS Code devcontainer via devcontainer CLI (if .devcontainer exists)
+
+Use a physical Android device (Linux USB passthrough)
+
+1. Start with the usb override (Linux only):
+
+   docker compose -f docker-compose.yml -f docker-compose.override.usb.yml up --build -d
+
+2. Then run the normal start and connect commands (start.sh will still help):
+
+   ./scripts/start.sh
+   ./scripts/adb-connect.sh
+
+Host emulator (macOS/Windows)
+
+- Start the emulator on your host (Android Studio or command line) and then connect the flutter container to the host adb:
+
+  docker compose exec flutter bash -lc "/opt/android-sdk/platform-tools/adb connect host.docker.internal:5555"
+
+Stopping everything
+
+  docker compose down
+
+Alternative: use a prebuilt android-build-box image for one-off commands
+
+If you prefer not to build the images in this repo you can use the community image `mingc/android-build-box` to run one-off commands against the project folder (example below runs tests):
+
+  docker run --rm -v "$(pwd)":/project -w /project -e ANDROID_SDK_ROOT=/opt/android-sdk mingc/android-build-box:latest bash -lc "flutter pub get && flutter test"
+
+VS Code devcontainer
+
+- Open the repository in VS Code and use the Remote - Containers (Dev Containers) extension to reopen in container. The .devcontainer/devcontainer.json targets the `flutter` service.
+
+More commands and troubleshooting are available in docker/README.md — it contains detailed platform-specific instructions and examples.
+
+
 ## 📚 Additional Resources
 
 - [Clean Architecture by Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
@@ -454,5 +529,3 @@ lib/
 **Generate → Update → Register → Test** 🚀
 
 Made with ❤️ for fast Flutter development
-
-

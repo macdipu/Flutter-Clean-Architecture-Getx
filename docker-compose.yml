@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  flutter:
+    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: docker/flutter/Dockerfile
+    volumes:
+      - .:/home/developer/app:cached
+      - flutter_pub_cache:/home/developer/.pub-cache
+      - gradle_cache:/home/developer/.gradle
+      - android_sdk:/opt/android-sdk
+    environment:
+      - ANDROID_SDK_ROOT=/opt/android-sdk
+      - CI=true
+    networks:
+      - android-net
+    ports:
+      - 8081:8081 # Flutter debug port (if using web or host-forwarding)
+    tty: true
+    stdin_open: true
+
+  emulator:
+    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: docker/emulator/Dockerfile
+    privileged: true # required for nested virtualization in many setups
+    volumes:
+      - emulator_home:/home/android
+      - android_sdk:/opt/android-sdk
+    ports:
+      - 5555:5555 # adb tcp
+      - 5037:5037 # adb server
+    networks:
+      - android-net
+    shm_size: '1gb'
+
+volumes:
+  flutter_pub_cache:
+  gradle_cache:
+  emulator_home:
+  android_sdk:
+
+networks:
+  android-net:
+    driver: bridge
