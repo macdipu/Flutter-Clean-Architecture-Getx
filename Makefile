@@ -5,7 +5,7 @@ SCRIPTDIR := ./scripts
 
 up:
 	@echo "Ensuring scripts are executable"
-	@$(SHELL) -c 'chmod +x scripts/*.sh docker/emulator/scripts/*.sh || true'
+	@$(SHELL) -c 'chmod +x scripts/*.sh docker/emulator/*.sh || true'
 	@echo "Starting development environment (build + up)"
 	@$(SCRIPTDIR)/start.sh up
 
@@ -51,7 +51,7 @@ emulator-host-connect:
 
 ensure-perms:
 	@echo "Making scripts executable"
-	@$(SHELL) -c 'chmod +x scripts/*.sh docker/emulator/scripts/*.sh || true'
+	@$(SHELL) -c 'chmod +x scripts/*.sh docker/emulator/*.sh || true'
 
 # Reset volumes by bringing the compose stack down with volumes removed,
 # then start the emulator so the SDK bundle is copied into the fresh volume.

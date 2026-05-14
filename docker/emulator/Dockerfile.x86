@@ -36,7 +36,7 @@ ENV HOME=/home/android
 # Expose adb and emulator ports
 EXPOSE 5555 5037
 
-COPY docker/emulator/scripts/start-emulator.sh /home/android/start-emulator.sh
+COPY docker/emulator/start-emulator.x86.sh /home/android/start-emulator.sh
 RUN chmod +x /home/android/start-emulator.sh
 
 CMD ["/home/android/start-emulator.sh"]

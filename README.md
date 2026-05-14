@@ -480,21 +480,19 @@ Additional Makefile helpers:
 
 Emulator Modes
 
-- container: runs the emulator fully inside Docker. Reliable on Linux with KVM, and now supported on Apple Silicon (ARM64). On macOS Intel/Windows, falls back to ARM64 emulation (slower but works).
+- container: runs the emulator fully inside Docker. Reliable on Linux with KVM (x86_64), and supported on Apple Silicon (ARM64). On macOS Intel/Windows, uses x86_64 emulation (slower but works).
 - host: run the Android emulator on your host (Android Studio or sdk/emulator) and connect the Flutter container to it via adb (adb connect localhost:5555).
-- auto (default): the start script detects the host and chooses container mode on Linux (with KVM) and Apple Silicon (ARM64). On macOS Intel and Windows it falls back to host mode.
+- auto (default): the start script detects the host OS/arch and chooses container mode where supported, else host mode.
 
 You can override with EMULATOR_MODE=container|host|auto when running scripts/start.sh or `make up`.
 
 ## macOS Apple Silicon (M1/M2/M3) Setup
 
-**Update:** Container mode now works on Apple Silicon using ARM64 Android emulator!
+The setup automatically detects Apple Silicon (ARM64) and uses the ARM64 Android emulator in container mode.
 
-The integrated setup uses ARM64 architecture for both containers and emulator, providing full containerized development on Apple Silicon.
+1. Ensure ARM64 emulator binaries are available (copy `linux/emulator/` from cryze repo or build them) into `docker/emulator/` directory.
 
-1. Ensure you have the ARM64 emulator binaries (copy `linux/emulator/` from cryze repo or build them).
-
-2. Run in container mode:
+2. Run in container mode (detected automatically):
 
    ```bash
    make up
@@ -508,35 +506,11 @@ The integrated setup uses ARM64 architecture for both containers and emulator, p
    make flutter run -d emulator-5554
    ```
 
+**Multi-OS Support:** The setup automatically detects the host architecture:
+- **ARM64 (Apple Silicon):** Uses ARM64 emulator in container mode
+- **x86_64 (Intel Macs, Linux, Windows):** Uses x86_64 emulator in container mode (requires KVM on Linux for best performance) or falls back to host mode
+
 For graphical interaction, use scrcpy with the VNC port (5900) or connect to the emulator via ADB.
-
-**Fallback:** If ARM64 binaries are unavailable, use host mode as described below.
-
-**Legacy Host Mode Instructions:**
-
-If you prefer to use Android Studio emulator on the host:
-
-1. Install Android Studio on your Mac and create an AVD (arm64 recommended for performance).
-
-2. Start the emulator in Android Studio.
-
-3. Run the Flutter container in host mode:
-
-   ```bash
-   EMULATOR_MODE=host make up
-   ```
-
-4. The container will automatically connect to the host emulator via ADB.
-
-5. For graphical interaction on the host, use scrcpy:
-
-   ```bash
-   scrcpy --tcpip=localhost:5555
-   ```
-
-This provides full development workflow while using the native macOS emulator.
-
-**Multi-OS Support:** The setup works on all operating systems. On x86_64 hosts (Intel Macs, Windows, Linux), Docker will emulate ARM64, which may be slower but functional. For best performance on x86_64, consider host mode or physical devices.
 
 Use a physical Android device (Linux USB passthrough)
 

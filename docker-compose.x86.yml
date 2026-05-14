@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  emulator:
+    build:
+      context: docker/emulator
+      dockerfile: docker/emulator/Dockerfile.x86
+    privileged: true # required for nested virtualization in many setups
+    volumes:
+      - emulator_home:/home/android
+      - android_sdk:/opt/android-sdk
+    ports:
+      - 5555:5555 # adb tcp
+      - 5037:5037 # adb server
+      - 5900:5900 # vnc
+    networks:
+      - android-net
+    shm_size: '1gb'

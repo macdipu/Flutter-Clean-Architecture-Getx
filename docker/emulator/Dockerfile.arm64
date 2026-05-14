@@ -35,7 +35,7 @@ RUN echo "no" | avdmanager --verbose create avd --force --name "${EMULATOR_NAME}
 RUN mkdir /opt/android-sdk/platforms && mkdir /opt/android-sdk/platform-tools
 RUN echo "Vulkan = off" >> ~/.android/advancedFeatures.ini && echo "GLDirectMem = on" >> ~/.android/advancedFeatures.ini
 
-COPY ./run_emu.sh .
-RUN chmod a+x run_emu.sh
+COPY ./start-emulator.arm64.sh .
+RUN chmod a+x start-emulator.arm64.sh
 
 CMD ["tail", "-f", "/dev/null"]
