@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
   flutter:
-    platform: "linux/amd64"
     build:
       context: .
       dockerfile: docker/flutter/Dockerfile
@@ -22,10 +21,8 @@ services:
     stdin_open: true
 
   emulator:
-    platform: "linux/amd64"
     build:
-      context: .
-      dockerfile: docker/emulator/Dockerfile
+      context: docker/android
     privileged: true # required for nested virtualization in many setups
     volumes:
       - emulator_home:/home/android
@@ -33,9 +30,11 @@ services:
     ports:
       - 5555:5555 # adb tcp
       - 5037:5037 # adb server
+      - 5900:5900 # vnc
     networks:
       - android-net
     shm_size: '1gb'
+    command: ["./run_emu.sh"]
 
 volumes:
   flutter_pub_cache:

@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 SCRIPTDIR := ./scripts
 
-.PHONY: up connect shell flutter build down logs emulator
+.PHONY: up connect shell flutter build down logs emulator emulator-container emulator-host-connect
 
 up:
 	@echo "Ensuring scripts are executable"
@@ -36,6 +36,16 @@ logs:
 emulator:
 	@echo "Start only the emulator service"
 	docker compose up -d emulator
+
+.PHONY: emulator-container emulator-host-connect
+
+emulator-container:
+	@echo "Start emulator service (container mode)"
+	@SCRIPTDIR=$(SCRIPTDIR) EMULATOR_MODE=container $(SHELL) -c '$(SCRIPTDIR)/start.sh up'
+
+emulator-host-connect:
+	@echo "Ensure host emulator is running and connect flutter container to host adb"
+	@SCRIPTDIR=$(SCRIPTDIR) EMULATOR_MODE=host $(SHELL) -c '$(SCRIPTDIR)/start.sh connect'
 
 .PHONY: ensure-perms recreate-volumes devcontainer reset-volumes
 

@@ -24,6 +24,28 @@ EOF
 cmd=${1:-up}
 shift || true
 
+# Emulator mode: auto / container / host
+# auto: detect per-host and choose container where sensible, else host
+EMULATOR_MODE=${EMULATOR_MODE:-auto}
+
+detect_emulator_mode() {
+  if [ "$EMULATOR_MODE" != "auto" ]; then
+    return 0
+  fi
+  HOST_OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+  HOST_ARCH=$(uname -m || true)
+  if [ "$HOST_OS" = "linux" ] && [ -c /dev/kvm ]; then
+    EMULATOR_MODE=container
+  elif [ "$HOST_OS" = "darwin" ] && [ "$HOST_ARCH" = "arm64" ]; then
+    # On Apple Silicon we can try an arm64 container emulator (experimental)
+    EMULATOR_MODE=container
+  else
+    EMULATOR_MODE=host
+  fi
+}
+
+detect_emulator_mode
+
 case "$cmd" in
   up)
     echo "Starting docker-compose services..."
@@ -90,20 +112,38 @@ case "$cmd" in
 
     # Optionally try to connect host adb to the emulator so host tools (Android Studio)
     # can detect the device. Controlled by HOST_ADB_CONNECT (default: enabled if adb present).
-    if command -v adb >/dev/null 2>&1; then
-      case "${HOST_ADB_CONNECT:-1}" in
-        0|false|FALSE|no|NO)
-          echo "Skipping host adb connect (HOST_ADB_CONNECT=${HOST_ADB_CONNECT:-1})"
-          ;;
-        *)
-          echo "Attempting to connect host adb to emulator on localhost:5555..."
-          adb connect localhost:5555 || true
-          echo "Host adb devices:"
-          adb devices -l || true
-          ;;
-      esac
+    if [ "$EMULATOR_MODE" = "host" ]; then
+      echo "EMULATOR_MODE=host detected — attempting to connect to host emulator via host.docker.internal:5555"
+      if command -v adb >/dev/null 2>&1; then
+        case "${HOST_ADB_CONNECT:-1}" in
+          0|false|FALSE|no|NO)
+            echo "Skipping host adb connect (HOST_ADB_CONNECT=${HOST_ADB_CONNECT:-1})"
+            ;;
+          *)
+            adb connect host.docker.internal:5555 || adb connect localhost:5555 || true
+            echo "Host adb devices:"
+            adb devices -l || true
+            ;;
+        esac
+      else
+        echo "Host adb not found; please install platform-tools and run: adb connect host.docker.internal:5555"
+      fi
     else
+      if command -v adb >/dev/null 2>&1; then
+        case "${HOST_ADB_CONNECT:-1}" in
+          0|false|FALSE|no|NO)
+            echo "Skipping host adb connect (HOST_ADB_CONNECT=${HOST_ADB_CONNECT:-1})"
+            ;;
+          *)
+            echo "Attempting to connect host adb to emulator on localhost:5555..."
+            adb connect localhost:5555 || true
+            echo "Host adb devices:"
+            adb devices -l || true
+            ;;
+        esac
+      else
       echo "Host adb not found; skipping host adb connect. If you want host tools to detect the emulator, install adb and re-run: adb connect localhost:5555"
+      fi
     fi
 
     echo
