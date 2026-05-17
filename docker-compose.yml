@@ -33,6 +33,9 @@ services:
       - ANDROID_SDK_ROOT=/opt/android-sdk
       # Set ANDROID_EMULATOR_NAME to the AVD name you want to start (mount pre-created AVDs into emulator_home)
       - ANDROID_EMULATOR_NAME=android_emulator
+      # Auto-create the AVD if missing by installing a system image (first run will download a large image)
+      - ANDROID_SYSTEM_IMAGE=system-images;android-33;google_apis;x86_64
+      - ANDROID_DEVICE=pixel
       - CI=true
     networks:
       - android-net

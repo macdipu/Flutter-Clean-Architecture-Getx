@@ -13,12 +13,48 @@ export PATH=${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/pla
 
 AVD_NAME=${ANDROID_EMULATOR_NAME:-}
 WS_SCRCPY_DIR=/opt/ws-scrcpy
+ANDROID_SYSTEM_IMAGE=${ANDROID_SYSTEM_IMAGE:-}
+ANDROID_DEVICE=${ANDROID_DEVICE:-pixel}
 
 log() { echo "[entrypoint] $*"; }
+
+ensure_emulator_tools() {
+  if [ ! -x "${ANDROID_SDK_ROOT}/emulator/emulator" ]; then
+    log "Emulator binary missing. Installing emulator package..."
+    yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true
+    sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "emulator" || true
+  fi
+}
+
+create_avd_if_missing() {
+  if [ -z "$AVD_NAME" ]; then
+    return 0
+  fi
+  if [ -d "/home/developer/.android/avd/${AVD_NAME}.avd" ]; then
+    return 0
+  fi
+  log "AVD '$AVD_NAME' not found in /home/developer/.android/avd."
+  if [ -z "$ANDROID_SYSTEM_IMAGE" ]; then
+    log "Set ANDROID_SYSTEM_IMAGE to auto-create the AVD (example: system-images;android-33;google_apis;x86_64)."
+    return 0
+  fi
+
+  log "Installing system image: $ANDROID_SYSTEM_IMAGE"
+  yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true
+  sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "emulator" "$ANDROID_SYSTEM_IMAGE" || true
+
+  log "Creating AVD '$AVD_NAME' with device '$ANDROID_DEVICE'"
+  # Use developer user so AVD is created in /home/developer/.android
+  su - developer -c "printf 'no\n' | env ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT} ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/avdmanager create avd -n '${AVD_NAME}' -k '${ANDROID_SYSTEM_IMAGE}' --device '${ANDROID_DEVICE}' --force" || true
+}
 
 # start adb server
 log "Starting adb server..."
 adb start-server || true
+
+# Ensure emulator tools are available and create AVD if needed
+ensure_emulator_tools
+create_avd_if_missing
 
 # If an AVD name is provided, attempt to start the emulator
 if [ -n "$AVD_NAME" ]; then
@@ -26,7 +62,6 @@ if [ -n "$AVD_NAME" ]; then
   # If AVD doesn't exist in ~/.android/avd, warn (user can mount emulator_home with AVDs)
   if [ ! -d "/home/developer/.android/avd/${AVD_NAME}.avd" ]; then
     log "Warning: AVD '$AVD_NAME' not found in /home/developer/.android/avd."
-    log "If you want the container to auto-create an AVD, set ANDROID_SYSTEM_IMAGE and rebuild or mount a pre-created AVD into /home/developer/.android/avd."
   fi
 
   log "Starting emulator (headless)..."
