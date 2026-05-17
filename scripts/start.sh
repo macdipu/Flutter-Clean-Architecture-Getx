@@ -36,11 +36,9 @@ detect_emulator_mode() {
   HOST_ARCH=$(uname -m || true)
   if [ "$HOST_OS" = "linux" ] && [ -c /dev/kvm ]; then
     EMULATOR_MODE=container
-    export COMPOSE_FILE="docker-compose.yml:docker-compose.x86.yml"
   elif [ "$HOST_OS" = "darwin" ] && [ "$HOST_ARCH" = "arm64" ]; then
     # On Apple Silicon we can try an arm64 container emulator
     EMULATOR_MODE=container
-    export COMPOSE_FILE="docker-compose.yml:docker-compose.arm64.yml"
   else
     EMULATOR_MODE=host
   fi
