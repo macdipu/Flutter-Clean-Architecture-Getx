@@ -36,16 +36,26 @@ create_avd_if_missing() {
   log "AVD '$AVD_NAME' not found in /home/developer/.android/avd."
   if [ -z "$ANDROID_SYSTEM_IMAGE" ]; then
     log "Set ANDROID_SYSTEM_IMAGE to auto-create the AVD (example: system-images;android-33;google_apis;x86_64)."
-    return 0
+    return 1
   fi
 
   log "Installing system image: $ANDROID_SYSTEM_IMAGE"
   yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true
   sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "emulator" "$ANDROID_SYSTEM_IMAGE" || true
 
+  if [ ! -d "${ANDROID_SDK_ROOT}/system-images" ]; then
+    log "System image install failed or SDK storage is missing. Check disk space and SDK volume."
+    return 1
+  fi
+
   log "Creating AVD '$AVD_NAME' with device '$ANDROID_DEVICE'"
   # Use developer user so AVD is created in /home/developer/.android
   su - developer -c "printf 'no\n' | env ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT} ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/avdmanager create avd -n '${AVD_NAME}' -k '${ANDROID_SYSTEM_IMAGE}' --device '${ANDROID_DEVICE}' --force" || true
+
+  if [ ! -d "/home/developer/.android/avd/${AVD_NAME}.avd" ]; then
+    log "AVD creation failed. Check disk space and ANDROID_SYSTEM_IMAGE value."
+    return 1
+  fi
 }
 
 # start adb server
@@ -54,7 +64,10 @@ adb start-server || true
 
 # Ensure emulator tools are available and create AVD if needed
 ensure_emulator_tools
-create_avd_if_missing
+if ! create_avd_if_missing; then
+  log "AVD is missing and could not be created. Exiting so you can fix the environment."
+  exit 1
+fi
 
 # If an AVD name is provided, attempt to start the emulator
 if [ -n "$AVD_NAME" ]; then
