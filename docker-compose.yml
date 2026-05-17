@@ -18,6 +18,31 @@ services:
     tty: true
     stdin_open: true
 
+  emulator:
+    build:
+      context: .
+      dockerfile: docker/emulator/Dockerfile
+    privileged: true
+    devices:
+      - /dev/kvm:/dev/kvm
+    volumes:
+      - .:/home/developer/app:cached
+      - emulator_home:/home/developer/.android:cached
+      - android_sdk:/opt/android-sdk
+    environment:
+      - ANDROID_SDK_ROOT=/opt/android-sdk
+      # Set ANDROID_EMULATOR_NAME to the AVD name you want to start (mount pre-created AVDs into emulator_home)
+      - ANDROID_EMULATOR_NAME=android_emulator
+      - CI=true
+    networks:
+      - android-net
+    ports:
+      - 5555:5555   # adb/tcp (useful to adb connect from host)
+      - 8080:8080   # ws-scrcpy / web UI (if enabled)
+      - 5900:5900   # VNC fallback (if used)
+    tty: true
+    stdin_open: true
+
 volumes:
   flutter_pub_cache:
   gradle_cache:
