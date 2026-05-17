@@ -43,7 +43,7 @@ RUN git clone https://github.com/Shmayro/ws-scrcpy-docker.git /opt/ws-scrcpy || 
 WORKDIR /opt/ws-scrcpy
 RUN if [ -f package.json ]; then npm install --production --unsafe-perm; fi || true
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker/emulator/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 VOLUME ["/home/developer/.android", "/opt/android-sdk"]
