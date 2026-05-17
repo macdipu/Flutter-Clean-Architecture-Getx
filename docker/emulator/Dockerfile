@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     ca-certificates wget unzip git curl gnupg2 software-properties-common python3 python3-pip openjdk-11-jdk-headless \
-    apt-transport-https lsb-release pkg-config libglu1-mesa xvfb socat net-tools \
+    apt-transport-https lsb-release pkg-config libglu1-mesa socat net-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js (needed for ws-scrcpy server) and scrcpy
@@ -48,6 +48,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 VOLUME ["/home/developer/.android", "/opt/android-sdk"]
 
-EXPOSE 5555 8080 5900
+EXPOSE 5555 8080
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

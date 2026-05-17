@@ -38,8 +38,7 @@ services:
       - android-net
     ports:
       - 5555:5555   # adb/tcp (useful to adb connect from host)
-      - 8080:8080   # ws-scrcpy / web UI (if enabled)
-      - 5900:5900   # VNC fallback (if used)
+      - 8082:8080   # ws-scrcpy / web UI
     tty: true
     stdin_open: true
 
