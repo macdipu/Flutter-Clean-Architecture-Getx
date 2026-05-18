@@ -38,4 +38,22 @@ if [ -f "$CONFIG_FILE" ]; then
 fi
 
 # Start the emulator with the appropriate ramdisk.img
-/opt/android-sdk/emulator/emulator -avd android -nojni -netfast -writable-system -no-window -no-audio -no-boot-anim -skip-adb-auth -gpu swiftshader_indirect -no-snapshot -no-metrics $RAMDISK -qemu -m ${RAM_SIZE:-4096}
+/opt/android-sdk/emulator/emulator_bin() {
+  /opt/android-sdk/emulator/emulator
+}
+
+# Choose accelerator flags depending on whether /dev/kvm is available in the container.
+# Falling back to software accel (-accel off) on hosts without KVM avoids crashes in
+# environments that don't support nested virtualization.
+EMULATOR_FLAGS=( -avd android -nojni -netfast -writable-system -no-window -no-audio -no-boot-anim -skip-adb-auth -gpu swiftshader_indirect -no-snapshot -no-metrics $RAMDISK -qemu -m ${RAM_SIZE:-2048} )
+
+if [ -c /dev/kvm ]; then
+  # Prefer hardware accel when available
+  EMULATOR_FLAGS+=( -accel on )
+else
+  # Force software acceleration when /dev/kvm is not present
+  EMULATOR_FLAGS+=( -accel off )
+fi
+
+# Execute emulator with chosen flags
+/opt/android-sdk/emulator/emulator "${EMULATOR_FLAGS[@]}"

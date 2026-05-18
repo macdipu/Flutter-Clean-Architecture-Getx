@@ -4,6 +4,14 @@ FROM ubuntu:20.04
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         libegl1 \
+        libx11-6 \
+        libx11-xcb1 \
+        libxcb1 \
+        libxrandr2 \
+        libxss1 \
+        libxkbcommon0 \
+        libglu1-mesa \
+        libsdl2-2.0-0 \
         openjdk-17-jdk-headless \
         wget \
         curl \
@@ -76,7 +84,7 @@ EXPOSE 5554 5555
 
 # Healthcheck to ensure the emulator is running
 HEALTHCHECK --interval=10s --timeout=10s --retries=600 \
-  CMD adb devices | grep emulator-5554 && test -f /data/.first-boot-done || exit 1
+  CMD sh -c "/opt/android-sdk/platform-tools/adb devices | grep -q 'emulator-' && test -f /data/.first-boot-done || exit 1"
 
 # Start Supervisor to manage the emulator
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
