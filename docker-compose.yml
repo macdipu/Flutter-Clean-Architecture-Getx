@@ -19,58 +19,49 @@ services:
     tty: true
     stdin_open: true
 
-  emulator:
+  dockerify-android:
+    container_name: dockerify-android
+    image: shmayro/dockerify-android:latest
     build:
-      context: .
-      dockerfile: docker/emulator/Dockerfile
-    container_name: flutter-emulator
+      context: ./docker/emulator
+      dockerfile: Dockerfile
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./data:/data
+      - ./extras:/extras
+    environment:
+      DNS: one.one.one.one
+      # RAM_SIZE: 4096
+      # Optional screen resolution in WIDTHxHEIGHT format
+      #SCREEN_RESOLUTION: 720x720
+      # Optional screen density (dpi)
+      #SCREEN_DENSITY: 227
+      ROOT_SETUP: 0 # set to 1 to enable rooting
+      GAPPS_SETUP: 0 # set to 1 to install PICO GAPPS
     privileged: true
     devices:
-      - /dev/kvm:/dev/kvm
-    volumes:
-      - .:/home/developer/app:cached
-      - emulator_home:/home/developer/.android:cached
-      - android_sdk:/opt/android-sdk
-    environment:
-      - ANDROID_SDK_ROOT=/opt/android-sdk
-      # Set ANDROID_EMULATOR_NAME to the AVD name you want to start (mount pre-created AVDs into emulator_home)
-      - ANDROID_EMULATOR_NAME=android_emulator
-      # Auto-create the AVD if missing by installing a system image (first run will download a large image)
-      - ANDROID_SYSTEM_IMAGE=system-images;android-33;google_apis;x86_64
-      - ANDROID_EMULATOR_RAM=4096
-      - ANDROID_DEVICE=pixel
-      - CI=true
+      - /dev/kvm
     networks:
       - android-net
-    ports:
-      - 5555:5555   # adb/tcp (useful to adb connect from host)
-      - 8082:8080   # ws-scrcpy / web UI
-    tty: true
-    stdin_open: true
-    healthcheck:
-      test: ["CMD-SHELL", "/opt/android-sdk/platform-tools/adb devices | grep -q 'device$' || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 12
-      start_period: 20s
 
   scrcpy-web:
-    image: shmayro/scrcpy-web:latest
     container_name: scrcpy-web
     restart: unless-stopped
+    image: shmayro/scrcpy-web:latest
     privileged: true
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
-      emulator:
+      dockerify-android:
         condition: service_healthy
     command: >
-      sh -c "\
-        /opt/android-sdk/platform-tools/adb connect flutter-emulator:5555 && \
-        npm start\
+      sh -c "
+        adb connect dockerify-android:5555 &&
+        npm start
       "
-    volumes:
-      - ./extras:/extras:ro
+    networks:
+      - android-net
 
 volumes:
   flutter_pub_cache:

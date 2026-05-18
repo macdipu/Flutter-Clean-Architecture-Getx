@@ -1,54 +1,88 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
-ENV DEBIAN_FRONTEND=noninteractive \
-    ANDROID_SDK_ROOT=/opt/android-sdk \
-    PATH=/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/emulator:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# Install necessary packages
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        libegl1 \
+        openjdk-17-jdk-headless \
+        wget \
+        curl \
+        git \
+        lzip \
+        unzip \
+        supervisor \
+        qemu-kvm \
+        iproute2 \
+        socat \
+        tzdata && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-    ca-certificates wget unzip git curl gnupg2 python3 python3-pip openjdk-11-jdk-headless \
-    apt-transport-https lsb-release pkg-config libglu1-mesa socat net-tools supervisor \
-    qemu-kvm qemu-system-x86 qemu-utils nodejs npm scrcpy || true \
- && rm -rf /var/lib/apt/lists/*
+# Set up Android SDK
+RUN mkdir -p /opt/android-sdk/cmdline-tools && \
+    cd /opt/android-sdk/cmdline-tools && \
+    wget https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip -O cmdline-tools.zip && \
+    unzip cmdline-tools.zip -d latest && \
+    rm cmdline-tools.zip && \
+    mv latest/cmdline-tools/* latest/ || true && \
+    rm -rf latest/cmdline-tools || true
 
-# Install websockify and python helpers
-RUN python3 -m pip install --no-cache-dir websockify || true
+ENV ANDROID_HOME=/opt/android-sdk
+ENV ANDROID_AVD_HOME=/data
+ENV ADB_DIR="$ANDROID_HOME/platform-tools"
+ENV PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ADB_DIR:$PATH"
 
-# Ensure wget/unzip are available before downloading commandline tools
-RUN apt-get update && apt-get install -y --no-install-recommends wget unzip || true && rm -rf /var/lib/apt/lists/*
+# Initializing the required directories.
+RUN mkdir /root/.android/ && \
+	touch /root/.android/repositories.cfg && \
+	mkdir /data && \
+    mkdir /extras
 
-# Create Android SDK layout and install commandline tools
-RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools && \
-    cd /tmp && \
-    wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline.zip && \
-    unzip cmdline.zip -d /tmp/cmdline && \
-    mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools/latest && \
-    mv /tmp/cmdline/cmdline-tools/* ${ANDROID_SDK_ROOT}/cmdline-tools/latest/ && \
-    rm -rf /tmp/cmdline /tmp/cmdline.zip
+# Copy emulator.zip
+#COPY emulator.zip /root/emulator.zip
+#COPY emulator/package.xml /root/package.xml
 
-# Accept licenses and install platform-tools + emulator
-RUN yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true
-RUN sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "emulator" || true
 
-# Create non-root developer user
-RUN useradd -m developer || true && mkdir -p /home/developer/.android && chown -R developer:developer /home/developer
+# Detect architecture and set environment variable
+RUN yes | sdkmanager --sdk_root=$ANDROID_HOME "emulator" "platform-tools" "platforms;android-30" "system-images;android-30;default;x86_64"
+# remove /opt/android-sdk/emulator/crashpad_handler
+RUN rm -f /opt/android-sdk/emulator/crashpad_handler
+# RUN if [ "$(uname -m)" = "aarch64" ]; then \
+#         unzip /root/emulator.zip -d $ANDROID_HOME && \
+# 	mv /root/package.xml $ANDROID_HOME/emulator/package.xml && \
+#         rm /root/emulator.zip && \
+#         yes | sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-29" "system-images;android-29;default;arm64-v8a" && \
+#         echo "no" | avdmanager create avd -n test -k "system-images;android-29;default;arm64-v8a"; \
+#     else \
+#         yes | sdkmanager --sdk_root=$ANDROID_HOME "emulator" "platform-tools" "platforms;android-29" "system-images;android-29;default;x86_64" && \
+#         echo "no" | avdmanager create avd -n test -k "system-images;android-29;default;x86_64"; \
+#     fi
 
-WORKDIR /home/developer
+# Copy supervisor config (files are in the build context: docker/emulator)
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Optional ws-scrcpy helper (web scrcpy bridge)
-RUN git clone https://github.com/Shmayro/ws-scrcpy-docker.git /opt/ws-scrcpy || true
-WORKDIR /opt/ws-scrcpy
-RUN if [ -f package.json ]; then npm install --production --unsafe-perm; fi || true
+# Copy the rootAVD repository (optional)
+#COPY rootAVD /root/rootAVD
 
-# Supervisor config and helper scripts
-COPY docker/emulator/supervisord.conf /etc/supervisor/supervisord.conf
-COPY docker/emulator/entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY docker/emulator/first-boot.sh /usr/local/bin/first-boot.sh
-COPY docker/emulator/emulator-runner.sh /usr/local/bin/emulator-runner.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/first-boot.sh /usr/local/bin/emulator-runner.sh
+# Copy the first-boot and start scripts into /root to match upstream layout
+COPY first-boot.sh /root/first-boot.sh
+RUN chmod +x /root/first-boot.sh
 
-VOLUME ["/home/developer/.android", "/opt/android-sdk"]
+COPY start-emulator.sh /root/start-emulator.sh
+RUN chmod +x /root/start-emulator.sh
 
-EXPOSE 5555 8080
+# Expose necessary ports
+EXPOSE 5554 5555
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# Healthcheck to ensure the emulator is running
+HEALTHCHECK --interval=10s --timeout=10s --retries=600 \
+  CMD adb devices | grep emulator-5554 && test -f /data/.first-boot-done || exit 1
+
+# Start Supervisor to manage the emulator
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+# docker build -t dockerify-android .
+# docker run -d --name dockerify-android --device /dev/kvm --privileged -p 5555:5555 dockerify-android
+# docker run -d --name dockerify-android --device /dev/kvm --privileged -p 5555:5555 shmayro/dockerify-android
+# docker exec -it dockerify-android tail -f /var/log/supervisor/emulator.out
+# docker exec -it dockerify-android tail -f /var/log/supervisor/first-boot.out.log
