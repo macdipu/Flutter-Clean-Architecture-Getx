@@ -88,10 +88,16 @@ case "$cmd" in
     PHONES=$(docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices -l | awk 'NR>1 && NF{print \$1,\$2,\$3,\$4}' | sed '/^$/d'" | sed '/^$/d' || true)
 
     if [ -z "$PHONES" ] && [ -n "$EMULATOR_CONTAINER" ]; then
-      # No devices found; attempt to connect to emulator via internal IP
+      # No devices found; attempt to connect to emulator via internal IP or service name
       EMULATOR_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $EMULATOR_CONTAINER)
-      echo "No physical devices found. Attempting to connect to emulator at $EMULATOR_IP:5555"
-      docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${EMULATOR_IP}:5555" || true
+      if [ -n "$EMULATOR_IP" ]; then
+        TARGET="${EMULATOR_IP}:5555"
+      else
+        # Fall back to docker-compose service name which resolves via internal DNS
+        TARGET="emulator:5555"
+      fi
+      echo "No physical devices found. Attempting to connect to emulator at $TARGET"
+      docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${TARGET}" || true
       sleep 2
       docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices -l" || true
       PHONES=$(docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices -l | awk 'NR>1 && NF{print \$1,\$2,\$3,\$4}' | sed '/^$/d'" | sed '/^$/d' || true)
@@ -178,8 +184,14 @@ case "$cmd" in
     EMULATOR_CONTAINER=$(docker compose ps -q emulator || true)
     if [ -n "$EMULATOR_CONTAINER" ]; then
       EMULATOR_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $EMULATOR_CONTAINER)
-      echo "Emulator container found at $EMULATOR_IP. Attempting to connect flutter container adb to it..."
-      docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${EMULATOR_IP}:5555" || true
+      if [ -n "$EMULATOR_IP" ]; then
+        TARGET="${EMULATOR_IP}:5555"
+        echo "Emulator container found at $EMULATOR_IP. Attempting to connect flutter container adb to it..."
+      else
+        TARGET="emulator:5555"
+        echo "Emulator container found but IP not available; attempting to connect via service name 'emulator'..."
+      fi
+      docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${TARGET}" || true
     else
       echo "No emulator container running. Falling back to host connect via host.docker.internal:5555"
       docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect host.docker.internal:5555 || true" || true

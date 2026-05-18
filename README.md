@@ -448,6 +448,22 @@ Quick start (emulator-in-container)
 
    ./scripts/start.sh connect
 
+Troubleshooting: "No physical devices found" and connection errors
+
+- If you see a message like "No physical devices found. Attempting to connect to emulator at :5555" or "no host in ':5555'", it means the start script could not determine the emulator container IP. Try:
+
+  - Run: ./scripts/start.sh connect
+  - If that still shows no devices, exec into the flutter container and try connecting to the emulator service name (Docker internal DNS):
+
+    docker compose exec -u developer -T flutter bash -lc "/opt/android-sdk/platform-tools/adb connect emulator:5555 && /opt/android-sdk/platform-tools/adb devices -l"
+
+  - Or get the emulator container IP and connect directly (replace <ip>):
+
+    EMU_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker compose ps -q emulator))
+    docker compose exec -u developer -T flutter bash -lc "/opt/android-sdk/platform-tools/adb connect ${EMU_IP}:5555 && /opt/android-sdk/platform-tools/adb devices -l"
+
+  - If you plan to access adb from your local machine, create an SSH tunnel from your laptop to the server to forward port 5555 (recommended) instead of opening ports in the server firewall.
+
 3. Exec into flutter container and run the app:
 
    ./scripts/start.sh shell
