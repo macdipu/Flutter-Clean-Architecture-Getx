@@ -29,18 +29,20 @@ services:
     restart: unless-stopped
 
   scrcpy-web:
-    image: sw586/scrcpy-web:latest
+    # use a widely-available multi-arch scrcpy image; change if you prefer another
+    image: pierlo1/scrcpy:latest
     container_name: scrcpy-web
     depends_on:
       - android
     ports:
-      - "8080:8080" # scrcpy-web UI
+      - "${SCRCPY_WEB_PORT:-8080}:${SCRCPY_WEB_PORT:-8080}" # scrcpy-web UI (host:container configurable)
     environment:
       # In many scrcpy-web images an env var like ADB_SERVER or ADB_HOST may be used.
       # We also expose the adb server from the android service at 5037 so the
       # scrcpy-web container can reach it at host "android" on the compose network.
       - ADB_SERVER=android:5037
-    command: ["/bin/sh","-c","/start.sh || tail -f /dev/null"]
+    # many scrcpy images start scrcpy directly; using a permissive command keeps container running
+    command: ["/bin/sh","-c","/start.sh || sleep infinity"]
     restart: unless-stopped
 
 volumes:

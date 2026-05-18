@@ -588,6 +588,14 @@ Notes:
 - scrcpy-web connects to the adb server exported by the android service. If scrcpy-web doesn't show the device, exec into the scrcpy-web container and ensure it can reach adb at android:5037.
 - To stop everything: `make down`.
 
+Port collisions and multi-arch images
+
+- If port 8080 is already used on the host, the compose `up` will fail. You can change the host port for scrcpy-web with an environment variable when running compose, for example:
+
+  SCRCPY_WEB_PORT=8081 make up
+
+- The scrcpy-web image used must match your host architecture. The compose file uses a multi-arch-friendly image by default; if you still see platform mismatch messages, select a scrcpy-web image that matches your host (search Docker Hub for `scrcpy-web` and pick an image with the appropriate platform support).
+
 VS Code devcontainer
 
 - Open the repository in VS Code and use the Remote - Containers (Dev Containers) extension to reopen in container. The .devcontainer/devcontainer.json targets the `flutter` service.
