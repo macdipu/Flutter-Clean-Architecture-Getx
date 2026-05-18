@@ -51,7 +51,11 @@ case "$cmd" in
     echo "Starting docker-compose services..."
     docker compose up --build -d
 
+    # Prefer explicit container name if present
     EMULATOR_CONTAINER=$(docker compose ps -q emulator || true)
+    if [ -z "$EMULATOR_CONTAINER" ]; then
+      EMULATOR_CONTAINER=$(docker ps -q --filter "name=flutter-emulator" || true)
+    fi
     FLUTTER_CONTAINER=$(docker compose ps -q flutter || true)
 
     if [ -z "$FLUTTER_CONTAINER" ]; then

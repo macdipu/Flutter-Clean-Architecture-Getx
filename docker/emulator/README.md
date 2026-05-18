@@ -12,6 +12,8 @@ docker-compose up --build emulator
 
 - The first run will download a system image if `ANDROID_SYSTEM_IMAGE` is set in `docker-compose.yml`.
 
+Note: The container uses supervisord to run a first-boot setup that may take 5–15 minutes on first start as it downloads system images and creates the AVD. Monitor progress with `docker compose logs -f emulator`.
+
 ## Ports
 
 - `5555`: ADB over TCP
@@ -28,4 +30,3 @@ docker-compose up --build emulator
 
 - On macOS, running an Android emulator inside Docker may not have hardware acceleration. A Linux host with KVM is recommended for best performance.
 - If you already created AVDs, mount them into `/home/developer/.android/avd` via the `emulator_home` volume.
-

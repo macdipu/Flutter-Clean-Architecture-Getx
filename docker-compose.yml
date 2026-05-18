@@ -22,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: docker/emulator/Dockerfile
+    container_name: flutter-emulator
     privileged: true
     devices:
       - /dev/kvm:/dev/kvm
@@ -35,6 +36,7 @@ services:
       - ANDROID_EMULATOR_NAME=android_emulator
       # Auto-create the AVD if missing by installing a system image (first run will download a large image)
       - ANDROID_SYSTEM_IMAGE=system-images;android-33;google_apis;x86_64
+      - ANDROID_EMULATOR_RAM=4096
       - ANDROID_DEVICE=pixel
       - CI=true
     networks:
@@ -44,6 +46,12 @@ services:
       - 8082:8080   # ws-scrcpy / web UI
     tty: true
     stdin_open: true
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/android-sdk/platform-tools/adb devices | grep -q 'device$' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
 
 volumes:
   flutter_pub_cache:
@@ -54,3 +62,21 @@ volumes:
 networks:
   android-net:
     driver: bridge
+
+  scrcpy-web:
+    image: shmayro/scrcpy-web:latest
+    container_name: scrcpy-web
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "8000:8000"
+    depends_on:
+      emulator:
+        condition: service_healthy
+    command: >
+      sh -c "\
+        /opt/android-sdk/platform-tools/adb connect flutter-emulator:5555 && \
+        npm start\
+      "
+    volumes:
+      - ./extras:/extras:ro
