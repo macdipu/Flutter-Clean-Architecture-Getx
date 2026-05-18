@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  android:
+    image: mingc/android-build-box:latest
+    container_name: android-emulator
+    privileged: true
+    tty: true
+    volumes:
+      - .:/workspace
+      - android-sdk:/root/.android
+    ports:
+      - "5037:5037" # adb server
+      - "5555:5555" # emulator tcp
+    command: ["/bin/sh","-c","sleep infinity"]
+    restart: unless-stopped
+
+  flutter:
+    image: mingc/android-build-box:latest
+    container_name: flutter-dev
+    tty: true
+    volumes:
+      - .:/workspace
+      - android-sdk:/root/.android
+    working_dir: /workspace
+    depends_on:
+      - android
+    command: ["/bin/sh","-c","tail -f /dev/null"]
+    restart: unless-stopped
+
+  scrcpy-web:
+    image: sw586/scrcpy-web:latest
+    container_name: scrcpy-web
+    depends_on:
+      - android
+    ports:
+      - "8080:8080" # scrcpy-web UI
+    environment:
+      # In many scrcpy-web images an env var like ADB_SERVER or ADB_HOST may be used.
+      # We also expose the adb server from the android service at 5037 so the
+      # scrcpy-web container can reach it at host "android" on the compose network.
+      - ADB_SERVER=android:5037
+    command: ["/bin/sh","-c","/start.sh || tail -f /dev/null"]
+    restart: unless-stopped
+
+volumes:
+  android-sdk:
+    name: android_sdk

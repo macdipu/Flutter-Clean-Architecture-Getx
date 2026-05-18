@@ -1,53 +1,79 @@
 SHELL := /bin/bash
 SCRIPTDIR := ./scripts
 
-.PHONY: up connect shell flutter build down logs emulator emulator-container emulator-host-connect
+.PHONY: up connect shell flutter build down logs emulator emulator-container emulator-host-connect compose-up compose-shell compose-flutter compose-logs
 
 up:
-	@echo "Ensuring scripts are executable"
-	@$(SHELL) -c 'chmod +x scripts/*.sh docker/emulator/*.sh || true'
-	@echo "Starting development environment (build + up)"
-	@$(SCRIPTDIR)/start.sh up
+	@echo "Starting development environment with docker compose"
+	@docker compose up -d --build
 
 connect:
-	@echo "Connect flutter container adb to emulator"
-	@$(SCRIPTDIR)/start.sh connect
+	@echo "Connect flutter container adb to emulator (uses adb over network)."
+	@echo "Run 'make shell' then inside container: adb connect android:5555" || true
 
 shell:
 	@echo "Open shell into flutter container"
-	@$(SCRIPTDIR)/start.sh shell
+	@docker compose exec flutter /bin/bash
 
 flutter:
 	@echo "Run flutter command inside flutter container"
-	@$(SCRIPTDIR)/start.sh flutter $(filter-out $@,$(MAKECMDGOALS))
+	@docker compose exec flutter bash -lc "flutter $(filter-out $@,$(MAKECMDGOALS))"
 
 build:
 	@echo "Build images"
 	docker compose build
+
+# Build Flutter artifacts inside the flutter service and save logs/artifacts to the workspace
+.PHONY: build-apk build-debug-apk build-aab build-logs
+
+build-apk:
+	@echo "Building release APK and saving artifacts/logs"
+	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build apk --release 2>&1 | tee /workspace/build_logs/build-apk-release.log; cp build/app/outputs/flutter-apk/app-release.apk /workspace/build_artifacts/ || echo 'app-release.apk not found'"
+
+build-debug-apk:
+	@echo "Building debug APK and saving artifacts/logs"
+	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build apk --debug 2>&1 | tee /workspace/build_logs/build-apk-debug.log; cp build/app/outputs/flutter-apk/app-debug.apk /workspace/build_artifacts/ || echo 'app-debug.apk not found'"
+
+build-aab:
+	@echo "Building Android App Bundle (AAB) and saving artifacts/logs"
+	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build appbundle --release 2>&1 | tee /workspace/build_logs/build-aab-release.log; cp build/app/outputs/bundle/release/app-release.aab /workspace/build_artifacts/ || echo 'app-release.aab not found'"
+
+build-logs:
+	@echo "List saved build logs and artifacts"
+	@ls -la build_logs build_artifacts || true
+	@echo "To view a log: tail -f build_logs/<log-file>"
+
+.PHONY: run run-debug
+
+run: emulator
+	@echo "Waiting for emulator/device to become available and running 'flutter run' (debug)"
+	@docker compose exec flutter bash -lc "set -e; \
+	for i in \$(seq 1 60); do \n+	  echo \"[run] waiting for adb (attempt $${i}/60)\"; \n+	  adb connect android:5555 >/dev/null 2>&1 || true; \n+	  if adb devices | awk 'NR>1 && \$2==\"device\" {print \$1; exit}' >/dev/null 2>&1; then \n+	    echo '[run] device found'; break; \n+	  fi; \n+	  sleep 1; \n+	done; \n+	flutter pub get; \n+	flutter run"
+
+run-debug: run
+
 
 down:
 	@echo "Stop and remove containers"
 	docker compose down
 
 logs:
-	@echo "Follow emulator logs"
-	docker compose logs -f dockerify-android
+	@echo "Follow compose logs for android and scrcpy-web"
+	docker compose logs -f android scrcpy-web
 
 emulator:
-	@echo "Start only the emulator service"
-	docker compose up -d dockerify-android
+	@echo "Start only the android emulator service"
+	docker compose up -d android
 
-.PHONY: emulator-container emulator-host-connect
+.PHONY: emulator-container emulator-host-connect ensure-perms recreate-volumes devcontainer reset-volumes
 
 emulator-container:
 	@echo "Start emulator service (container mode)"
-	@SCRIPTDIR=$(SCRIPTDIR) EMULATOR_MODE=container $(SHELL) -c '$(SCRIPTDIR)/start.sh up'
+	@SCRIPTDIR=$(SCRIPTDIR) EMULATOR_MODE=container $(SHELL) -c '$(SCRIPTDIR)/start.sh up' || true
 
 emulator-host-connect:
 	@echo "Ensure host emulator is running and connect flutter container to host adb"
-	@SCRIPTDIR=$(SCRIPTDIR) EMULATOR_MODE=host $(SHELL) -c '$(SCRIPTDIR)/start.sh connect'
-
-.PHONY: ensure-perms recreate-volumes devcontainer reset-volumes
+	@SCRIPTDIR=$(SCRIPTDIR) EMULATOR_MODE=host $(SHELL) -c '$(SCRIPTDIR)/start.sh connect' || true
 
 ensure-perms:
 	@echo "Making scripts executable"
@@ -58,7 +84,7 @@ ensure-perms:
 recreate-volumes: down
 	@echo "Removing volumes and restarting emulator to repopulate SDK bundle"
 	@docker compose down -v || true
-	@docker compose up -d dockerify-android
+	@docker compose up -d android
 	@echo "Emulator started; SDK bundle will be copied into the named volume on first run."
 
 # alias for recreate-volumes

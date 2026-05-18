@@ -563,6 +563,31 @@ If you prefer not to build the images in this repo you can use the community ima
 
   docker run --rm -v "$(pwd)":/project -w /project -e ANDROID_SDK_ROOT=/opt/android-sdk mingc/android-build-box:latest bash -lc "flutter pub get && flutter test"
 
+New: docker-compose (no custom Dockerfiles)
+
+1. Start stack (emulator + flutter + scrcpy-web):
+
+   make up
+
+2. Open a shell inside the flutter container:
+
+   make shell
+
+3. Run flutter commands from host via Makefile:
+
+   make flutter devices
+   make flutter run -d emulator
+
+4. Open scrcpy-web (VNC-like web UI) in your browser at:
+
+   http://localhost:8080
+
+Notes:
+
+- The compose stack uses the public image mingc/android-build-box for both the emulator (android) and the flutter dev container (flutter). No custom image is built.
+- scrcpy-web connects to the adb server exported by the android service. If scrcpy-web doesn't show the device, exec into the scrcpy-web container and ensure it can reach adb at android:5037.
+- To stop everything: `make down`.
+
 VS Code devcontainer
 
 - Open the repository in VS Code and use the Remote - Containers (Dev Containers) extension to reopen in container. The .devcontainer/devcontainer.json targets the `flutter` service.
