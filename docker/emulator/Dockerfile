@@ -14,6 +14,9 @@ RUN apt-get update \
 # Install websockify and python helpers
 RUN python3 -m pip install --no-cache-dir websockify || true
 
+# Ensure wget/unzip are available before downloading commandline tools
+RUN apt-get update && apt-get install -y --no-install-recommends wget unzip || true && rm -rf /var/lib/apt/lists/*
+
 # Create Android SDK layout and install commandline tools
 RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools && \
     cd /tmp && \
