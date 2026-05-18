@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   flutter:
     build:
@@ -53,16 +54,6 @@ services:
       retries: 12
       start_period: 20s
 
-volumes:
-  flutter_pub_cache:
-  gradle_cache:
-  emulator_home:
-  android_sdk:
-
-networks:
-  android-net:
-    driver: bridge
-
   scrcpy-web:
     image: shmayro/scrcpy-web:latest
     container_name: scrcpy-web
@@ -80,3 +71,13 @@ networks:
       "
     volumes:
       - ./extras:/extras:ro
+
+volumes:
+  flutter_pub_cache:
+  gradle_cache:
+  emulator_home:
+  android_sdk:
+
+networks:
+  android-net:
+    driver: bridge
