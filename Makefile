@@ -31,11 +31,11 @@ down:
 
 logs:
 	@echo "Follow emulator logs"
-	docker compose logs -f emulator
+	docker compose logs -f dockerify-android
 
 emulator:
 	@echo "Start only the emulator service"
-	docker compose up -d emulator
+	docker compose up -d dockerify-android
 
 .PHONY: emulator-container emulator-host-connect
 
@@ -58,7 +58,7 @@ ensure-perms:
 recreate-volumes: down
 	@echo "Removing volumes and restarting emulator to repopulate SDK bundle"
 	@docker compose down -v || true
-	@docker compose up -d emulator
+	@docker compose up -d dockerify-android
 	@echo "Emulator started; SDK bundle will be copied into the named volume on first run."
 
 # alias for recreate-volumes

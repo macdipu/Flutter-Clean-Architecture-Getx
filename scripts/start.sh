@@ -52,7 +52,7 @@ case "$cmd" in
     docker compose up --build -d
 
     # Prefer explicit container name if present
-    EMULATOR_CONTAINER=$(docker compose ps -q emulator || true)
+    EMULATOR_CONTAINER=$(docker compose ps -q dockerify-android || true)
     if [ -z "$EMULATOR_CONTAINER" ]; then
       EMULATOR_CONTAINER=$(docker ps -q --filter "name=flutter-emulator" || true)
     fi
@@ -98,10 +98,10 @@ case "$cmd" in
         TARGET="${EMULATOR_IP}:5555"
       else
         # Fall back to docker-compose service name which resolves via internal DNS
-        TARGET="emulator:5555"
+        TARGET="dockerify-android:5555"
       fi
       echo "No physical devices found. Attempting to connect to emulator at $TARGET"
-      docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${TARGET}" || true
+    docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${TARGET}" || true
       sleep 2
       docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices -l" || true
       PHONES=$(docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices -l | awk 'NR>1 && NF{print \$1,\$2,\$3,\$4}' | sed '/^$/d'" | sed '/^$/d' || true)
@@ -185,15 +185,15 @@ case "$cmd" in
       exit 0
     fi
 
-    EMULATOR_CONTAINER=$(docker compose ps -q emulator || true)
+    EMULATOR_CONTAINER=$(docker compose ps -q dockerify-android || true)
     if [ -n "$EMULATOR_CONTAINER" ]; then
       EMULATOR_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $EMULATOR_CONTAINER)
       if [ -n "$EMULATOR_IP" ]; then
         TARGET="${EMULATOR_IP}:5555"
         echo "Emulator container found at $EMULATOR_IP. Attempting to connect flutter container adb to it..."
       else
-        TARGET="emulator:5555"
-        echo "Emulator container found but IP not available; attempting to connect via service name 'emulator'..."
+        TARGET="dockerify-android:5555"
+        echo "Emulator container found but IP not available; attempting to connect via service name 'dockerify-android'..."
       fi
       docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${TARGET}" || true
     else
