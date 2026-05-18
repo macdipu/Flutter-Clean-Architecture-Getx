@@ -7,7 +7,7 @@ Usage: $0 [command] [args]
 
 Commands:
   up            Build and start services (default)
-  connect       Connect flutter container adb to emulator container
+  connect       Connect flutter/container adb to emulator or host (use: connect [host])
   flutter ...   Run a flutter CLI command inside the flutter container
   shell         Open a shell into the flutter container
   help          Show this help message
@@ -152,27 +152,43 @@ case "$cmd" in
     ;;
 
   connect)
-    # Connect adb from flutter container to emulator container
-    EMULATOR_CONTAINER=$(docker compose ps -q emulator || true)
-    FLUTTER_CONTAINER=$(docker compose ps -q flutter || true)
+    # connect [host]
+    # If 'host' is passed, attempt to connect host adb to host.docker.internal:5555
+    # Otherwise, connect the flutter container's adb to the emulator container (if present)
+    MODE=${1:-container}
 
+    FLUTTER_CONTAINER=$(docker compose ps -q flutter || true)
     if [ -z "$FLUTTER_CONTAINER" ]; then
       echo "flutter container must be running"
       exit 1
     fi
 
+    if [ "$MODE" = "host" ]; then
+      if command -v adb >/dev/null 2>&1; then
+        echo "Connecting host adb to host.docker.internal:5555"
+        adb connect host.docker.internal:5555 || adb connect localhost:5555 || true
+        echo "Host adb devices:"; adb devices -l || true
+      else
+        echo "Host adb not found; install platform-tools to use host adb connect"
+        exit 1
+      fi
+      exit 0
+    fi
+
+    EMULATOR_CONTAINER=$(docker compose ps -q emulator || true)
     if [ -n "$EMULATOR_CONTAINER" ]; then
       EMULATOR_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $EMULATOR_CONTAINER)
       echo "Emulator container found at $EMULATOR_IP. Attempting to connect flutter container adb to it..."
-      docker exec -u developer -T $FLUTTER_CONTAINER ${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${EMULATOR_IP}:5555 || true
+      docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect ${EMULATOR_IP}:5555" || true
     else
-      echo "No emulator container running. If you have a host emulator or a USB device, ensure adb is accessible."
+      echo "No emulator container running. Falling back to host connect via host.docker.internal:5555"
+      docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb connect host.docker.internal:5555 || true" || true
     fi
 
     echo "Listing devices from flutter container:"
-    docker exec -u developer -T $FLUTTER_CONTAINER ${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices -l || true
+    docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices -l" || true
 
-    DEVICES=$(docker exec -u developer -T $FLUTTER_CONTAINER ${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices | awk 'NR>1 && NF{print \$1}' || true)
+    DEVICES=$(docker compose exec -u developer -T flutter bash -lc "${ANDROID_SDK_ROOT:-/opt/android-sdk}/platform-tools/adb devices" | awk 'NR>1 && NF{print \$1}' || true)
     COUNT=$(echo "$DEVICES" | wc -w)
 
     if [ "$COUNT" -eq 0 ]; then

@@ -456,6 +456,14 @@ Quick start (emulator-in-container)
    flutter devices
    flutter run -d <device-id>
 
+Alternatively use the convenience script to connect adb from the flutter container to the emulator container:
+
+    ./scripts/start.sh connect
+
+Or to connect host adb to the emulator (requires adb on host):
+
+    ./scripts/start.sh connect host
+
 Run a single flutter command from the host (convenience via Makefile):
 
   make flutter run -d <device-id>
@@ -520,8 +528,8 @@ Use a physical Android device (Linux USB passthrough)
 
 2. Then run the normal start and connect commands (start.sh will still help):
 
-   ./scripts/start.sh
-   ./scripts/adb-connect.sh
+    ./scripts/start.sh
+    ./scripts/start.sh connect
 
 Host emulator (macOS/Windows)
 
