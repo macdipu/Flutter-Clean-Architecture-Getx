@@ -117,8 +117,9 @@ emulator:
 	@docker compose up -d android
 
 connect:
-	@echo "Connecting to host emulator..."
-	@SCRIPTDIR=$(SCRIPTDIR) EMULATOR_MODE=host $(SHELL) -c '$(SCRIPTDIR)/start.sh connect' || true
+	@echo "Connecting flutter container adb to host emulator..."
+	@echo "Ensure emulator is running on host, then connect via: adb connect android:5555"
+	@docker compose exec flutter adb connect android:5555 || true
 
 # ============================================================
 # Utils
