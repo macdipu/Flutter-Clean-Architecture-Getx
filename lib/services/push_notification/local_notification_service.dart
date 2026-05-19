@@ -82,10 +82,10 @@ class LocalNotificationService {
     );
 
     await _flutterLocalNotifications.show(
-      title.hashCode,
-      title,
-      body,
-      platformChannelSpecifics,
+      id: title.hashCode,
+      title: title,
+      body: body,
+      notificationDetails: platformChannelSpecifics,
       payload: payload,
     );
   }
@@ -111,7 +111,7 @@ class LocalNotificationService {
   }
 
   Future<void> cancelNotification(int id) async {
-    await _flutterLocalNotifications.cancel(id);
+    await _flutterLocalNotifications.cancel(id: id);
   }
 
   Future<void> cancelAllNotifications() async {
