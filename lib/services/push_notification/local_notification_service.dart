@@ -45,7 +45,7 @@ class LocalNotificationService {
     );
 
     await _flutterLocalNotifications.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: _onSelectNotification,
     );
 

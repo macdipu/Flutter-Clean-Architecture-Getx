@@ -368,7 +368,7 @@ class CommonButton extends StatelessWidget {
     }
 
     if (_isOutlined) {
-      final color = borderColor ?? context.primaryColor;
+      final color = borderColor ?? context.primary;
 
       return _ButtonTheme(
         background: Colors.transparent,
@@ -378,7 +378,7 @@ class CommonButton extends StatelessWidget {
     }
 
     if (_isText) {
-      final base = context.primaryColor;
+      final base = context.primary;
       return _ButtonTheme(
         background: Colors.transparent,
         foreground: foregroundColor ?? (_isGhost ? base.withAlpha(230) : base),
@@ -386,7 +386,7 @@ class CommonButton extends StatelessWidget {
     }
 
     return _ButtonTheme(
-      background: backgroundColor ?? context.primaryColor,
+      background: backgroundColor ?? context.primary,
       foreground: foregroundColor ?? context.onPrimary,
       border: borderColor,
     );

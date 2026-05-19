@@ -100,13 +100,9 @@ class ForgotPinOtpVerify extends GetView<ForgotPinController> {
   }
 
   _next_btn() {
-    return CommonButton(
+    return CommonButton.elevated(
       key: const ValueKey("reset_pin_next_button"),
       title: 'Next',
-      bgColor: Get.theme.primaryColor,
-      titleColor: Colors.white,
-      loaderColor: Colors.white,
-      height: 48,
       onTap: () {
         Get.toNamed(AppRoutes.resetPin);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/theme/theme_extensions.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/images/round_image.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/text_field/custom_text_field.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/common_button.dart';
@@ -71,11 +72,11 @@ class _LoginScreenState extends State<LoginScreen> {
           icon: Icon(
             Icons.language,
             size: 14,
-            color: context.theme.primaryColor,
+            color: context.primary,
           ),
           label: Text(
             label,
-            style: TextStyle(fontSize: 14, color: context.theme.primaryColor),
+            style: TextStyle(fontSize: 14, color: context.primary),
           ),
           style: TextButton.styleFrom(
             minimumSize: const Size(48, 36),
@@ -134,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Text(
           TextEnum.forgotPin.tr,
           style: TextStyle(
-            color: context.theme.primaryColor,
+            color: context.primary,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
@@ -155,12 +156,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _submitButton() {
-    return CommonButton(
+    return CommonButton.elevated(
       title: TextEnum.next.tr,
       height: 48,
       width: MediaQuery.of(context).size.width - 32,
-      bgColor: context.theme.primaryColor,
-      titleColor: Colors.white,
       onTap: () async {
         final success = await _controller.login();
         if (success) {
@@ -171,13 +170,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _createAccountLink() {
-    return CommonButton(
+    return CommonButton.elevated(
       title: TextEnum.createAccount.tr,
-      textStyle: TextStyle(fontSize: 16, color: context.theme.primaryColor) ,
+      textStyle: TextStyle(fontSize: 16, color: context.primary) ,
       height: 48,
       width: MediaQuery.of(context).size.width - 32,
-      bgColor: Colors.transparent,
-      titleColor: Colors.white,
       onTap: () async {
        //todo
       },

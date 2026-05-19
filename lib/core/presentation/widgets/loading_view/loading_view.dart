@@ -11,7 +11,7 @@ class LoadingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CircularProgressIndicator(
-        color: color ?? context.primaryColor,
+        color: color ?? context.primary,
       ),
     );
   }
@@ -40,9 +40,9 @@ class LoadingViewTransparent extends StatelessWidget {
       width: width ?? MediaQuery.of(context).size.width,
       child: Center(
         child: CircularProgressIndicator(
-          backgroundColor: context.surfaceColor,
+          backgroundColor: context.surface,
           valueColor: AlwaysStoppedAnimation<Color>(
-            loaderColor ?? context.primaryColor,
+            loaderColor ?? context.primary,
           ),
         ),
       ),

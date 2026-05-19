@@ -24,7 +24,7 @@ class LoadingText extends StatelessWidget {
             height: size ?? 20,
             width: size ?? 20,
             child: CircularProgressIndicator(
-              color: color ?? context.primaryColor,
+              color: color ?? context.primary,
               strokeWidth: strokeWidth ?? 3,
             ),
           )

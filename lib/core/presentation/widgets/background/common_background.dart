@@ -12,7 +12,7 @@ class CommonBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: context.secondaryColor,
+        color: context.secondary,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Stack(

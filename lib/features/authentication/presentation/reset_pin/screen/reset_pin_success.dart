@@ -49,13 +49,9 @@ class ResetPinSuccess extends GetView<ForgotPinController> {
 
 
   _continue_btn() {
-    return CommonButton(
+    return CommonButton.elevated(
       key: const ValueKey("continue_button"),
       title: 'Continue',
-      bgColor: theme.colorScheme.onPrimary,
-      borderColor: theme.colorScheme.primary,
-      textStyle: TextStyle(color: theme.colorScheme.primary, fontSize: 16, fontWeight: FontWeight.w500),
-      height: 48,
       onTap: () async {
           Get.offAllNamed(AppRoutes.login,);
       },

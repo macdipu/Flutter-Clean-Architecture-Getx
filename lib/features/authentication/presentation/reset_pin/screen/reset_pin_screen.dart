@@ -81,13 +81,9 @@ class ResetPinScreen extends GetView<ForgotPinController> {
 
   _next_btn() {
     return Obx(() {
-      return CommonButton(
+      return CommonButton.elevated(
         key: const ValueKey("reset_password_button"),
         title: 'Reset PIN',
-        loaderColor: Colors.white,
-        bgColor: theme.primaryColor,
-        titleColor: Colors.white,
-        height: 48 ,
         isLoading: controller.status.value.isLoading,
         onTap: () async {
           Get.toNamed(AppRoutes.resetPinSuccess);
