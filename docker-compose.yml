@@ -2,7 +2,8 @@ version: "3.8"
 
 services:
   android:
-    image: mingc/android-build-box:latest
+    build: ./docker
+    image: flutter_box
     container_name: android-emulator
     privileged: true
     tty: true
@@ -16,7 +17,8 @@ services:
     restart: unless-stopped
 
   flutter:
-    image: mingc/android-build-box:latest
+    build: ./docker
+    image: flutter_box
     container_name: flutter-dev
     tty: true
     volumes:
