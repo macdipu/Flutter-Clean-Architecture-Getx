@@ -11,7 +11,7 @@ class UrlLauncherService {
   static final UrlLauncherService instance = UrlLauncherService._();
 
   /// Launch a URL string.
-  FutureEither<void> launch(String url, {LaunchMode? mode}) async {
+  ResultFuture<void> launch(String url, {LaunchMode? mode}) async {
     return runTask(() async {
       final formattedUrl = _formatUrl(url);
       final uri = Uri.parse(formattedUrl);

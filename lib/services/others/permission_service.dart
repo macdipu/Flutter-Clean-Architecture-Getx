@@ -8,22 +8,22 @@ class PermissionService {
   static final PermissionService instance = PermissionService._();
 
   /// Check the status of a specific permission.
-  FutureEither<PermissionStatus> checkStatus(Permission permission) async {
+  ResultFuture<PermissionStatus> checkStatus(Permission permission) async {
     return runTask(() => permission.status);
   }
 
   /// Request a specific permission.
-  FutureEither<PermissionStatus> request(Permission permission) async {
+  ResultFuture<PermissionStatus> request(Permission permission) async {
     return runTask(() => permission.request());
   }
 
   /// Request multiple permissions at once.
-  FutureEither<Map<Permission, PermissionStatus>> requestMultiple(List<Permission> permissions) async {
+  ResultFuture<Map<Permission, PermissionStatus>> requestMultiple(List<Permission> permissions) async {
     return runTask(() => permissions.request());
   }
 
   /// Open the app settings.
-  FutureEither<bool> openSettings() async {
+  ResultFuture<bool> openSettings() async {
     return runTask(() => openAppSettings());
   }
 }

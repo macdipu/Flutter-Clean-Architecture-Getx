@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 
 typedef ResultFuture<T> = Future<Either<Failure, T>>;
 typedef ResultVoid = ResultFuture<void>;
+typedef StreamResult<T> = Stream<Either<Failure, T>>;
 
 abstract class UseCaseWithParams<Type, Params> {
   const UseCaseWithParams();

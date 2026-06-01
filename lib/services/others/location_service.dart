@@ -8,27 +8,27 @@ class LocationService {
   static final LocationService instance = LocationService._();
 
   /// Check the status of location permission.
-  FutureEither<LocationPermission> checkPermission() async {
+  ResultFuture<LocationPermission> checkPermission() async {
     return runTask(() => Geolocator.checkPermission());
   }
 
   /// Request location permission.
-  FutureEither<LocationPermission> requestPermission() async {
+  ResultFuture<LocationPermission> requestPermission() async {
     return runTask(() => Geolocator.requestPermission());
   }
 
   /// Check if location services are enabled.
-  FutureEither<bool> isLocationServiceEnabled() async {
+  ResultFuture<bool> isLocationServiceEnabled() async {
     return runTask(() => Geolocator.isLocationServiceEnabled());
   }
 
   /// Open the location settings.
-  FutureEither<bool> openLocationSettings() async {
+  ResultFuture<bool> openLocationSettings() async {
     return runTask(() => Geolocator.openLocationSettings());
   }
 
   /// Get the current position.
-  FutureEither<Position> getCurrentPosition({
+  ResultFuture<Position> getCurrentPosition({
     LocationAccuracy accuracy = LocationAccuracy.high,
   }) async {
     return runTask(() async {
@@ -60,7 +60,7 @@ class LocationService {
   }
 
   /// Get the last known position.
-  FutureEither<Position?> getLastKnownPosition() async {
+  ResultFuture<Position?> getLastKnownPosition() async {
     return runTask(() => Geolocator.getLastKnownPosition());
   }
 

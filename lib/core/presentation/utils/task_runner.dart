@@ -1,10 +1,10 @@
 
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/error/failure.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/error_handler.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/failure.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/snackbar/custom_snackbar.dart';
 import 'package:flutter_clean_architecture_getx/services/others/internet_connection_service.dart';
 
@@ -13,7 +13,7 @@ import 'package:flutter_clean_architecture_getx/services/others/internet_connect
 ///
 /// If [requiresNetwork] is `true` and [isNetworkAvailable] returns `false`,
 /// the [action] will not be executed and a [NetworkFailure] will be returned.
-FutureEither<T> runTask<T>(
+ResultFuture<T> runTask<T>(
   Future<T> Function() action, {
   bool requiresNetwork = false,
 }) async {
@@ -43,6 +43,6 @@ FutureEither<T> runTask<T>(
     final errorMessage = AppErrorHandler.format(error);
 
     // Depending on logic, map error strings/types to specific Failure variants
-    return left(ServerFailure(errorMessage, error: error));
+    return left(ServerFailure(errorMessage));
   }
 }

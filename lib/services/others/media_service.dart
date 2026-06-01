@@ -13,7 +13,7 @@ class MediaService {
   final ImagePicker _imagePicker = ImagePicker();
 
   /// Pick an image from gallery or camera.
-  FutureEither<File?> pickImage({
+  ResultFuture<File?> pickImage({
     required ImageSource source,
     double? maxWidth,
     double? maxHeight,
@@ -47,7 +47,7 @@ class MediaService {
   }
 
   /// Pick multiple images from gallery.
-  FutureEither<List<File>> pickMultiImage({
+  ResultFuture<List<File>> pickMultiImage({
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
@@ -71,7 +71,7 @@ class MediaService {
   }
 
   /// Pick a video from gallery or camera.
-  FutureEither<File?> pickVideo({
+  ResultFuture<File?> pickVideo({
     required ImageSource source,
     Duration? maxDuration,
   }) async {
@@ -100,7 +100,7 @@ class MediaService {
   }
 
   /// Pick one or more files from the device.
-  FutureEither<List<File>> pickFiles({
+  ResultFuture<List<File>> pickFiles({
     FileType type = FileType.any,
     List<String>? allowedExtensions,
     bool allowMultiple = false,

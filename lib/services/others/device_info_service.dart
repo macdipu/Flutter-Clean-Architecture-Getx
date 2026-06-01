@@ -12,7 +12,7 @@ class DeviceInfoService {
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
 
   /// Retrieve full device information as a Map.
-  FutureEither<Map<String, dynamic>> getFullDeviceInfo() async {
+  ResultFuture<Map<String, dynamic>> getFullDeviceInfo() async {
     return runTask(() async {
       if (Platform.isAndroid) {
         final androidInfo = await _deviceInfo.androidInfo;

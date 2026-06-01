@@ -14,7 +14,7 @@ class VersionUpdateService {
   static final VersionUpdateService instance = VersionUpdateService._();
 
   /// Check if a newer version of the app is available in the store.
-  FutureEither<AppVersionResult?> checkForUpdate({
+  ResultFuture<AppVersionResult?> checkForUpdate({
     String? appleId,
     String? playStoreId,
   }) async {
@@ -27,7 +27,7 @@ class VersionUpdateService {
   }
 
   /// High-level method to check for updates and show the dialog automatically if available.
-  FutureEither<void> checkAndShowUpdate({
+  ResultFuture<void> checkAndShowUpdate({
     String? appleId,
     String? playStoreId,
     bool mandatory = false,
@@ -57,7 +57,7 @@ class VersionUpdateService {
   }
 
   /// Display a platform-specific update dialog.
-  FutureEither<void> showUpdateAlert({
+  ResultFuture<void> showUpdateAlert({
     required AppVersionResult updateResult,
     bool mandatory = false,
     String? title,
@@ -82,7 +82,7 @@ class VersionUpdateService {
   }
 
   /// Display a platform-specific update bottom sheet.
-  FutureEither<void> showUpdateBottomSheet({
+  ResultFuture<void> showUpdateBottomSheet({
     required AppVersionResult updateResult,
     bool mandatory = false,
     String? title,
@@ -103,7 +103,7 @@ class VersionUpdateService {
   }
 
   /// Display a dedicated update page.
-  FutureEither<void> showUpdatePage({
+  ResultFuture<void> showUpdatePage({
     required AppVersionResult updateResult,
     bool mandatory = false,
     Widget? page,

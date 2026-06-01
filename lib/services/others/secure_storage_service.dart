@@ -14,27 +14,27 @@ class SecureStorageService {
   );
 
   /// Write a sensitive value to secure storage.
-  FutureEither<void> write(String key, String value) async {
+  ResultFuture<void> write(String key, String value) async {
     return runTask(() => _storage.write(key: key, value: value));
   }
 
   /// Read a sensitive value from secure storage.
-  FutureEither<String?> read(String key) async {
+  ResultFuture<String?> read(String key) async {
     return runTask(() => _storage.read(key: key));
   }
 
   /// Delete a specific key from secure storage.
-  FutureEither<void> delete(String key) async {
+  ResultFuture<void> delete(String key) async {
     return runTask(() => _storage.delete(key: key));
   }
 
   /// Wipe all data from secure storage.
-  FutureEither<void> deleteAll() async {
+  ResultFuture<void> deleteAll() async {
     return runTask(() => _storage.deleteAll());
   }
 
   /// Check if a key exists in secure storage.
-  FutureEither<bool> containsKey(String key) async {
+  ResultFuture<bool> containsKey(String key) async {
     return runTask(() => _storage.containsKey(key: key));
   }
 }
