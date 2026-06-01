@@ -114,7 +114,7 @@ class MediaService {
         }
       }
 
-      final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      final FilePickerResult? result = await FilePicker.pickFiles(
         type: type,
         allowedExtensions: allowedExtensions,
         allowMultiple: allowMultiple,

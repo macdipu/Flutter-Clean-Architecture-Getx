@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/app_utils.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/snackbar/custom_snackbar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

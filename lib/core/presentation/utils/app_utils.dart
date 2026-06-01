@@ -44,3 +44,8 @@ class AppUtils {
         r"^((((H|h)(T|t)|(F|f))(T|t)(P|p)((S|s)?))\\://)?(www.|[a-zA-Z0-9].)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,6}(\:[0-9]{1,5})*(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&%\$#\=~_\-]+))*$",
       );
 }
+
+extension StringValidationExtensions on String {
+  bool get isValidUrl => AppUtils.isURL(this);
+  bool get isValidPhoneNumber => AppUtils.isPhoneNumber(this);
+}

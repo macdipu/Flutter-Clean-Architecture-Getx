@@ -100,18 +100,37 @@ class CustomSnackbar {
     required String message,
     Duration duration = const Duration(seconds: 3),
     SnackBarAction? action,
+    String? status,
   }) {
     final context = rootContext;
     if (context == null) {
       return;
     }
 
+    final backgroundColor = _toastBackgroundColor(status);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
         duration: duration,
         action: action,
+        backgroundColor: backgroundColor,
       ),
     );
+  }
+
+  static Color? _toastBackgroundColor(String? status) {
+    switch (status) {
+      case 'success':
+        return const Color(0xFF4CAF50);
+      case 'error':
+        return const Color(0xFFE53935);
+      case 'warning':
+        return const Color(0xFFFF9800);
+      case 'info':
+        return const Color(0xFF2196F3);
+      default:
+        return null;
+    }
   }
 }

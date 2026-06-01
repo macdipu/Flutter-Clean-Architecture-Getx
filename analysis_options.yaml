@@ -1,6 +1,7 @@
 analyzer:
   exclude:
     - build/**
+    - build/**/SourcePackages/**
     - .dart_tool/**
     - ios/Pods/**
     - macos/Flutter/ephemeral/**
