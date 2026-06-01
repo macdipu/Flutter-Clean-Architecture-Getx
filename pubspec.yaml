@@ -98,7 +98,10 @@ dependency_overrides:
   # Alternative: upgrade file_picker to a version that depends on win32 ^6.x or
   # pin share_plus to an older version. This override is the minimal change to
   # unblock `flutter pub get` in this project.
-  win32: ^6.0.1
+  # Keep win32 at a 6.x release to satisfy newer transitive packages while
+  # minimizing API mismatch risks. Adjust if your platform plugins require a
+  # different version.
+  win32: ^6.3.0
 
 
 

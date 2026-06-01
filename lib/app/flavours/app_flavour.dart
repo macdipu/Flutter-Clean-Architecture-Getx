@@ -11,7 +11,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 import '../../core/data/cache/client/preference_cache.dart';
-import '../../services/version/version.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
@@ -22,8 +21,6 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await Firebase.initializeApp();
   await NotificationService().init();
   _initialize(dotenv.env);
-
-  await VersionService.getVersion();
 
   runApp(await builder());
 }

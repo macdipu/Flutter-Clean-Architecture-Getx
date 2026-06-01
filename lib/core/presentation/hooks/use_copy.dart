@@ -2,6 +2,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/widgets/snackbar/custom_snackbar.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 /// A hook to handle copying text to clipboard with state feedback.
 (Future<void> Function(String), bool) useCopy() {

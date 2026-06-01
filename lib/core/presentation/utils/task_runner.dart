@@ -25,7 +25,7 @@ FutureEither<T> runTask<T>(
       CustomSnackbar.showGlobalToast(
         message:
             'No internet connection. Please check your connection and try again.',
-        status: 'warning',
+
       );
       return left(
         const NetworkFailure(

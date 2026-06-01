@@ -1,4 +1,9 @@
-import 'dart:io'; 
+import 'dart:io';
+
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/widgets/snackbar/custom_snackbar.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// A hook to handle URL launching with state feedback.
 (bool, Future<void> Function(String)) useLaunchUrl({LaunchMode? mode}) {
@@ -17,14 +22,14 @@ import 'dart:io';
         );
       } else {
         AppLogger.error('Could not launch url: $formattedUrl');
-        showGlobalToast(
+        CustomSnackbar.showGlobalToast(
           message: 'Could not launch url',
           status: 'error',
         );
       }
     } catch (e) {
       AppLogger.error('Error launching URL: $e');
-      showGlobalToast(
+      CustomSnackbar.showGlobalToast(
         message: 'Could not launch url',
         status: 'error',
       );
