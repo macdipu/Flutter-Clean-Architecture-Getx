@@ -66,7 +66,7 @@ dependencies:
   permission_handler: ^12.0.2
   geolocator: ^14.0.2
   device_info_plus: ^13.1.0
-  package_info_plus: ^10.1.0
+  package_info_plus: ^9.0.0
   app_version_update: ^6.2.0
 
 dev_dependencies:
@@ -92,6 +92,13 @@ flutter_native_splash:
   color: "#ffffff"
   android: true
   ios: true
+
+dependency_overrides:
+  # Force a compatible win32 version so share_plus and file_picker can resolve.
+  # Alternative: upgrade file_picker to a version that depends on win32 ^6.x or
+  # pin share_plus to an older version. This override is the minimal change to
+  # unblock `flutter pub get` in this project.
+  win32: ^6.0.1
 
 
 

@@ -1,4 +1,7 @@
-import '../../imports/imports.dart';
+
+import 'package:flutter/services.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/widgets/snackbar/custom_snackbar.dart';
 
 /// A hook to handle copying text to clipboard with state feedback.
 (Future<void> Function(String), bool) useCopy() {
@@ -8,8 +11,8 @@ import '../../imports/imports.dart';
     try {
       hasCopied.value = true;
       await Clipboard.setData(ClipboardData(text: text));
-      
-      showGlobalToast(
+
+      CustomSnackbar.showGlobalToast(
         message: 'Copied successfully',
         status: 'success',
       );
@@ -21,8 +24,8 @@ import '../../imports/imports.dart';
     } catch (e) {
       AppLogger.error('Error copying to clipboard: $e');
       hasCopied.value = false;
-      
-      showGlobalToast(
+
+      CustomSnackbar.showGlobalToast(
         message: 'Failed to copy',
         status: 'error',
       );

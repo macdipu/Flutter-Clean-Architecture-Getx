@@ -1,6 +1,6 @@
+import 'package:flutter_clean_architecture_getx/services/others/permission_service.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../services/permission_service.dart';
 
 /// A hook to manage permission lifecycle and status with loading state.
 (PermissionStatus, bool, Future<void> Function()) usePermission(Permission permission) {

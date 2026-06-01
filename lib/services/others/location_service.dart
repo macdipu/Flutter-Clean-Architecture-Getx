@@ -1,5 +1,6 @@
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
 import 'package:geolocator/geolocator.dart';
-import '../utils/utils.dart';
 
 /// A service to handle device location requests and status checks.
 class LocationService {

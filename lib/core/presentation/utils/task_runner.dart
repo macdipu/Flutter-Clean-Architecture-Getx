@@ -5,6 +5,7 @@ import 'package:flutter_clean_architecture_getx/core/presentation/utils/error_ha
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/failure.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/widgets/snackbar/custom_snackbar.dart';
 import 'package:flutter_clean_architecture_getx/services/others/internet_connection_service.dart';
 
 /// A reusable generic function to handle potential exceptions in async tasks
@@ -21,7 +22,7 @@ FutureEither<T> runTask<T>(
 
     if (!hasNetwork) {
       AppLogger.warning('Network unavailable for task');
-      showGlobalToast(
+      CustomSnackbar.showGlobalToast(
         message:
             'No internet connection. Please check your connection and try again.',
         status: 'warning',

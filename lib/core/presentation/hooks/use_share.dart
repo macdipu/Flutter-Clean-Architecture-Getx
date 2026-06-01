@@ -1,6 +1,7 @@
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
+import 'package:flutter_clean_architecture_getx/services/others/share_service.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../../utils/utils.dart';
-import '../../services/share_service.dart';
+
 
 /// A hook to simplify sharing logic within widgets with loading state.
 (bool, Future<void> Function(String, {String? subject})) useShare() {

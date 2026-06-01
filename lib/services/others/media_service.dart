@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
+import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../utils/utils.dart';
 
 /// A service to handle media selection (images, videos, files).
 class MediaService {
