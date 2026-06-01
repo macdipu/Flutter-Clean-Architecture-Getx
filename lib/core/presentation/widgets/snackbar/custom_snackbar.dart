@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture_getx/res/routes/global_navigator.dart';
 import 'package:get/get.dart';
 
 enum SnackbarType {
@@ -94,5 +95,23 @@ class CustomSnackbar {
       type: SnackbarType.info,
     );
   }
-}
 
+  static void showGlobalToast({
+    required String message,
+    Duration duration = const Duration(seconds: 3),
+    SnackBarAction? action,
+  }) {
+    final context = rootContext;
+    if (context == null) {
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: duration,
+        action: action,
+      ),
+    );
+  }
+}
