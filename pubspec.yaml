@@ -114,6 +114,7 @@ dependency_overrides:
     path: packages/file_picker
   win32: ^6.3.0
   package_info_plus: 10.1.0
+  meta: ^1.18.0
 
 
 
