@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _branding() {
     return CRoundImage(
       height: 72,
-      imagePath: Resources.drawable.dashboardImage,
+      imagePath: Resources.drawable.splashImage,
     );
   }
 
