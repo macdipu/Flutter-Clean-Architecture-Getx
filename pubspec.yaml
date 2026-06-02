@@ -50,9 +50,21 @@ dependencies:
 
   # Media / Files
   image_picker: ^1.2.2
-  file_picker: ^11.0.2
   gal: ^2.3.2
   mobile_scanner: ^7.2.0
+  cached_network_image: ^3.4.1
+
+  # Weather Pulse - Charts / Animations / Fonts
+  fl_chart: ^0.69.0
+  lottie: ^3.1.2
+  google_fonts: ^6.2.1
+  shimmer: ^3.0.0
+
+  # Weather Pulse - Home screen widgets, notifications, background
+  home_widget: ^0.7.0
+  workmanager: ^0.6.0
+  timezone: ^0.11.0
+  flutter_timezone: ^4.1.0
 
   # Notifications / Firebase
   flutter_local_notifications: ^21.0.0
@@ -67,7 +79,6 @@ dependencies:
   geolocator: ^14.0.2
   device_info_plus: ^13.1.0
   package_info_plus: ^9.0.0
-  app_version_update: ^6.2.0
 
 dev_dependencies:
   flutter_test:
@@ -86,7 +97,6 @@ flutter:
 
   assets:
     - .env
-    - assets/svgs/
 
 flutter_native_splash:
   color: "#ffffff"
@@ -94,14 +104,11 @@ flutter_native_splash:
   ios: true
 
 dependency_overrides:
-  # Force a compatible win32 version so share_plus and file_picker can resolve.
-  # Alternative: upgrade file_picker to a version that depends on win32 ^6.x or
-  # pin share_plus to an older version. This override is the minimal change to
-  # unblock `flutter pub get` in this project.
-  # Keep win32 at a 6.x release to satisfy newer transitive packages while
-  # minimizing API mismatch risks. Adjust if your platform plugins require a
-  # different version.
+  # share_plus requires win32 ^6.x; package_info_plus 10.x fixes win32 6.x
+  # API incompatibilities in the Windows implementation files.
+  # geolocator_linux pins package_info_plus ^9, so we override here.
   win32: ^6.3.0
+  package_info_plus: 10.1.0
 
 
 
