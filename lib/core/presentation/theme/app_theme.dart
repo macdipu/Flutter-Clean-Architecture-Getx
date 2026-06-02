@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:com.onkur.customer/core/presentation/theme/color_schemes.dart';
+import 'package:customer/core/presentation/theme/color_schemes.dart';
 import 'text_theme.dart';
 
 class AppTheme {

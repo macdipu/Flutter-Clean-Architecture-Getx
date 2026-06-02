@@ -1,5 +1,5 @@
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
-import 'package:com.onkur.customer/core/presentation/utils/task_runner.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
+import 'package:customer/core/presentation/utils/task_runner.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// A service to handle sharing content via the platform's native share dialog.

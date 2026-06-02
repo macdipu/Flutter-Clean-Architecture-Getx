@@ -1,4 +1,4 @@
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/data/cache/client/base_cache_repository.dart';

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../entity/trade_item.dart';
 import '../repo/trade_repository.dart';
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
 
 class TradeUseCase extends UseCaseWithoutParams<TradeItemList> {
   final TradeRepository _repo;

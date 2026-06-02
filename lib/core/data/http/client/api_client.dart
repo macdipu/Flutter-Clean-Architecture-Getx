@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:com.onkur.customer/app/flavours/app_config.dart';
-import 'package:com.onkur.customer/res/strings/app_translations.dart';
+import 'package:customer/app/flavours/app_config.dart';
+import 'package:customer/res/strings/app_translations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' as getx;

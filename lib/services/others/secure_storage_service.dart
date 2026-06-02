@@ -1,5 +1,5 @@
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
-import 'package:com.onkur.customer/core/presentation/utils/task_runner.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
+import 'package:customer/core/presentation/utils/task_runner.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// A service to securely store sensitive data like JWT tokens or API keys.

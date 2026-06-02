@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
-import 'package:com.onkur.customer/core/presentation/utils/task_runner.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
+import 'package:customer/core/presentation/utils/task_runner.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';

@@ -1,14 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:com.onkur.customer/core/presentation/utils/state_status.dart';
+import 'package:customer/core/presentation/utils/state_status.dart';
 import 'package:get/get.dart';
-import 'package:com.onkur.customer/core/presentation/widgets/appbar/common_appbar.dart';
-import 'package:com.onkur.customer/core/presentation/widgets/buttons/common_button.dart';
-import 'package:com.onkur.customer/core/presentation/widgets/text_field/custom_text_field.dart';
-import 'package:com.onkur.customer/features/authentication/presentation/reset_pin/controller/reset_pin_controller.dart';
-import 'package:com.onkur.customer/features/authentication/presentation/widgets/intro_header.dart';
-import 'package:com.onkur.customer/res/routes/app_routes.dart';
+import 'package:customer/core/presentation/widgets/appbar/common_appbar.dart';
+import 'package:customer/core/presentation/widgets/buttons/common_button.dart';
+import 'package:customer/core/presentation/widgets/text_field/custom_text_field.dart';
+import 'package:customer/features/authentication/presentation/reset_pin/controller/reset_pin_controller.dart';
+import 'package:customer/features/authentication/presentation/widgets/intro_header.dart';
+import 'package:customer/res/routes/app_routes.dart';
 
 class ResetPinScreen extends GetView<ForgotPinController> {
   ResetPinScreen({super.key});

@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:com.onkur.customer/features/trades/data/repo_impl/trade_cache_impl.dart';
-import 'package:com.onkur.customer/features/trades/data/repo_impl/trade_http_impl.dart';
-import 'package:com.onkur.customer/features/trades/domain/repo/trade_repository.dart';
-import 'package:com.onkur.customer/features/trades/domain/usecase/trades_use_case.dart';
-import 'package:com.onkur.customer/features/trades/presentation/controller/trades_screen_controller.dart';
-import 'package:com.onkur.customer/core/data/http/client/api_client.dart';
-import 'package:com.onkur.customer/core/data/http/urls/api_urls.dart';
-import 'package:com.onkur.customer/core/data/cache/client/preference_cache.dart';
+import 'package:customer/features/trades/data/repo_impl/trade_cache_impl.dart';
+import 'package:customer/features/trades/data/repo_impl/trade_http_impl.dart';
+import 'package:customer/features/trades/domain/repo/trade_repository.dart';
+import 'package:customer/features/trades/domain/usecase/trades_use_case.dart';
+import 'package:customer/features/trades/presentation/controller/trades_screen_controller.dart';
+import 'package:customer/core/data/http/client/api_client.dart';
+import 'package:customer/core/data/http/urls/api_urls.dart';
+import 'package:customer/core/data/cache/client/preference_cache.dart';
 
 class TradeBinding extends Bindings {
   @override

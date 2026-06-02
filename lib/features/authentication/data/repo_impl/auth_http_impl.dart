@@ -1,12 +1,12 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:com.onkur.customer/core/data/http/client/api_client.dart';
-import 'package:com.onkur.customer/core/data/http/client/base_http_repository.dart';
-import 'package:com.onkur.customer/core/data/http/urls/api_urls.dart';
-import 'package:com.onkur.customer/core/domain/error/failure.dart';
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
-import 'package:com.onkur.customer/features/authentication/domain/model/auth_login_req.dart';
+import 'package:customer/core/data/http/client/api_client.dart';
+import 'package:customer/core/data/http/client/base_http_repository.dart';
+import 'package:customer/core/data/http/urls/api_urls.dart';
+import 'package:customer/core/domain/error/failure.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
+import 'package:customer/features/authentication/domain/model/auth_login_req.dart';
 
 import '../../domain/model/user_info.dart';
 import '../../domain/repository/auth_repository.dart';

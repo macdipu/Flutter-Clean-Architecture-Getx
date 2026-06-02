@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:com.onkur.customer/core/domain/models/phone_number.dart';
+import 'package:customer/core/domain/models/phone_number.dart';
 
 class UserInfo {
   final PhoneNumber? phoneNumber;

@@ -1,4 +1,4 @@
-import 'package:com.onkur.customer/features/trades/presentation/screens/trades_screen.dart';
+import 'package:customer/features/trades/presentation/screens/trades_screen.dart';
 import 'package:get/get.dart';
 
 import '../../../res/routes/app_routes.dart';

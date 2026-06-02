@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:com.onkur.customer/core/presentation/widgets/appbar/common_appbar.dart';
-import 'package:com.onkur.customer/core/presentation/widgets/buttons/common_button.dart';
-import 'package:com.onkur.customer/core/presentation/widgets/images/round_image.dart';
-import 'package:com.onkur.customer/features/authentication/presentation/reset_pin/controller/reset_pin_controller.dart';
-import 'package:com.onkur.customer/res/resources.dart';
-import 'package:com.onkur.customer/res/routes/app_routes.dart';
+import 'package:customer/core/presentation/widgets/appbar/common_appbar.dart';
+import 'package:customer/core/presentation/widgets/buttons/common_button.dart';
+import 'package:customer/core/presentation/widgets/images/round_image.dart';
+import 'package:customer/features/authentication/presentation/reset_pin/controller/reset_pin_controller.dart';
+import 'package:customer/res/resources.dart';
+import 'package:customer/res/routes/app_routes.dart';
 
 class ResetPinSuccess extends GetView<ForgotPinController> {
   ResetPinSuccess({super.key});

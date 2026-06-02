@@ -1,4 +1,4 @@
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
 
 import '../entity/trade_item.dart';
 

@@ -122,4 +122,4 @@ dependency_overrides:
 #flutter pub run flutter_native_splash:create
 #rename setAppName --targets ios,android,web,macos,windows,linux --value "Onkur Customer"
 #rename setBundleId --targets ios,android,macos,linux,windows --value "com.onkur.customer"
-#find lib -type f -name "*.dart" -exec sed -i '' 's/package:flutter_clean_architecture_getx\//package:com.onkur.customer\//g' {} +
+#find lib -type f -name "*.dart" -exec sed -i '' 's/package:com.onkur.customer\//package:customer\//g' {} +

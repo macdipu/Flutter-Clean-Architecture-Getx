@@ -1,4 +1,4 @@
-package com.example.clean_architecture_getx
+package com.onkur.customer
 
 import io.flutter.embedding.android.FlutterActivity
 

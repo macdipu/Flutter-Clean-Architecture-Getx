@@ -1,12 +1,12 @@
 
 
 import 'package:dartz/dartz.dart';
-import 'package:com.onkur.customer/core/domain/error/failure.dart';
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
-import 'package:com.onkur.customer/core/presentation/utils/error_handler.dart';
-import 'package:com.onkur.customer/core/presentation/utils/logger.dart';
-import 'package:com.onkur.customer/core/presentation/widgets/snackbar/custom_snackbar.dart';
-import 'package:com.onkur.customer/services/others/internet_connection_service.dart';
+import 'package:customer/core/domain/error/failure.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
+import 'package:customer/core/presentation/utils/error_handler.dart';
+import 'package:customer/core/presentation/utils/logger.dart';
+import 'package:customer/core/presentation/widgets/snackbar/custom_snackbar.dart';
+import 'package:customer/services/others/internet_connection_service.dart';
 
 /// A reusable generic function to handle potential exceptions in async tasks
 /// and map them to the [Either] type matching [FutureEither<T>].

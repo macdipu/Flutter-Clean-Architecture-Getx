@@ -1,4 +1,4 @@
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
 

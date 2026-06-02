@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:com.onkur.customer/app/flavours/app_config.dart';
-import 'package:com.onkur.customer/core/data/http/client/api_client.dart';
-import 'package:com.onkur.customer/core/data/http/urls/api_urls.dart';
+import 'package:customer/app/flavours/app_config.dart';
+import 'package:customer/core/data/http/client/api_client.dart';
+import 'package:customer/core/data/http/urls/api_urls.dart';
 import 'package:flutter/material.dart';
-import 'package:com.onkur.customer/services/push_notification/notification_service.dart';
+import 'package:customer/services/push_notification/notification_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 

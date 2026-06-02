@@ -1,7 +1,7 @@
 
 import 'package:dartz/dartz.dart';
-import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
-import 'package:com.onkur.customer/features/authentication/domain/repository/auth_repository.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
+import 'package:customer/features/authentication/domain/repository/auth_repository.dart';
 
 import '../model/auth_login_req.dart';
 import '../model/user_info.dart';

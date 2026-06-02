@@ -1,7 +1,7 @@
 
 import 'package:flutter/services.dart';
-import 'package:com.onkur.customer/core/presentation/utils/logger.dart';
-import 'package:com.onkur.customer/core/presentation/widgets/snackbar/custom_snackbar.dart';
+import 'package:customer/core/presentation/utils/logger.dart';
+import 'package:customer/core/presentation/widgets/snackbar/custom_snackbar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 /// A hook to handle copying text to clipboard with state feedback.
