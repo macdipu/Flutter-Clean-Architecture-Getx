@@ -18,8 +18,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   };
 
   await dotenv.load();
-  await Firebase.initializeApp();
-  await NotificationService().init();
+  // await Firebase.initializeApp();
+  // await NotificationService().init();
   _initialize(dotenv.env);
 
   runApp(await builder());

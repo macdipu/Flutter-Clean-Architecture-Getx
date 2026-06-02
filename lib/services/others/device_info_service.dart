@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
 
 /// A service to retrieve detailed information about the current device.
 class DeviceInfoService {

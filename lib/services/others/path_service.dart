@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// A service to easily access platform-specific file system locations.

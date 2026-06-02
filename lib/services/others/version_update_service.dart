@@ -1,9 +1,9 @@
 import 'package:app_version_update/app_version_update.dart';
 import 'package:app_version_update/data/models/app_version_result.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
 import 'package:flutter_clean_architecture_getx/res/routes/global_navigator.dart';
 
 

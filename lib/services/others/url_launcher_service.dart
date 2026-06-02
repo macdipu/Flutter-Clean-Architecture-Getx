@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/app_utils.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// A service to handle URL launching operations.

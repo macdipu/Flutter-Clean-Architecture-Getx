@@ -1,5 +1,5 @@
+import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
 import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/typedefs.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// A service to handle sharing content via the platform's native share dialog.

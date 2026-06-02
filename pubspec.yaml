@@ -50,6 +50,7 @@ dependencies:
 
   # Media / Files
   image_picker: ^1.2.2
+  file_picker: ^11.0.2
   gal: ^2.3.2
   mobile_scanner: ^7.2.0
   cached_network_image: ^3.4.1
@@ -79,6 +80,7 @@ dependencies:
   geolocator: ^14.0.2
   device_info_plus: ^13.1.0
   package_info_plus: ^9.0.0
+  app_version_update: ^6.2.0
 
 dev_dependencies:
   flutter_test:
@@ -97,6 +99,7 @@ flutter:
 
   assets:
     - .env
+    - assets/svgs/
 
 flutter_native_splash:
   color: "#ffffff"
@@ -104,9 +107,11 @@ flutter_native_splash:
   ios: true
 
 dependency_overrides:
-  # share_plus requires win32 ^6.x; package_info_plus 10.x fixes win32 6.x
-  # API incompatibilities in the Windows implementation files.
-  # geolocator_linux pins package_info_plus ^9, so we override here.
+  # file_picker is patched locally (packages/file_picker) to stub the Windows
+  # implementation so it compiles against win32 ^6.x alongside all other plugins.
+#  file_picker: ^11.0.2
+  file_picker:
+    path: packages/file_picker
   win32: ^6.3.0
   package_info_plus: 10.1.0
 
