@@ -1,4 +1,4 @@
-name: flutter_clean_architecture_getx
+name: customer
 description: 'A new Flutter project.'
 publish_to: 'none'
 
@@ -120,6 +120,6 @@ dependency_overrides:
 
 #dart run flutter_launcher_icons
 #flutter pub run flutter_native_splash:create
-#rename setAppName --targets ios,android,web,macos,windows,linux --value "Money Track"
-#rename setBundleId --targets ios,android,macos,linux,windows --value "com.chowdhuryelab.money_track"
-#find lib -type f -name "*.dart" -exec sed -i '' 's/package:flutter_clean_architecture_getx\//package:flutter_clean_architecture_getx\//g' {} +
+#rename setAppName --targets ios,android,web,macos,windows,linux --value "Onkur Customer"
+#rename setBundleId --targets ios,android,macos,linux,windows --value "com.onkur.customer"
+#find lib -type f -name "*.dart" -exec sed -i '' 's/package:flutter_clean_architecture_getx\//package:com.onkur.customer\//g' {} +

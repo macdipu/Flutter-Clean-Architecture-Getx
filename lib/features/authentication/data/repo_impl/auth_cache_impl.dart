@@ -1,9 +1,9 @@
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter_clean_architecture_getx/core/data/cache/client/base_cache_repository.dart';
-import 'package:flutter_clean_architecture_getx/core/data/cache/preference/shared_preference_constants.dart';
-import 'package:flutter_clean_architecture_getx/core/domain/error/failure.dart';
-import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
+import 'package:com.onkur.customer/core/data/cache/client/base_cache_repository.dart';
+import 'package:com.onkur.customer/core/data/cache/preference/shared_preference_constants.dart';
+import 'package:com.onkur.customer/core/domain/error/failure.dart';
+import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
 import 'dart:ui';
 import '../../domain/model/auth_login_req.dart';
 import '../../domain/model/user_info.dart';

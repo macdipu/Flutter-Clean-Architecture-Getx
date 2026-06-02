@@ -1,10 +1,10 @@
 import 'package:app_version_update/app_version_update.dart';
 import 'package:app_version_update/data/models/app_version_result.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
-import 'package:flutter_clean_architecture_getx/res/routes/global_navigator.dart';
+import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
+import 'package:com.onkur.customer/core/presentation/utils/logger.dart';
+import 'package:com.onkur.customer/core/presentation/utils/task_runner.dart';
+import 'package:com.onkur.customer/res/routes/global_navigator.dart';
 
 
 /// A service to check for app updates and manage version information using

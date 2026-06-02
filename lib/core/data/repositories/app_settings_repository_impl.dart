@@ -1,5 +1,5 @@
-import 'package:flutter_clean_architecture_getx/core/domain/models/theme_mode_enum.dart';
-import 'package:flutter_clean_architecture_getx/core/domain/repositories/app_settings_repository.dart';
+import 'package:com.onkur.customer/core/domain/models/theme_mode_enum.dart';
+import 'package:com.onkur.customer/core/domain/repositories/app_settings_repository.dart';
 import '../cache/preference/shared_preference.dart';
 
 class AppSettingsRepositoryImpl implements AppSettingsRepository {

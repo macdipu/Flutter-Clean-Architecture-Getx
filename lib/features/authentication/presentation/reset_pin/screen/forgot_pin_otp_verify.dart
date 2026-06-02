@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/state_status.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/appbar/common_appbar.dart';
+import 'package:com.onkur.customer/core/presentation/utils/state_status.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/appbar/common_appbar.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/common_button.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/otp_resend_timer.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/pin/common_pin_input.dart';
-import 'package:flutter_clean_architecture_getx/features/authentication/presentation/reset_pin/controller/reset_pin_controller.dart';
-import 'package:flutter_clean_architecture_getx/features/authentication/presentation/widgets/intro_header.dart';
-import 'package:flutter_clean_architecture_getx/res/routes/app_routes.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/buttons/common_button.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/buttons/otp_resend_timer.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/pin/common_pin_input.dart';
+import 'package:com.onkur.customer/features/authentication/presentation/reset_pin/controller/reset_pin_controller.dart';
+import 'package:com.onkur.customer/features/authentication/presentation/widgets/intro_header.dart';
+import 'package:com.onkur.customer/res/routes/app_routes.dart';
 
 class ForgotPinOtpVerify extends GetView<ForgotPinController> {
   ForgotPinOtpVerify({super.key});

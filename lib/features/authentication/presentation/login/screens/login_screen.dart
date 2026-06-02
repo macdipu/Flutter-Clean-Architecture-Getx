@@ -1,12 +1,12 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/theme/theme_extensions.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/images/round_image.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/text_field/custom_text_field.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/common_button.dart';
+import 'package:com.onkur.customer/core/presentation/theme/theme_extensions.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/images/round_image.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/text_field/custom_text_field.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/buttons/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_clean_architecture_getx/res/routes/app_routes.dart';
-import 'package:flutter_clean_architecture_getx/res/strings/string_enum.dart';
+import 'package:com.onkur.customer/res/routes/app_routes.dart';
+import 'package:com.onkur.customer/res/strings/string_enum.dart';
 
 import '../../../../../res/resources.dart';
 import '../controller/login_screen_controller.dart';

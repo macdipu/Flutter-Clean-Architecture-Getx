@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture_getx/res/routes/global_navigator.dart';
+import 'package:com.onkur.customer/res/routes/global_navigator.dart';
 import 'package:get/get.dart';
 
 enum SnackbarType {

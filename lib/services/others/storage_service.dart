@@ -1,6 +1,6 @@
-import 'package:flutter_clean_architecture_getx/core/domain/usecase/usecase.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/task_runner.dart';
+import 'package:com.onkur.customer/core/domain/usecase/usecase.dart';
+import 'package:com.onkur.customer/core/presentation/utils/logger.dart';
+import 'package:com.onkur.customer/core/presentation/utils/task_runner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// A wrapper around [SharedPreferences] for simple key-value persistence.

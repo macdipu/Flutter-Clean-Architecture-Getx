@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_clean_architecture_getx/services/push_notification/firebase_notification_service.dart';
-import 'package:flutter_clean_architecture_getx/services/push_notification/local_notification_service.dart';
+import 'package:com.onkur.customer/services/push_notification/firebase_notification_service.dart';
+import 'package:com.onkur.customer/services/push_notification/local_notification_service.dart';
 
 
 class NotificationService {

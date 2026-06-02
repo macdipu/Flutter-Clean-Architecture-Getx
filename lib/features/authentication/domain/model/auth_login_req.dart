@@ -1,6 +1,6 @@
 
-import 'package:flutter_clean_architecture_getx/core/domain/models/password.dart';
-import 'package:flutter_clean_architecture_getx/core/domain/models/phone_number.dart';
+import 'package:com.onkur.customer/core/domain/models/password.dart';
+import 'package:com.onkur.customer/core/domain/models/phone_number.dart';
 
 class AuthLoginReq {
   final PhoneNumber _phoneNumber;

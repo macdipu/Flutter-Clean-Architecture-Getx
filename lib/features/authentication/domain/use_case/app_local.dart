@@ -1,4 +1,4 @@
-import 'package:flutter_clean_architecture_getx/features/authentication/domain/repository/auth_repository.dart';
+import 'package:com.onkur.customer/features/authentication/domain/repository/auth_repository.dart';
 import 'package:get/get.dart';
 import '../../../../../../core/domain/usecase/usecase.dart';
 import 'dart:ui';

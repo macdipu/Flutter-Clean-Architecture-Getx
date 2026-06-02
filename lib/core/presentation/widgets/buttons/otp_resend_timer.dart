@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/theme/theme_extensions.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/buttons/common_button.dart';
+import 'package:com.onkur.customer/core/presentation/theme/theme_extensions.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/buttons/common_button.dart';
 import 'package:get/get.dart';
 
 class OtpResendButton extends StatelessWidget {

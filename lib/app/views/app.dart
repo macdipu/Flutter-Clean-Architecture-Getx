@@ -1,6 +1,6 @@
-import 'package:flutter_clean_architecture_getx/res/strings/string_enum.dart';
-import 'package:flutter_clean_architecture_getx/services/navigation/navigation_history_observer.dart';
-import 'package:flutter_clean_architecture_getx/services/navigation/navigation_service.dart';
+import 'package:com.onkur.customer/res/strings/string_enum.dart';
+import 'package:com.onkur.customer/services/navigation/navigation_history_observer.dart';
+import 'package:com.onkur.customer/services/navigation/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

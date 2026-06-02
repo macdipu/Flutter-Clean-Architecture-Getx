@@ -1,5 +1,5 @@
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/logger.dart';
-import 'package:flutter_clean_architecture_getx/services/others/share_service.dart';
+import 'package:com.onkur.customer/core/presentation/utils/logger.dart';
+import 'package:com.onkur.customer/services/others/share_service.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 

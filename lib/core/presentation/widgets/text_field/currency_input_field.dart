@@ -1,4 +1,4 @@
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/formatter/currency_formatter.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'custom_text_field.dart';

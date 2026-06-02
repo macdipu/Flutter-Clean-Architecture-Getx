@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture_getx/res/routes/global_navigator.dart';
+import 'package:com.onkur.customer/res/routes/global_navigator.dart';
 
 /// Shows a highly customizable bottom sheet with premium features like backdrop blur.
 ///

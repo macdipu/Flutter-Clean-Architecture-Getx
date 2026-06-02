@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_clean_architecture_getx/services/push_notification/local_notification_service.dart';
+import 'package:com.onkur.customer/services/push_notification/local_notification_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class FirebaseNotificationService {

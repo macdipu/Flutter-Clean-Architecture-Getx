@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_clean_architecture_getx/core/domain/models/phone_number.dart';
+import 'package:com.onkur.customer/core/domain/models/phone_number.dart';
 
 class UserInfo {
   final PhoneNumber? phoneNumber;

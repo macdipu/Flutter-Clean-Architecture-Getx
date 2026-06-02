@@ -1,6 +1,6 @@
-import 'package:flutter_clean_architecture_getx/core/domain/error/failure.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/utils/state_status.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/widgets/snackbar/custom_snackbar.dart';
+import 'package:com.onkur.customer/core/domain/error/failure.dart';
+import 'package:com.onkur.customer/core/presentation/utils/state_status.dart';
+import 'package:com.onkur.customer/core/presentation/widgets/snackbar/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 abstract class BaseController extends GetxController {

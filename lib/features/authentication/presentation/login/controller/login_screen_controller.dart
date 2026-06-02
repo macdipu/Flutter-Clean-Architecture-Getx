@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_clean_architecture_getx/core/domain/models/password.dart';
-import 'package:flutter_clean_architecture_getx/core/presentation/controllers/base_controller.dart';
-import 'package:flutter_clean_architecture_getx/features/authentication/domain/model/auth_login_req.dart';
+import 'package:com.onkur.customer/core/domain/models/password.dart';
+import 'package:com.onkur.customer/core/presentation/controllers/base_controller.dart';
+import 'package:com.onkur.customer/features/authentication/domain/model/auth_login_req.dart';
 
 import '../../../../../core/presentation/widgets/snackbar/custom_snackbar.dart';
 import '../../../domain/use_case/do_login_use_case.dart';
 import '../../../domain/use_case/app_local.dart';
-import 'package:flutter_clean_architecture_getx/features/authentication/domain/repository/auth_repository.dart';
+import 'package:com.onkur.customer/features/authentication/domain/repository/auth_repository.dart';
 import '../../../../../core/domain/models/phone_number.dart';
 
 class LoginScreenController extends BaseController {
