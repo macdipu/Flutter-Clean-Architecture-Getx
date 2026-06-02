@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: CRoundImage(
-        imagePath: Resources.drawable.loginUpperImage,
+        imagePath: Resources.drawable.splashImage,
         width: MediaQuery.of(context).size.width,
         fit: BoxFit.cover,
       ),
