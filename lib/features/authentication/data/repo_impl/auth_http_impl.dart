@@ -19,7 +19,7 @@ class AuthHttpImpl extends BaseHttpRepository implements AuthRepository {
     try {
       final response = await client.post(_urls.emailLoginUrl, req.toJson());
       if (response.messageCode == 200) {
-        return Right(UserInfo.fromJson(response.response as Map<String, dynamic>));
+        return Right(UserInfo.fromApiJson(response.response as Map<String, dynamic>));
       } else {
         return Left(ServerFailure(response.message ?? 'Login failed'));
       }

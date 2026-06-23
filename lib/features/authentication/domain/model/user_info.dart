@@ -43,6 +43,19 @@ class UserInfo {
         email: json['email'],
       );
 
+  factory UserInfo.fromApiJson(Map<String, dynamic> json) {
+    final token = json['token'] as Map<String, dynamic>;
+    final user = json['user'] as Map<String, dynamic>;
+    return UserInfo(
+      phoneNumber: user['phone'] != null ? PhoneNumber(user['phone']) : null,
+      fullName: user['name'],
+      role: user['role'],
+      accessToken: token['accessToken'],
+      refreshToken: token['refreshToken'],
+      email: user['email'],
+    );
+  }
+
   String toJsonString() {
     return jsonEncode(toJson());
   }
