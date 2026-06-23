@@ -201,7 +201,7 @@ class ${featureNamePascal}ItemList {
 }
 
 String generateRepositoryFile(String featureName, String featureNamePascal) {
-  return '''import 'package:aminul_haque/core/domain/usecase/usecase.dart';
+  return '''import 'package:customer/core/domain/usecase/usecase.dart';
 
 import '../entity/${featureName}_item.dart';
 
@@ -213,9 +213,10 @@ abstract class ${featureNamePascal}Repository {
 
 String generateUseCaseFile(String featureName, String featureNamePascal, String featureNameCamel) {
   return '''import 'package:dartz/dartz.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
+
 import '../entity/${featureName}_item.dart';
 import '../repo/${featureName}_repository.dart';
-import 'package:aminul_haque/core/domain/usecase/usecase.dart';
 
 class ${featureNamePascal}UseCase extends UseCaseWithoutParams<${featureNamePascal}ItemList> {
   final ${featureNamePascal}Repository _repo;
@@ -330,13 +331,13 @@ class ItemData {
 }
 
 String generateHttpImplFile(String featureName, String featureNamePascal, String featureNameCamel) {
-  return '''import 'package:aminul_haque/core/domain/usecase/usecase.dart';
-import 'package:dartz/dartz.dart';
+  return '''import 'package:dartz/dartz.dart';
+import 'package:customer/core/data/http/client/base_http_repository.dart';
+import 'package:customer/core/data/http/urls/api_urls.dart';
+import 'package:customer/core/domain/error/failure.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
 import 'package:logger/logger.dart';
 
-import '../../../../core/data/http/client/base_http_repository.dart';
-import '../../../../core/data/http/urls/api_urls.dart';
-import '../../../../core/domain/error/failure.dart';
 import '../../domain/entity/${featureName}_item.dart';
 import '../../domain/repo/${featureName}_repository.dart';
 import '../model/item_list_response.dart';
@@ -378,11 +379,11 @@ class ${featureNamePascal}HttpImpl extends BaseHttpRepository implements ${featu
 }
 
 String generateCacheImplFile(String featureName, String featureNamePascal, String featureNameCamel) {
-  return '''import 'package:aminul_haque/core/domain/usecase/usecase.dart';
-import 'package:dartz/dartz.dart';
+  return '''import 'package:dartz/dartz.dart';
+import 'package:customer/core/data/cache/client/base_cache_repository.dart';
+import 'package:customer/core/domain/domain_export.dart';
+import 'package:customer/core/domain/usecase/usecase.dart';
 
-import '../../../../core/data/cache/client/base_cache_repository.dart';
-import '../../../../core/domain/domain_export.dart';
 import '../../domain/entity/${featureName}_item.dart';
 import '../../domain/repo/${featureName}_repository.dart';
 import '${featureName}_http_impl.dart';
@@ -420,8 +421,8 @@ class ${featureNamePascal}CacheImpl extends BaseCacheRepository implements ${fea
 
 String generateControllerFile(String featureName, String featureNamePascal, String featureNameCamel) {
   return '''import 'package:get/get.dart';
+import 'package:customer/core/presentation/widgets/snackbar/custom_snackbar.dart';
 
-import '../../../../core/presentation/widgets/snackbar/custom_snackbar.dart';
 import '../../domain/entity/${featureName}_item.dart';
 import '../../domain/usecase/${featureName}_use_case.dart';
 
@@ -547,14 +548,14 @@ class _ListTile extends StatelessWidget {
 
 String generateBindingFile(String featureName, String featureNamePascal, String featureNameCamel) {
   return '''import 'package:get/get.dart';
-import 'package:aminul_haque/features/${featureName}/data/repo_impl/${featureName}_cache_impl.dart';
-import 'package:aminul_haque/features/${featureName}/data/repo_impl/${featureName}_http_impl.dart';
-import 'package:aminul_haque/features/${featureName}/domain/repo/${featureName}_repository.dart';
-import 'package:aminul_haque/features/${featureName}/domain/usecase/${featureName}_use_case.dart';
-import 'package:aminul_haque/features/${featureName}/presentation/controller/${featureName}_screen_controller.dart';
-import 'package:aminul_haque/core/data/http/client/api_client.dart';
-import 'package:aminul_haque/core/data/http/urls/api_urls.dart';
-import 'package:aminul_haque/core/data/cache/client/preference_cache.dart';
+import 'package:customer/core/data/cache/client/preference_cache.dart';
+import 'package:customer/core/data/http/client/api_client.dart';
+import 'package:customer/core/data/http/urls/api_urls.dart';
+import 'package:customer/features/${featureName}/data/repo_impl/${featureName}_cache_impl.dart';
+import 'package:customer/features/${featureName}/data/repo_impl/${featureName}_http_impl.dart';
+import 'package:customer/features/${featureName}/domain/repo/${featureName}_repository.dart';
+import 'package:customer/features/${featureName}/domain/usecase/${featureName}_use_case.dart';
+import 'package:customer/features/${featureName}/presentation/controller/${featureName}_screen_controller.dart';
 
 class ${featureNamePascal}Binding extends Bindings {
   @override
@@ -588,11 +589,11 @@ class ${featureNamePascal}Binding extends Bindings {
 }
 
 String generatePagesFile(String featureName, String featureNamePascal, String featureNameCamel) {
-  return '''import 'package:aminul_haque/features/${featureName}/presentation/screens/${featureName}_screen.dart';
-import 'package:get/get.dart';
+  return '''import 'package:get/get.dart';
 
 import '../../../res/routes/app_routes.dart';
 import 'bindings/${featureName}_binding.dart';
+import 'screens/${featureName}_screen.dart';
 
 class ${featureNamePascal}Pages {
   static final routes = [
