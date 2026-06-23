@@ -5,7 +5,7 @@ import 'package:customer/core/domain/usecase/usecase.dart';
 import 'package:customer/core/presentation/utils/error_handler.dart';
 import 'package:customer/core/presentation/utils/logger.dart';
 import 'package:customer/core/presentation/widgets/snackbar/custom_snackbar.dart';
-import 'package:customer/services/others/internet_connection_service.dart';
+import 'package:customer/services/utilities/internet_connection_service.dart';
 import 'package:dartz/dartz.dart';
 
 /// A reusable generic function to handle potential exceptions in async tasks

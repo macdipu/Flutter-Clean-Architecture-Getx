@@ -1,4 +1,4 @@
-import 'package:customer/services/others/biometric_service.dart';
+import 'package:customer/services/utilities/biometric_service.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local_auth/local_auth.dart';
 

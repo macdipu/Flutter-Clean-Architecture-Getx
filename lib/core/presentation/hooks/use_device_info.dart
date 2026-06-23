@@ -1,4 +1,4 @@
-import 'package:customer/services/others/device_info_service.dart';
+import 'package:customer/services/utilities/device_info_service.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 Map<String, dynamic>? useDeviceInfo() {
