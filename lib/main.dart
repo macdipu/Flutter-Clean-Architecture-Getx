@@ -11,5 +11,5 @@ void main(List<String> args) async {
     DeviceOrientation.portraitUp,
   ]);
 
-  bootstrap(() => const MyApp());
+  await bootstrap(() => const MyApp());
 }
