@@ -58,7 +58,7 @@ class ResetPinScreen extends GetView<ForgotPinController> {
       keyboardType: TextInputType.phone,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: (value) {
-
+        return null;
       },
     );
   }
@@ -72,7 +72,7 @@ class ResetPinScreen extends GetView<ForgotPinController> {
       keyboardType: TextInputType.phone,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: (value) {
-
+        return null;
       },
     );
   }

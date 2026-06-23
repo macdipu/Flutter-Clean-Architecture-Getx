@@ -1,6 +1,4 @@
-import 'package:get/get.dart';
-
-abstract class BaseCache extends GetxController {
+abstract class BaseCache {
   Future<void> put(String key, String value, Duration duration);
 
   Future<void> forever(String key, String value);
@@ -9,10 +7,7 @@ abstract class BaseCache extends GetxController {
 
   Future<bool> has(String key);
 
-  Future<bool> doesNotHave(String key) async {
-    var doesHave = await has(key);
-    return !doesHave;
-  }
+  Future<bool> doesNotHave(String key) async => !await has(key);
 
   Future<bool> isExpired(String key);
 

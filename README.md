@@ -4,6 +4,27 @@ A Flutter project with Clean Architecture and automated feature generation.
 
 ---
 
+## Environment Setup
+
+Copy `env_example` to `.env` and fill in values:
+
+```bash
+cp env_example .env
+```
+
+The app loads config at runtime from `.env` via `flutter_dotenv`.
+
+> **⚠️ Before production:** The `.env` file is bundled in the APK as a Flutter asset, which means anyone who decompiles the APK can read it. Before shipping to production, switch to compile-time injection instead:
+>
+> 1. Remove `.env` from `pubspec.yaml` assets
+> 2. Remove `flutter_dotenv` dependency
+> 3. Replace `dotenv.env['KEY']` getters in `AppConfig` with `String.fromEnvironment('KEY')`
+> 4. Pass secrets at build time: `flutter build apk --release --dart-define-from-file=.env`
+>
+> This way secrets never land in the binary.
+
+---
+
 ## 🚀 Quick Start - Feature Generator
 
 Generate complete feature modules in seconds!

@@ -208,7 +208,7 @@ class _ChipOtpResendView extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(999),
           color: controller.canResend
-              ? context.primary.withOpacity(0.12)
+              ? context.primary.withValues(alpha: 0.12)
               : context.surface,
         ),
         child: Row(
@@ -274,7 +274,7 @@ class _CardOtpResendView extends StatelessWidget {
         color: context.surface,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: context.outline.withOpacity(0.15),
+          color: context.outline.withValues(alpha: 0.15),
         ),
       ),
       child: Column(
@@ -293,7 +293,7 @@ class _CardOtpResendView extends StatelessWidget {
                   strokeWidth: 3,
                   color: context.primary,
                   backgroundColor:
-                  context.primary.withOpacity(0.12),
+                  context.primary.withValues(alpha: 0.12),
                 ),
                 Icon(
                   Icons.sms_outlined,
@@ -368,7 +368,7 @@ class _OtpProgressIndicator extends StatelessWidget {
         value: progress.clamp(0.0, 1.0),
         strokeWidth: strokeWidth,
         color: color,
-        backgroundColor: color.withOpacity(0.12),
+        backgroundColor: color.withValues(alpha: 0.12),
       ),
     );
   }

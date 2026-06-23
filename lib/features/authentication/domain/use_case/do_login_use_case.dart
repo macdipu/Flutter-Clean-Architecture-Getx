@@ -4,7 +4,6 @@ import 'package:customer/core/domain/usecase/usecase.dart';
 import 'package:customer/features/authentication/domain/repository/auth_repository.dart';
 
 import '../model/auth_login_req.dart';
-import '../model/user_info.dart';
 
 class DoLoginUseCase extends UseCaseWithParams<bool, AuthLoginReq> {
   final AuthRepository authRepository;

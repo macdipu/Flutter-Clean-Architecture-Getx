@@ -8,14 +8,15 @@ Flutter + GetX state management + Clean Architecture (data/domain/presentation p
 flutter pub get
 flutter analyze
 flutter test
-flutter run --dart-define-from-file=.env
-flutter build apk --release --dart-define-from-file=.env
+flutter run
+flutter build apk --release
 dart generate_feature.dart <snake_case_name>
 ```
 
 ## Environment Setup
 Copy `env_example` to `.env` and fill in values. Never commit `.env`.
-Config is injected at compile time via `--dart-define-from-file=.env`.
+Config is loaded at runtime via `flutter_dotenv` (`.env` bundled as asset).
+**Before production:** switch to `--dart-define-from-file=.env` compile-time injection — see README.
 
 ## Feature Generation
 ```bash

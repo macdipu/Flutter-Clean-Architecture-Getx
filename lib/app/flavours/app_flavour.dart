@@ -7,12 +7,15 @@ import 'package:customer/core/data/http/client/api_client.dart';
 import 'package:customer/core/data/http/urls/api_urls.dart';
 import 'package:customer/services/push_notification/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
+
+  await dotenv.load(fileName: '.env');
 
   // TODO: Enable Firebase for production:
   // await Firebase.initializeApp();

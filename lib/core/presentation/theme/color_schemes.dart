@@ -19,10 +19,10 @@ class AdaptiveColor {
   Color call(BuildContext context) => resolve(context);
 
   // Add opacity support
-  AdaptiveColor withOpacity(double opacity) {
+  AdaptiveColor withAlpha(double opacity) {
     return AdaptiveColor(
-      light: light.withOpacity(opacity),
-      dark: dark.withOpacity(opacity),
+      light: light.withValues(alpha: opacity),
+      dark: dark.withValues(alpha: opacity),
     );
   }
 }
