@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-enum TextEnum{
-  appName(en: "Flutter Demo", bn: "ফ্লাটার ডেমো"),
+enum TextEnum {
+  appName(en: "App Name", bn: "অ্যাপ নাম"),
   verify(en: "Verify", bn: "যাচাই করুন"),
   send(en: "Send", bn: "পাঠান"),
   submit(en: "Submit", bn: "জমা দিন"),
@@ -11,8 +11,8 @@ enum TextEnum{
   about(en: "About", bn: "সম্পর্কে"),
   contactUs(en: "Contact Us", bn: "যোগাযোগ করুন"),
   loginDescription(
-      en: "We will send --------- code to login",
-      bn: "আমরা লগইন করার জন্য --------- কোড পাঠাব"),
+      en: "Enter your credentials to login",
+      bn: "লগইন করতে আপনার তথ্য দিন"),
   loginUpperText(en: "Login to continue", bn: "চালিয়ে যাওয়ার জন্য লগইন করুন"),
   next(en: "Next", bn: "পরবর্তী"),
   otpResend(

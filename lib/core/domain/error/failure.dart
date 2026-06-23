@@ -1,13 +1,11 @@
 
-abstract class Failure{
+abstract class Failure {
   final String message;
   const Failure(this.message);
-
-  List<Object> get props => [message];
 }
 
-class Exception extends Failure {
-  const Exception(super.message);
+class AppException extends Failure {
+  const AppException(super.message);
 }
 
 class LocalDatabaseQueryFailure extends Failure {

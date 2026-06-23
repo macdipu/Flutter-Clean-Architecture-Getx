@@ -79,7 +79,7 @@ run:
 	  sleep 1; \
 	done; \
 	flutter pub get; \
-	flutter run"
+	flutter run --dart-define-from-file=.env"
 
 # ============================================================
 # Build
@@ -89,15 +89,15 @@ run:
 
 apk:
 	@echo "Building release APK..."
-	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build apk --release 2>&1 | tee /workspace/build_logs/build-apk-release.log; cp build/app/outputs/flutter-apk/app-release.apk /workspace/build_artifacts/ || echo 'app-release.apk not found'"
+	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build apk --release --dart-define-from-file=.env 2>&1 | tee /workspace/build_logs/build-apk-release.log; cp build/app/outputs/flutter-apk/app-release.apk /workspace/build_artifacts/ || echo 'app-release.apk not found'"
 
 debug:
 	@echo "Building debug APK..."
-	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build apk --debug 2>&1 | tee /workspace/build_logs/build-apk-debug.log; cp build/app/outputs/flutter-apk/app-debug.apk /workspace/build_artifacts/ || echo 'app-debug.apk not found'"
+	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build apk --debug --dart-define-from-file=.env 2>&1 | tee /workspace/build_logs/build-apk-debug.log; cp build/app/outputs/flutter-apk/app-debug.apk /workspace/build_artifacts/ || echo 'app-debug.apk not found'"
 
 aab:
 	@echo "Building Android App Bundle (AAB)..."
-	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build appbundle --release 2>&1 | tee /workspace/build_logs/build-aab-release.log; cp build/app/outputs/bundle/release/app-release.aab /workspace/build_artifacts/ || echo 'app-release.aab not found'"
+	@docker compose exec flutter bash -lc "mkdir -p /workspace/build_artifacts /workspace/build_logs && flutter pub get && flutter build appbundle --release --dart-define-from-file=.env 2>&1 | tee /workspace/build_logs/build-aab-release.log; cp build/app/outputs/bundle/release/app-release.aab /workspace/build_artifacts/ || echo 'app-release.aab not found'"
 
 artifacts:
 	@echo "Build artifacts:"

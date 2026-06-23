@@ -22,41 +22,32 @@ class LoginScreenController extends BaseController {
   String get currentLangCode => _localeController.currentLangCode.value;
 
   List<Function> get devAutoFill {
-    return [
-      () {
-        phoneNumberController.text = '01521583534';
-        pinController.text = '123458';
-      }
-    ];
+    assert(() {
+      phoneNumberController.text = '01521583534';
+      pinController.text = '123458';
+      return true;
+    }());
+    return [];
   }
 
   void toggleLocale() => _localeController.toggleLocale();
 
-  void toggleObscureText() {
-    obscureText.value = !obscureText.value;
-  }
+  void toggleObscureText() => obscureText.value = !obscureText.value;
 
   Future<bool> login() async {
-    var validity = await _checkingValidations();
-    if (!validity) return false;
+    if (!await _checkingValidations()) return false;
 
-    doAction<bool>(
-      action: () async => await loginUseCase(
+    bool succeeded = false;
+    await doAction<bool>(
+      action: () => loginUseCase(
         AuthLoginReq(
           phoneNumber: PhoneNumber(phoneNumberController.text),
           password: Password(pinController.text),
         ),
       ),
-      onSuccess: (result) {
-        if (!result) {
-          CustomSnackbar.error('Login failed');
-          return false;
-        }
-        return true;
-      },
+      onSuccess: (_) => succeeded = true,
     );
-
-    return true;
+    return succeeded;
   }
 
   Future<bool> _checkingValidations() async {
@@ -78,5 +69,12 @@ class LoginScreenController extends BaseController {
     }
 
     return true;
+  }
+
+  @override
+  void onClose() {
+    phoneNumberController.dispose();
+    pinController.dispose();
+    super.onClose();
   }
 }

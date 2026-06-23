@@ -4,58 +4,35 @@ import 'package:customer/core/presentation/widgets/snackbar/custom_snackbar.dart
 import 'package:get/get.dart';
 
 abstract class BaseController extends GetxController {
-  var status = StateStatus.initial.obs;
-  var errorMessage = Rxn<String>();
-  // final GetLoggedInMobile getLoggedInMobile = Get.find();
-  RxBool isLoading = false.obs;
+  final status = StateStatus.initial.obs;
+  final errorMessage = Rxn<String>();
+  final isLoading = false.obs;
 
-  RxString loggedInMobile = ''.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    // _getUserMobileNumber();
-  }
-
-  // void _getUserMobileNumber() async {
-  //   final result = await getLoggedInMobile();
-  //   result.fold(
-  //     (error) => loggedInMobile.value = "",
-  //     (mobile) => loggedInMobile.value = mobile,
-  //   );
-  // }
-
-  void handleFailure(Failure failure, bool isErrorDismissable) {
+  void handleFailure(Failure failure) {
     status.value = StateStatus.error;
     isLoading.value = false;
     errorMessage.value = failure.message;
-    if (isErrorDismissable) {
-      CustomSnackbar.error(errorMessage.value.toString(),
-      );
-    } else {
-      CustomSnackbar.error(errorMessage.value.toString());
-    }
+    CustomSnackbar.error(failure.message);
   }
 
   Future<void> doAction<T>({
     required Function action,
     required Function(T) onSuccess,
     Function(String?)? onError,
-    bool? isErrorDismissable,
   }) async {
     status.value = StateStatus.loading;
     isLoading.value = true;
-    var result = await action();
+    final result = await action();
     await result.fold(
       (failure) async {
+        status.value = StateStatus.error;
         isLoading.value = false;
+        errorMessage.value = failure.message;
         if (onError != null) {
-          onError.call(failure.message['error'] ??
-              failure.message['message'] ??
-              failure.message['failure'] ??
-              failure.message);
+          onError.call(failure.message);
+        } else {
+          CustomSnackbar.error(failure.message);
         }
-        handleFailure(failure, isErrorDismissable ?? true);
       },
       (success) async {
         status.value = StateStatus.success;

@@ -6,5 +6,23 @@ analyzer:
     - ios/Pods/**
     - macos/Flutter/ephemeral/**
     - .idea/**
+    - packages/**
 
-# Keep default lints for now. Add project-specific lints later if desired.
+linter:
+  rules:
+    avoid_print: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    prefer_final_fields: true
+    prefer_final_locals: true
+    unawaited_futures: true
+    avoid_redundant_argument_values: true
+    avoid_empty_else: true
+    avoid_returning_null_for_future: true
+    cancel_subscriptions: true
+    close_sinks: true
+    no_duplicate_case_values: true
+    use_key_in_widget_constructors: true
+    sized_box_for_whitespace: true
+    avoid_unnecessary_containers: true
+    use_full_hex_values_for_flutter_colors: true

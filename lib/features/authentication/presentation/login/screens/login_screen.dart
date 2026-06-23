@@ -5,6 +5,7 @@ import 'package:customer/core/presentation/widgets/text_field/custom_text_field.
 import 'package:customer/core/presentation/widgets/buttons/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:customer/res/routes/app_routes.dart';
 import 'package:customer/res/strings/string_enum.dart';
 
 import '../../../../../res/resources.dart';
@@ -162,21 +163,10 @@ class _LoginScreenState extends State<LoginScreen> {
       onTap: () async {
         final success = await _controller.login();
         if (success) {
-          // Get.offAllNamed(AppRoutes.appShell);
+          Get.offAllNamed(AppRoutes.appShell);
         }
       },
     );
   }
 
-  Widget _createAccountLink() {
-    return CommonButton.elevated(
-      title: TextEnum.createAccount.tr,
-      textStyle: TextStyle(fontSize: 16, color: context.primary) ,
-      height: 48,
-      width: MediaQuery.of(context).size.width - 32,
-      onTap: () async {
-       //todo
-      },
-    );
-  }
 }

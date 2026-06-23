@@ -24,31 +24,29 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => GetMaterialApp(
-        locale: Locale(_localeController.currentLangCode.value),
-        fallbackLocale: const Locale('en'),
-        supportedLocales: AppTranslations.supportedLocales,
-        translations: AppTranslations(),
-        title: TextEnum.appName.tr,
+    return GetMaterialApp(
+      locale: Locale(_localeController.currentLangCode.value),
+      fallbackLocale: const Locale('en'),
+      supportedLocales: AppTranslations.supportedLocales,
+      translations: AppTranslations(),
+      title: TextEnum.appName.tr,
 
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: _themeController.themeMode,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: _themeController.themeMode,
 
-        initialRoute: AppPages.initial,
-        getPages: AppPages.routes,
-        navigatorKey: NavigationService.navigatorKey,
-        navigatorObservers: [NavigationHistoryObserver()],
+      initialRoute: AppPages.initial,
+      getPages: AppPages.routes,
+      navigatorKey: NavigationService.navigatorKey,
+      navigatorObservers: [NavigationHistoryObserver()],
 
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
 
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-      ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }

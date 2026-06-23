@@ -1,29 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:customer/core/data/http/client/api_client_config.dart';
 
-import '../../core/data/http/client/api_client_config.dart';
+class AppConfig {
+  static const apiBaseUrl = String.fromEnvironment('API_BASE_URL');
+  static const apiVersion = String.fromEnvironment('API_VERSION', defaultValue: 'v1');
+  static const debug = bool.fromEnvironment('APP_DEBUG');
+  static const defaultLocale = String.fromEnvironment('DEFAULT_LOCALE', defaultValue: 'en');
 
-class AppConfig extends GetxController {
-  static const String _prodEnvName = "production";
-  static const String _devEnvName = "development";
+  const AppConfig();
 
-  final String environment = _prodEnvName;
-  late final String apiBaseUrl;
-  late final String apiVersion;
-  late final bool debug;
-  late final Locale defaultLocale;
-
-  bool get isProduction => environment == _prodEnvName;
-  bool get isDevelopment => environment == _devEnvName;
-  bool get isDebug => debug;
-  bool get isNotDebug => !debug;
-
-  void _loadData(Map<String, dynamic> map) {
-    apiBaseUrl = map['API_BASE_URL'];
-    apiVersion = map['API_VERSION'];
-    debug = map['APP_DEBUG'] == 'true';
-    defaultLocale = Locale(map['DEFAULT_LOCALE'] ?? 'en');
-  }
+  bool get isProduction => !debug;
 
   ApiClientConfig getApiClientConfig() {
     return ApiClientConfig(
@@ -31,9 +16,5 @@ class AppConfig extends GetxController {
       apiVersion: apiVersion,
       isDebug: debug,
     );
-  }
-
-  AppConfig(Map<String, dynamic> env) {
-    _loadData(env);
   }
 }
