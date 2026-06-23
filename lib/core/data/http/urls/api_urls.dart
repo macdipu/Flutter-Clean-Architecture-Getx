@@ -9,7 +9,7 @@ class ApiUrl implements AuthenticationApiUrls, DashboardApiUrls {
   String get apiVersion => appConfig.getApiClientConfig().apiVersion;
 
   @override
-  String get emailLoginUrl => "${baseUrl}Account/Login";
+  String get emailLoginUrl => "${baseUrl}v1/field-officer/auth/login";
 
   @override
   String get facebookLoginUrl => throw UnimplementedError();

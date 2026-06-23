@@ -17,8 +17,8 @@ class AuthLoginReq {
 
   Map<String, dynamic> toJson() {
     return {
-      'phone_number': _phoneNumber.withoutCountryCode,
-      'password': _password.value,
+      'phone': _phoneNumber.withoutCountryCode,
+      'password': {'number': _password.value},
     };
   }
 }
