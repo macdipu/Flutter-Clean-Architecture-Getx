@@ -1,11 +1,25 @@
-# short how to use this repo to build docker image from scratch and use
+# how to build docker image and use for this Flutter project
 
-# build image and assign it a name of android-sdk
-docker build -t android-sdk .
+# build complete-flutter image (default target)
+docker buildx build --target complete-flutter -t customer-flutter-build .
 
-# See gradlew tasks for project
-docker run --rm -v ${PWD}:/project -v "$HOME/.dockercache/gradle":"/root/.gradle" android-sdk bash -c 'cd /project; ./gradlew tasks'
+# run interactive shell in container (from project root)
+docker run --rm -it -v "${PWD}:/project" -v "$HOME/.dockercache/gradle:/root/.gradle" -v "$HOME/.dockercache/pub:/root/.pub-cache" customer-flutter-build bash -l
 
-# build app using the assembleRelease task
-docker run --rm -v ${PWD}:/project -v "$HOME/.dockercache/gradle":"/root/.gradle" android-sdk bash -c 'cd /project &&\
-	./gradlew assembleRelease'
+# flutter pub get
+docker run --rm -v "${PWD}:/project" -v "$HOME/.dockercache/pub:/root/.pub-cache" customer-flutter-build bash -c 'cd /project && flutter pub get'
+
+# flutter analyze
+docker run --rm -v "${PWD}:/project" -v "$HOME/.dockercache/pub:/root/.pub-cache" customer-flutter-build bash -c 'cd /project && flutter analyze'
+
+# flutter test
+docker run --rm -v "${PWD}:/project" -v "$HOME/.dockercache/pub:/root/.pub-cache" customer-flutter-build bash -c 'cd /project && flutter test'
+
+# build APK (release)
+docker run --rm -v "${PWD}:/project" -v "$HOME/.dockercache/gradle:/root/.gradle" -v "$HOME/.dockercache/pub:/root/.pub-cache" customer-flutter-build bash -c 'cd /project && flutter build apk --release'
+
+# build AAB (Play Store)
+docker run --rm -v "${PWD}:/project" -v "$HOME/.dockercache/gradle:/root/.gradle" -v "$HOME/.dockercache/pub:/root/.pub-cache" customer-flutter-build bash -c 'cd /project && flutter build appbundle --release'
+
+# create pub and gradle cache dirs (run once)
+mkdir -p "$HOME/.dockercache/gradle" "$HOME/.dockercache/pub"
