@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 
 part 'authentication_api_urls.dart';
 part 'dashboard_api_urls.dart';
-part 'trade_api_urls.dart';
-
-class ApiUrl implements AuthenticationApiUrls, DashboardApiUrls, TradeApiUrls {
+class ApiUrl implements AuthenticationApiUrls, DashboardApiUrls {
   final AppConfig appConfig = Get.find();
   String get baseUrl => "${appConfig.getApiClientConfig().baseUrl}api/";
   String get apiVersion => appConfig.getApiClientConfig().apiVersion;
@@ -21,9 +19,6 @@ class ApiUrl implements AuthenticationApiUrls, DashboardApiUrls, TradeApiUrls {
 
   @override
   String get registrationUrl => throw UnimplementedError();
-
-  @override
-  String get getAllTrade => "${baseUrl}Item/getall";
 
   @override
   String get getDashboardData => throw UnimplementedError();
