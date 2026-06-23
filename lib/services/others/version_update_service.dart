@@ -1,10 +1,11 @@
 import 'package:app_version_update/app_version_update.dart';
 import 'package:app_version_update/data/models/app_version_result.dart';
-import 'package:flutter/material.dart';
 import 'package:customer/core/domain/usecase/usecase.dart';
 import 'package:customer/core/presentation/utils/logger.dart';
 import 'package:customer/core/presentation/utils/task_runner.dart';
 import 'package:customer/res/routes/global_navigator.dart';
+import 'package:flutter/material.dart';
+
 
 
 /// A service to check for app updates and manage version information using

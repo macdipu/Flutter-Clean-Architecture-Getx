@@ -1,7 +1,8 @@
-import 'package:flutter/services.dart';
 import 'package:customer/core/domain/usecase/usecase.dart';
 import 'package:customer/core/presentation/utils/logger.dart';
 import 'package:customer/core/presentation/utils/task_runner.dart';
+import 'package:flutter/services.dart';
+
 
 /// A service to handle clipboard operations.
 class CopyService {

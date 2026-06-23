@@ -1,3 +1,4 @@
+
 import 'package:customer/core/domain/usecase/usecase.dart';
 import 'package:customer/core/presentation/utils/task_runner.dart';
 import 'package:share_plus/share_plus.dart';
@@ -9,15 +10,15 @@ class ShareService {
 
   /// Share plain text content.
   ResultFuture<ShareResult> shareText(String text, {String? subject}) async {
-    return runTask(() => Share.share(text, subject: subject));
+    return runTask(() => SharePlus.instance.share(ShareParams(text: text, subject: subject)));
   }
 
   /// Share files.
   ResultFuture<ShareResult> shareFiles(List<String> paths, {String? text, String? subject}) async {
-    return runTask(() => Share.shareXFiles(
-      paths.map((p) => XFile(p)).toList(),
+    return runTask(() => SharePlus.instance.share(ShareParams(
+      files: paths.map((p) => XFile(p)).toList(),
       text: text,
       subject: subject,
-    ));
+    )));
   }
 }
