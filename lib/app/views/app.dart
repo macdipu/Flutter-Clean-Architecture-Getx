@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../../core/presentation/controllers/locale_controller.dart';
 import '../../core/presentation/controllers/theme_controller.dart';
 import '../../core/presentation/theme/app_theme.dart';
 import '../../res/routes/app_pages.dart';
@@ -18,39 +19,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final Locale _locale = const Locale("bn");
   final ThemeController _themeController = Get.put(ThemeController());
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final LocaleController _localeController = Get.put(LocaleController());
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => GetMaterialApp(
-        locale: _locale,
-        fallbackLocale: _locale,
+        locale: Locale(_localeController.currentLangCode.value),
+        fallbackLocale: const Locale('en'),
         supportedLocales: AppTranslations.supportedLocales,
         translations: AppTranslations(),
         title: TextEnum.appName.tr,
 
-        // Theme Configuration
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: _themeController.themeMode,
 
-        // Navigation Configuration
         initialRoute: AppPages.initial,
         getPages: AppPages.routes,
         navigatorKey: NavigationService.navigatorKey,
         navigatorObservers: [NavigationHistoryObserver()],
 
-        // Disable debug banner
         debugShowCheckedModeBanner: false,
 
-        // Localization delegates
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

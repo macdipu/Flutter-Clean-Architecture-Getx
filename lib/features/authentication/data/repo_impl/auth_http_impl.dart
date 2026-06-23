@@ -51,14 +51,4 @@ class AuthHttpImpl extends BaseHttpRepository implements AuthRepository {
   Future<void> jwtUpdated() async {
     await _client.setToken();
   }
-
-  @override
-  ResultFuture<Locale> toggle() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Locale?> getSavedLocale() {
-    throw UnimplementedError();
-  }
 }

@@ -5,7 +5,6 @@ import 'package:customer/core/presentation/widgets/text_field/custom_text_field.
 import 'package:customer/core/presentation/widgets/buttons/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:customer/res/routes/app_routes.dart';
 import 'package:customer/res/strings/string_enum.dart';
 
 import '../../../../../res/resources.dart';
@@ -61,9 +60,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Align(
       alignment: Alignment.centerRight,
       child: Obx(() {
-        final code = _controller.currentLangCode.value.isEmpty
+        final code = _controller.currentLangCode.isEmpty
             ? Get.locale?.languageCode ?? Get.deviceLocale?.languageCode ?? 'en'
-            : _controller.currentLangCode.value;
+            : _controller.currentLangCode;
 
         final label = code == 'bn' ? 'বাংলা' : 'English';
 

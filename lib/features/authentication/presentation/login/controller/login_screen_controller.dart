@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer/core/domain/models/password.dart';
 import 'package:customer/core/presentation/controllers/base_controller.dart';
+import 'package:customer/core/presentation/controllers/locale_controller.dart';
 import 'package:customer/features/authentication/domain/model/auth_login_req.dart';
 
 import '../../../../../core/presentation/widgets/snackbar/custom_snackbar.dart';
 import '../../../domain/use_case/do_login_use_case.dart';
-import '../../../domain/use_case/app_local.dart';
-import 'package:customer/features/authentication/domain/repository/auth_repository.dart';
 import '../../../../../core/domain/models/phone_number.dart';
 
 class LoginScreenController extends BaseController {
   final DoLoginUseCase loginUseCase = Get.find<DoLoginUseCase>();
-  final ToggleLocale toggleLocaleUseCase = Get.find<ToggleLocale>();
+  final LocaleController _localeController = Get.find<LocaleController>();
+
   final phoneNumberController = TextEditingController();
   final pinController = TextEditingController();
 
-  final RxString currentLangCode = ''.obs;
   final RxBool obscureText = true.obs;
   final Rxn<PhoneNumber> phoneNumber = Rxn<PhoneNumber>();
+
+  String get currentLangCode => _localeController.currentLangCode.value;
 
   List<Function> get devAutoFill {
     return [
@@ -29,35 +30,7 @@ class LoginScreenController extends BaseController {
     ];
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    _initLocale();
-  }
-
-  Future<void> _initLocale() async {
-    try {
-      final repo = Get.find<AuthRepository>();
-      final saved = await repo.getSavedLocale();
-      final code = saved?.languageCode ?? Get.locale?.languageCode ?? Get.deviceLocale?.languageCode ?? 'en';
-      currentLangCode.value = code;
-    } catch (_) {
-      currentLangCode.value = Get.locale?.languageCode ?? Get.deviceLocale?.languageCode ?? 'en';
-    }
-  }
-
-  Future<void> toggleLocale() async {
-    final result = await toggleLocaleUseCase();
-    result.fold(
-      (failure) {
-        CustomSnackbar.error(failure.message);
-      },
-      (_) {
-        final code = Get.locale?.languageCode ?? Get.deviceLocale?.languageCode ?? 'en';
-        currentLangCode.value = code;
-      },
-    );
-  }
+  void toggleLocale() => _localeController.toggleLocale();
 
   void toggleObscureText() {
     obscureText.value = !obscureText.value;
@@ -68,14 +41,19 @@ class LoginScreenController extends BaseController {
     if (!validity) return false;
 
     doAction<bool>(
-        action:() async => await loginUseCase(AuthLoginReq(phoneNumber: PhoneNumber(phoneNumberController.text), password: Password(pinController.text))),
-        onSuccess: (result){
-          if (!result) {
-            CustomSnackbar.error('Login failed');
-            return false;
-          }
-          return true;
+      action: () async => await loginUseCase(
+        AuthLoginReq(
+          phoneNumber: PhoneNumber(phoneNumberController.text),
+          password: Password(pinController.text),
+        ),
+      ),
+      onSuccess: (result) {
+        if (!result) {
+          CustomSnackbar.error('Login failed');
+          return false;
         }
+        return true;
+      },
     );
 
     return true;
