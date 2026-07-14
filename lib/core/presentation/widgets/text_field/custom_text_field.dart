@@ -81,7 +81,7 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: enabled && !readOnly
             ? Theme.of(context).inputDecorationTheme.fillColor
-            : Colors.grey.shade200,
+            : Theme.of(context).colorScheme.surfaceContainerHighest,
       ),
       validator: validator,
       onChanged: onChanged,

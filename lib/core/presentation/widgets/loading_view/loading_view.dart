@@ -35,7 +35,7 @@ class LoadingViewTransparent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColor ?? const Color(0x80000000),
+      color: backgroundColor ?? context.scrim.withValues(alpha: 0.5),
       height: height ?? MediaQuery.of(context).size.height,
       width: width ?? MediaQuery.of(context).size.width,
       child: Center(

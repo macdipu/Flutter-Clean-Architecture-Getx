@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import '../../theme/color_schemes.dart';
 import '../../theme/theme_extensions.dart';
 
 class CommonBackground extends StatelessWidget {
@@ -24,14 +25,14 @@ class CommonBackground extends StatelessWidget {
                 height: 375,
                 width: 375,
                 // alignment: Alignment.topRight,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      Color.fromRGBO(56, 107, 169, 0.14),
-                      Color(0xFF0A0B1C),
+                      context.primary.withValues(alpha: 0.14),
+                      AppColors.heroGradientStart.resolve(context),
                     ],
-                    center: Alignment(0, 0),
+                    center: const Alignment(0, 0),
                   ),
                 ),
               ),
@@ -44,11 +45,11 @@ class CommonBackground extends StatelessWidget {
                 child: Container(
                   height: 375,
                   width: 375,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: RadialGradient(colors: [
-                      Colors.white,
-                      Colors.brown,
+                      context.secondary.withValues(alpha: 0.35),
+                      AppColors.heroGradientEnd.resolve(context),
                     ]),
                   ),
                 ),

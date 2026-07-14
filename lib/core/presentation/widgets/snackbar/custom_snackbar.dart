@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:customer/core/presentation/theme/color_schemes.dart';
 import 'package:customer/res/routes/global_navigator.dart';
 import 'package:get/get.dart';
 
@@ -10,34 +11,25 @@ enum SnackbarType {
 }
 
 class CustomSnackbar {
+  /// Resolves the current brightness from the root context, defaulting to
+  /// light when the app hasn't mounted yet (e.g. a very early background call).
+  static bool get _isDark =>
+      rootContext != null && Theme.of(rootContext!).brightness == Brightness.dark;
+
+  static Color _pick(AdaptiveColor c) => _isDark ? c.dark : c.light;
+
   static void show({
     required String title,
     required String message,
     required SnackbarType type,
     Duration duration = const Duration(seconds: 3),
   }) {
-    Color backgroundColor;
-    Color textColor = Colors.white;
-    IconData icon;
-
-    switch (type) {
-      case SnackbarType.success:
-        backgroundColor = const Color(0xFF4CAF50);
-        icon = Icons.check_circle_outline;
-        break;
-      case SnackbarType.error:
-        backgroundColor = const Color(0xFFE53935);
-        icon = Icons.error_outline;
-        break;
-      case SnackbarType.warning:
-        backgroundColor = const Color(0xFFFF9800);
-        icon = Icons.warning_amber_outlined;
-        break;
-      case SnackbarType.info:
-        backgroundColor = const Color(0xFF2196F3);
-        icon = Icons.info_outline;
-        break;
-    }
+    final (backgroundColor, textColor, icon) = switch (type) {
+      SnackbarType.success => (_pick(AppColors.success), _pick(AppColors.onSuccess), Icons.check_circle_outline),
+      SnackbarType.error => (_pick(AppColors.error), _pick(AppColors.onError), Icons.error_outline),
+      SnackbarType.warning => (_pick(AppColors.warning), _pick(AppColors.onWarning), Icons.warning_amber_outlined),
+      SnackbarType.info => (_pick(AppColors.info), _pick(AppColors.onInfo), Icons.info_outline),
+    };
 
     Get.snackbar(
       title,
@@ -55,7 +47,7 @@ class CustomSnackbar {
       reverseAnimationCurve: Curves.easeInBack,
       animationDuration: const Duration(milliseconds: 300),
       overlayBlur: 0.5,
-      overlayColor: Colors.black.withValues(alpha: 0.1),
+      overlayColor: _pick(AppColors.scrim).withValues(alpha: 0.1),
       snackbarStatus: (status) {
         if (status == SnackbarStatus.CLOSED) {
           // Snackbar closed
@@ -122,13 +114,13 @@ class CustomSnackbar {
   static Color? _toastBackgroundColor(String? status) {
     switch (status) {
       case 'success':
-        return const Color(0xFF4CAF50);
+        return _pick(AppColors.success);
       case 'error':
-        return const Color(0xFFE53935);
+        return _pick(AppColors.error);
       case 'warning':
-        return const Color(0xFFFF9800);
+        return _pick(AppColors.warning);
       case 'info':
-        return const Color(0xFF2196F3);
+        return _pick(AppColors.info);
       default:
         return null;
     }

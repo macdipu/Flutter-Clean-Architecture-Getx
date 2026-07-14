@@ -135,7 +135,7 @@ class AppColors {
   // Surface
   static const surface = AdaptiveColor(
     light: Colors.white,
-    dark: Color(0xFF0F131A),
+    dark: Color(0xFF111827),
   );
 
   static const onSurface = AdaptiveColor(
@@ -143,25 +143,42 @@ class AppColors {
     dark: Colors.white,
   );
 
-  static const surfaceVariant = AdaptiveColor(
-    light: Color(0xFFE6E8EC),
-    dark: Color(0xFF2C2F36),
-  );
-
   static const onSurfaceVariant = AdaptiveColor(
     light: Color(0xFF4A4A4A),
     dark: Color(0xFFCAD6E3),
   );
 
+  // Layered surface tiers - low to high emphasis, for card/dialog/sheet
+  // hierarchy so dark mode reads as soft stacked panels, not flat black.
+  static const surfaceContainerLowest = AdaptiveColor(
+    light: Colors.white,
+    dark: Color(0xFF0B1220),
+  );
+
+  static const surfaceContainerLow = AdaptiveColor(
+    light: Color(0xFFF7F8FA),
+    dark: Color(0xFF161F33),
+  );
+
+  static const surfaceContainer = AdaptiveColor(
+    light: Color(0xFFF1F2F5),
+    dark: Color(0xFF1C2740),
+  );
+
+  static const surfaceContainerHigh = AdaptiveColor(
+    light: Color(0xFFEAECF0),
+    dark: Color(0xFF23304D),
+  );
+
   static const surfaceContainerHighest = AdaptiveColor(
-    light: Color(0xFFF4F5F7),
-    dark: Color(0xFF2F3137),
+    light: Color(0xFFE3E6EC),
+    dark: Color(0xFF2A3654),
   );
 
   // Background
   static const background = AdaptiveColor(
     light: Color(0xFFFAFAFA),
-    dark: Color(0xFF050A14),
+    dark: Color(0xFF0B1220),
   );
 
   static const onBackground = AdaptiveColor(
@@ -221,14 +238,34 @@ class AppColors {
     dark: Colors.black,
   );
 
+  static const successContainer = AdaptiveColor(
+    light: Color(0xFFECF9ED),
+    dark: Color(0xFF12472C),
+  );
+
+  static const onSuccessContainer = AdaptiveColor(
+    light: Color(0xFF0D3B20),
+    dark: Color(0xFFECF9ED),
+  );
+
   static const warning = AdaptiveColor(
-    light: Color(0xFFF4C430),
+    light: Color(0xFFB8860B),
     dark: Color(0xFFFBBF24),
   );
 
   static const onWarning = AdaptiveColor(
     light: Colors.black,
     dark: Colors.black,
+  );
+
+  static const warningContainer = AdaptiveColor(
+    light: Color(0xFFFFF4CC),
+    dark: Color(0xFF4A3A00),
+  );
+
+  static const onWarningContainer = AdaptiveColor(
+    light: Color(0xFF3D2E00),
+    dark: Color(0xFFFFF4CC),
   );
 
   static const info = AdaptiveColor(
@@ -239,6 +276,16 @@ class AppColors {
   static const onInfo = AdaptiveColor(
     light: Colors.white,
     dark: Colors.black,
+  );
+
+  static const infoContainer = AdaptiveColor(
+    light: Color(0xFFE6F0FF),
+    dark: Color(0xFF1E3A66),
+  );
+
+  static const onInfoContainer = AdaptiveColor(
+    light: Color(0xFF0A2E5C),
+    dark: Color(0xFFE6F0FF),
   );
 
   // =========================================================

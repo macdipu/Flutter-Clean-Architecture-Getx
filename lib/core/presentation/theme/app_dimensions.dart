@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'color_schemes.dart';
 
 /// ============================================================
 /// APP DIMENS
@@ -326,27 +327,29 @@ class _Constraints {
 class _Shadows {
   const _Shadows();
 
-  List<BoxShadow> get s4 => const [
+  static final Color _shadowColor = AppColors.shadow.light.withValues(alpha: 0.08);
+
+  List<BoxShadow> get s4 => [
     BoxShadow(
       blurRadius: 4,
-      offset: Offset(0, 2),
-      color: Colors.black12,
+      offset: const Offset(0, 2),
+      color: _shadowColor,
     ),
   ];
 
-  List<BoxShadow> get s8 => const [
+  List<BoxShadow> get s8 => [
     BoxShadow(
       blurRadius: 8,
-      offset: Offset(0, 4),
-      color: Colors.black12,
+      offset: const Offset(0, 4),
+      color: _shadowColor,
     ),
   ];
 
-  List<BoxShadow> get s16 => const [
+  List<BoxShadow> get s16 => [
     BoxShadow(
       blurRadius: 16,
-      offset: Offset(0, 8),
-      color: Colors.black12,
+      offset: const Offset(0, 8),
+      color: _shadowColor,
     ),
   ];
 }

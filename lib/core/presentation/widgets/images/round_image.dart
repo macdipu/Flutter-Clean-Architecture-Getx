@@ -1,5 +1,6 @@
 import 'package:any_image_view/any_image_view.dart';
 import 'package:flutter/material.dart';
+import '../../theme/theme_extensions.dart';
 
 /// for any image type. All image rendering is delegated to AnyImageView.
 class CRoundImage extends StatelessWidget {
@@ -21,6 +22,7 @@ class CRoundImage extends StatelessWidget {
     this.placeholderWidget,
     this.errorWidget,
     this.enableZoom = false,
+    this.elevated = false,
   });
 
   // Dimension properties
@@ -53,20 +55,25 @@ class CRoundImage extends StatelessWidget {
   final Function()? onTap;
   final bool enableZoom;
 
+  /// When true and [backgroundColor]/[boxShadow] aren't explicitly set,
+  /// gives the image an opaque theme-aware surface backing with a soft
+  /// elevation shadow (e.g. a product card thumbnail).
+  final bool elevated;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: backgroundColor ?? (elevated ? context.surface : null),
         borderRadius: _getBorderRadius(),
       ),
-      child: _buildImageContent(),
+      child: _buildImageContent(context),
     );
   }
 
   /// Centralized method to build the image content
   /// This is the single point where you can modify image rendering behavior
-  Widget _buildImageContent() {
+  Widget _buildImageContent(BuildContext context) {
     return AnyImageView(
       key: ValueKey(imagePath),
       imagePath: imagePath,
@@ -82,7 +89,16 @@ class CRoundImage extends StatelessWidget {
       enableZoom: enableZoom,
       shape: shape,
       border: border,
-      boxShadow: boxShadow,
+      boxShadow: boxShadow ??
+          (elevated
+              ? [
+                  BoxShadow(
+                    color: context.shadow.withValues(alpha: 0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null),
     );
   }
 
@@ -181,14 +197,7 @@ class CImageFactory {
       width: size,
       radius: radius,
       fit: BoxFit.contain,
-      backgroundColor: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withAlpha((0.1 * 255).toInt()),
-          blurRadius: 10,
-          offset: const Offset(0, 4),
-        ),
-      ],
+      elevated: true,
       onTap: onTap,
     );
   }
@@ -217,7 +226,7 @@ class CImageFactory {
 ///   height: 80,
 ///   width: 80,
 ///   shape: BoxShape.circle,
-///   border: Border.all(color: Colors.blue, width: 2),
+///   border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
 /// )
 ///
 /// // Simple image without styling

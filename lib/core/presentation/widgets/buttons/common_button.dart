@@ -364,7 +364,7 @@ class CommonButton extends StatelessWidget {
 
   _ButtonTheme _resolveTheme(BuildContext context) {
     if (_isDisabled) {
-      return _ButtonTheme.disabled();
+      return _ButtonTheme.disabled(context);
     }
 
     if (_isOutlined) {
@@ -411,11 +411,12 @@ class _ButtonTheme {
     this.border,
   });
 
-  factory _ButtonTheme.disabled() {
+  factory _ButtonTheme.disabled(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
     return _ButtonTheme(
-      background: Colors.grey.shade300,
-      foreground: Colors.grey.shade600,
-      border: Colors.grey.shade300,
+      background: onSurface.withValues(alpha: 0.12),
+      foreground: onSurface.withValues(alpha: 0.38),
+      border: onSurface.withValues(alpha: 0.12),
     );
   }
 

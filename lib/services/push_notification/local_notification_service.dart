@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:customer/core/presentation/theme/color_schemes.dart';
 
 class LocalNotificationService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotifications =
@@ -65,7 +66,7 @@ class LocalNotificationService {
       channelDescription: 'Notification For Ranks',
       importance: Importance.high,
       priority: Priority.high,
-      color: Colors.blue,
+      color: AppColors.brandPrimary,
       playSound: true,
       enableVibration: true,
     );

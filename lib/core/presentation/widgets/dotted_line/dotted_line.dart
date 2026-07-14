@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../theme/theme_extensions.dart';
 
 class DottedLine extends StatelessWidget {
-  const DottedLine({super.key, this.height = 1, this.color = Colors.black,  this.dashWidth = 5});
+  const DottedLine({super.key, this.height = 1, this.color, this.dashWidth = 5});
   final double height;
-  final Color color;
+  final Color? color;
   final double dashWidth;
 
   @override
   Widget build(BuildContext context) {
+    final lineColor = color ?? context.outlineVariant;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final boxWidth = constraints.constrainWidth();
@@ -21,7 +23,7 @@ class DottedLine extends StatelessWidget {
               width: dashWidth,
               height: dashHeight,
               child: DecoratedBox(
-                decoration: BoxDecoration(color: color),
+                decoration: BoxDecoration(color: lineColor),
               ),
             );
           }),

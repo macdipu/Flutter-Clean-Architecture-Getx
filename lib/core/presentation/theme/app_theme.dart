@@ -35,6 +35,11 @@ class AppTheme {
       surface: c(AppColors.surface),
       onSurface: c(AppColors.onSurface),
       onSurfaceVariant: c(AppColors.onSurfaceVariant),
+      surfaceContainerLowest: c(AppColors.surfaceContainerLowest),
+      surfaceContainerLow: c(AppColors.surfaceContainerLow),
+      surfaceContainer: c(AppColors.surfaceContainer),
+      surfaceContainerHigh: c(AppColors.surfaceContainerHigh),
+      surfaceContainerHighest: c(AppColors.surfaceContainerHighest),
       outline: c(AppColors.outline),
       outlineVariant: c(AppColors.outlineVariant),
       shadow: c(AppColors.shadow),
@@ -65,7 +70,7 @@ class AppTheme {
       ),
 
       cardTheme: CardThemeData(
-        color: colorScheme.surface,
+        color: colorScheme.surfaceContainerLow,
         elevation: 2,
         shadowColor: colorScheme.shadow.withValues(alpha: shadowAlpha),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -149,7 +154,7 @@ class AppTheme {
       ),
 
       dialogTheme: DialogThemeData(
-        backgroundColor: colorScheme.surface,
+        backgroundColor: colorScheme.surfaceContainerHigh,
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         titleTextStyle: textTheme.headlineSmall?.copyWith(color: colorScheme.onSurface),
@@ -157,7 +162,7 @@ class AppTheme {
       ),
 
       bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: colorScheme.surface,
+        backgroundColor: colorScheme.surfaceContainerHigh,
         elevation: 8,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),

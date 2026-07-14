@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/theme_extensions.dart';
 import 'loading_view.dart';
 
 class OverLayLoadingView extends StatelessWidget {
@@ -19,9 +20,9 @@ class OverLayLoadingView extends StatelessWidget {
       children: [
         mainChild!,
         isLoading! ?
-        const Opacity(
+        Opacity(
           opacity: 0.5,
-          child: ModalBarrier(dismissible: false, color: Colors.black,),
+          child: ModalBarrier(dismissible: false, color: context.scrim),
         ) : Container(),
          Center(
           child: isLoading! ? const LoadingView(): Container(),

@@ -55,8 +55,8 @@ class CommonAppbar extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.transparent,
         child: const SizedBox.shrink(),
       ),
-      backgroundColor: const Color(0xFFF6F6F6),
-      surfaceTintColor: const Color(0xFFF6F6F6),
+      backgroundColor: theme.colorScheme.surface,
+      surfaceTintColor: theme.colorScheme.surface,
     );
   }
 

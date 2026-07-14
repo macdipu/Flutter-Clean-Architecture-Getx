@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'color_schemes.dart';
 
 extension ThemeExtensions on BuildContext {
   /// Theme shortcuts
@@ -41,12 +42,18 @@ extension ThemeExtensions on BuildContext {
   // Surface
   Color get surface => colorScheme.surface;
   Color get onSurface => colorScheme.onSurface;
-  Color get surfaceVariant => colorScheme.surfaceVariant;
   Color get onSurfaceVariant => colorScheme.onSurfaceVariant;
 
-  // Background
-  Color get background => colorScheme.background;
-  Color get onBackground => colorScheme.onBackground;
+  // Layered surface tiers (card/dialog/sheet hierarchy)
+  Color get surfaceContainerLowest => colorScheme.surfaceContainerLowest;
+  Color get surfaceContainerLow => colorScheme.surfaceContainerLow;
+  Color get surfaceContainer => colorScheme.surfaceContainer;
+  Color get surfaceContainerHigh => colorScheme.surfaceContainerHigh;
+  Color get surfaceContainerHighest => colorScheme.surfaceContainerHighest;
+
+  /// Background - alias for [surface], the Material 3 role it replaced.
+  Color get background => colorScheme.surface;
+  Color get onBackground => colorScheme.onSurface;
 
   // Outline
   Color get outline => colorScheme.outline;
@@ -109,73 +116,30 @@ extension ThemeExtensions on BuildContext {
   TextStyle? get labelSmall => textTheme.labelSmall;
 }
 
-/// Extension for custom colors (success, warning, info)
+/// Extension for custom semantic colors (success, warning, info, divider,
+/// border) that aren't part of Material's [ColorScheme]. Backed by
+/// [AppColors] - the single source of truth for every adaptive color in the
+/// app - so there is exactly one place to edit a token.
 extension CustomColorsExtension on ColorScheme {
-  /// Success color based on theme
-  Color get successColor {
-    return brightness == Brightness.light
-        ? const Color(0xFF39B54A)
-        : const Color(0xFF8FE59B);
-  }
+  bool get _isDark => brightness == Brightness.dark;
 
-  Color get onSuccess {
-    return brightness == Brightness.light
-        ? const Color(0xFFFFFFFF)
-        : const Color(0xFF000000);
-  }
+  Color _pick(AdaptiveColor c) => _isDark ? c.dark : c.light;
 
-  Color get successContainer {
-    return brightness == Brightness.light
-        ? const Color(0xFFECF9ED)
-        : const Color(0xFF126836);
-  }
+  Color get successColor => _pick(AppColors.success);
+  Color get onSuccess => _pick(AppColors.onSuccess);
+  Color get successContainer => _pick(AppColors.successContainer);
+  Color get onSuccessContainer => _pick(AppColors.onSuccessContainer);
 
-  Color get onSuccessContainer {
-    return brightness == Brightness.light
-        ? const Color(0xFF126836)
-        : const Color(0xFFECF9ED);
-  }
+  Color get warningColor => _pick(AppColors.warning);
+  Color get onWarning => _pick(AppColors.onWarning);
+  Color get warningContainer => _pick(AppColors.warningContainer);
+  Color get onWarningContainer => _pick(AppColors.onWarningContainer);
 
-  /// Warning color based on theme
-  Color get warningColor {
-    return brightness == Brightness.light
-        ? const Color(0xFFEEB50B)
-        : const Color(0xFFEDA109);
-  }
+  Color get infoColor => _pick(AppColors.info);
+  Color get onInfo => _pick(AppColors.onInfo);
+  Color get infoContainer => _pick(AppColors.infoContainer);
+  Color get onInfoContainer => _pick(AppColors.onInfoContainer);
 
-  Color get onWarning {
-    return const Color(0xFF000000);
-  }
-
-  Color get warningContainer {
-    return brightness == Brightness.light
-        ? const Color(0xFFFFF9E5)
-        : const Color(0xFF5C4600);
-  }
-
-  Color get onWarningContainer {
-    return brightness == Brightness.light
-        ? const Color(0xFF3D2E00)
-        : const Color(0xFFFFF9E5);
-  }
-
-  /// Info color (using tertiary)
-  Color get infoColor => tertiary;
-  Color get onInfo => onTertiary;
-  Color get infoContainer => tertiaryContainer;
-  Color get onInfoContainer => onTertiaryContainer;
-
-  /// Divider color
-  Color get dividerColor {
-    return brightness == Brightness.light
-        ? const Color(0xFFEAECF0)
-        : const Color(0xFF404040);
-  }
-
-  /// Border color
-  Color get borderColor {
-    return brightness == Brightness.light
-        ? const Color(0xFFF4F4F4)
-        : const Color(0xFF2F3137);
-  }
+  Color get dividerColor => _pick(AppColors.divider);
+  Color get borderColor => _pick(AppColors.border);
 }

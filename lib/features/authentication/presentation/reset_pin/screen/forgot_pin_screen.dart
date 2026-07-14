@@ -74,7 +74,7 @@ class ForgotPinScreen extends GetView<ForgotPinController> {
       return CommonButton.elevated(
         key: const ValueKey("reset_password_button"),
         title: 'Next',
-        loaderColor: Colors.white,
+        loaderColor: theme.colorScheme.onPrimary,
         isLoading: controller.status.value.isLoading,
         onTap: () async {
           if (_formKey.currentState!.validate()) {

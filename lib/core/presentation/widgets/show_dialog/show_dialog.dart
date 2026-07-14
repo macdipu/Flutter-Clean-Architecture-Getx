@@ -11,7 +11,7 @@ Future<T?> showAppDialog<T>({
   required Widget child,
   bool hasBlur = true,
   double blurSigma = 5.0,
-  Color barrierColor = Colors.black26,
+  Color? barrierColor,
   bool dismissible = true,
   Duration duration = const Duration(milliseconds: 300),
 }) {
@@ -20,7 +20,7 @@ Future<T?> showAppDialog<T>({
 
   return showGeneralDialog<T>(
     context: context,
-    barrierColor: barrierColor,
+    barrierColor: barrierColor ?? Theme.of(context).colorScheme.scrim.withValues(alpha: 0.4),
     barrierDismissible: dismissible,
     barrierLabel: 'AppDialog',
     transitionDuration: duration,
