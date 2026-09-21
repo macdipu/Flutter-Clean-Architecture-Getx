@@ -1,0 +1,131 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
+import 'package:renamed_template/core/data/cache/client/preference_cache.dart';
+import 'package:renamed_template/core/domain/error/failure.dart';
+import 'package:renamed_template/core/domain/usecase/usecase.dart';
+import 'package:renamed_template/features/sample_items/data/repo_impl/sample_items_cache_impl.dart';
+import 'package:renamed_template/features/sample_items/domain/entity/sample_items_item.dart';
+import 'package:renamed_template/features/sample_items/domain/repo/sample_items_repository.dart';
+import 'package:renamed_template/features/sample_items/domain/usecase/sample_items_use_case.dart';
+import 'package:renamed_template/features/sample_items/presentation/controller/sample_items_screen_controller.dart';
+import 'package:renamed_template/features/sample_items/presentation/screens/sample_items_screen.dart';
+
+class MemoryCache extends PreferenceCache {
+  String? value;
+  bool failRead = false;
+  bool failWrite = false;
+  int writes = 0;
+  @override Future<String?> get(String key) async {
+    if (failRead) throw StateError('read failed');
+    return value;
+  }
+  @override Future<void> put(String key, String value, Duration duration) async {
+    writes++;
+    if (failWrite) throw StateError('write failed');
+    this.value = value;
+  }
+}
+class Remote implements SampleItemsRepository {
+  int calls = 0;
+  bool? forced;
+  bool shouldThrow = false;
+  Completer<Either<Failure, SampleItemsItemList>>? pending;
+  Either<Failure, SampleItemsItemList> result = const Right(SampleItemsItemList(items: [SampleItemsItem(id: '1', name: 'Fresh item')]));
+  @override ResultFuture<SampleItemsItemList> getSampleItemsList({bool forceRefresh = false}) async {
+    calls++;
+    forced = forceRefresh;
+    if (shouldThrow) throw StateError('unexpected error');
+    if (pending != null) return pending!.future;
+    return result;
+  }
+}
+void main() {
+  tearDown(() => Get.reset());
+
+  test('cache hit skips remote; refresh bypasses and replaces cache', () async {
+    final cache = MemoryCache()..value = '[{"id":"0","name":"Cached item"}]';
+    final remote = Remote();
+    final useCase = SampleItemsUseCase(SampleItemsCacheImpl(cache, remote));
+    final first = await useCase(false);
+    expect(first.getOrElse(() => const SampleItemsItemList()).items.single.name, 'Cached item');
+    expect(remote.calls, 0);
+    final refreshed = await useCase(true);
+    expect(remote.calls, 1);
+    expect(remote.forced, isTrue);
+    expect(refreshed.getOrElse(() => const SampleItemsItemList()).items.single.name, 'Fresh item');
+    expect((jsonDecode(cache.value!) as List).single['name'], 'Fresh item');
+  });
+
+  test('corrupt cache and storage failures do not hide remote success', () async {
+    for (final malformed in ['invalid json', '{}', '[{"id":123}]']) {
+      final cache = MemoryCache()..value = malformed;
+      final remote = Remote();
+      expect((await SampleItemsCacheImpl(cache, remote).getSampleItemsList()).isRight(), isTrue);
+      expect(remote.calls, 1);
+    }
+    final cache = MemoryCache()..failRead = true..failWrite = true;
+    expect((await SampleItemsCacheImpl(cache, Remote()).getSampleItemsList()).isRight(), isTrue);
+  });
+
+  test('failed refresh preserves cache and returns the failure', () async {
+    final cache = MemoryCache()..value = '[]';
+    final remote = Remote()..result = const Left(ServerFailure('Offline'));
+    final result = await SampleItemsCacheImpl(cache, remote).getSampleItemsList(forceRefresh: true);
+    expect(result.isLeft(), isTrue);
+    expect(cache.value, '[]');
+    expect(cache.writes, 0);
+  });
+
+  test('controller clears loading after thrown failures and can retry', () async {
+    final remote = Remote()..shouldThrow = true;
+    Get.put(SampleItemsUseCase(remote));
+    final controller = SampleItemsScreenController();
+    await controller.getData();
+    expect(controller.isLoading.value, isFalse);
+    expect(controller.errorMessage.value, isNotNull);
+    remote.shouldThrow = false;
+    await controller.refreshData();
+    expect(remote.forced, isTrue);
+    expect(controller.errorMessage.value, isNull);
+    expect(controller.items.single.name, 'Fresh item');
+  });
+
+  testWidgets('loading, error, retry, data, refresh error and empty states', (tester) async {
+    final remote = Remote()..pending = Completer<Either<Failure, SampleItemsItemList>>();
+    Get.put(SampleItemsUseCase(remote));
+    final controller = Get.put(SampleItemsScreenController());
+    await tester.pumpWidget(const GetMaterialApp(home: SampleItemsScreen()));
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    await controller.getData();
+    expect(remote.calls, 1);
+    remote.pending!.complete(const Left(ServerFailure('Offline')));
+    await tester.pumpAndSettle();
+    expect(find.text('Offline'), findsOneWidget);
+    expect(find.text('Retry'), findsOneWidget);
+    remote.pending = null;
+    await tester.tap(find.text('Retry'));
+    await tester.pumpAndSettle();
+    expect(remote.forced, isTrue);
+    expect(find.text('Fresh item'), findsOneWidget);
+    expect(find.text('Offline'), findsNothing);
+    final beforeRefresh = remote.calls;
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, 400));
+    await tester.pumpAndSettle();
+    expect(remote.calls, beforeRefresh + 1);
+    remote.result = const Left(ServerFailure('Refresh failed'));
+    await controller.refreshData();
+    await tester.pumpAndSettle();
+    expect(find.text('Fresh item'), findsOneWidget);
+    expect(find.text('Refresh failed'), findsOneWidget);
+    remote.result = const Right(SampleItemsItemList());
+    await tester.tap(find.text('Retry'));
+    await tester.pumpAndSettle();
+    expect(find.text('No data found'), findsOneWidget);
+    expect(find.text('Refresh failed'), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+}

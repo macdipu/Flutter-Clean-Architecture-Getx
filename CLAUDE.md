@@ -14,9 +14,11 @@ dart generate_feature.dart <snake_case_name>
 ```
 
 ## Environment Setup
-Copy `env_example` to `.env` and fill in values. Never commit `.env`.
-Config is loaded at runtime via `flutter_dotenv` (`.env` bundled as asset).
-**Before production:** switch to `--dart-define-from-file=.env` compile-time injection — see README.
+Copy `.env/example.json` to `.env/dev.json` (or `staging.json` / `prod.json`) and fill in values.
+Only `example.json` is committed — the rest are gitignored.
+Config is compiled in via `--dart-define-from-file=.env/dev.json`, read in `AppConfig`
+through `String.fromEnvironment`/`bool.fromEnvironment`. Never bundle env files as Flutter assets.
+Run/build with the matching file, e.g. `flutter run --dart-define-from-file=.env/dev.json`.
 
 ## Feature Generation
 ```bash
@@ -24,10 +26,15 @@ dart generate_feature.dart user_profile
 ```
 After generating:
 1. Update entity fields in `domain/entity/`
-2. Update response DTO in `data/model/`
-3. Update API endpoint URL in `data/repo_impl/xxx_http_impl.dart` (search TODO)
-4. Add `AppRoutes.featureName` constant to `lib/res/routes/app_routes.dart`
-5. Add `FeaturePages.routes` spread to `lib/res/routes/app_pages.dart`
+2. Update response DTO and entity/cache mappings in `data/model/`
+3. Set the absolute `_endpoint` URL in `data/repo_impl/xxx_http_impl.dart` (search TODO)
+4. Import and spread `...FeaturePages.routes` in `lib/res/routes/app_pages.dart`
+5. Navigate using `FeaturePages.routeName`; a central `AppRoutes` alias is optional
+
+The generator detects the package name, formats output, and requires `--force`
+to overwrite an existing feature. Use `--dry-run` to preview paths. Refresh and
+Retry bypass the cache. Run `flutter test test/tool/feature_generator_test.dart`
+after changing generator templates in `tool/feature_generator/templates.dart`.
 
 ## Architecture Rules (ENFORCED)
 

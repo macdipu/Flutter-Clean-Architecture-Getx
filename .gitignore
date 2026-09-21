@@ -46,4 +46,7 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
-.env
+
+# Environment config — real values never committed, only .env/example.json
+.env/*.json
+!.env/example.json

@@ -123,13 +123,18 @@ presentation/pages.dart
 
 After generating:
 1. Add entity fields (`domain/entity`)
-2. Add response fields + `fromJson` (`data/model`)
-3. Set real endpoint in `data/repo_impl/<name>_http_impl.dart` (search `TODO`, replace `authorizedGet('')`)
-4. Update cache serialization in `<name>_cache_impl.dart`
-5. Add route constant to `lib/res/routes/app_routes.dart`
-6. Spread `...XxxPages.routes` into `lib/res/routes/app_pages.dart`
-7. Wire `HttpImpl → CacheImpl → Repository → UseCase → Controller` in the binding, all `Get.lazyPut(..., fenix: true)`
-8. Build UI, register routes, test
+2. Add response fields and DTO mappings (`fromJson`, `toJson`, `fromEntity`, `toEntity`) in `data/model`
+3. Set an absolute `_endpoint` in `data/repo_impl/<name>_http_impl.dart` (search `TODO`)
+4. Keep DTO mappings compatible with cached data, or bump the cache-key version
+5. Import and spread `...XxxPages.routes` into `lib/res/routes/app_pages.dart`
+6. Navigate with `XxxPages.routeName`; optionally expose an alias in `AppRoutes`
+7. The generated binding already wires `HttpImpl → CacheImpl → Repository → UseCase → Controller` with `Get.lazyPut(..., fenix: true)`
+8. Customize/localize the UI and test initial load, errors, Retry, and refresh
+
+The generator reads the package name from `pubspec.yaml` and formats its output.
+Use `--dry-run` to preview paths; overwriting requires `--force` and replaces
+customizations in the ten generated files. Refresh and Retry bypass the cache.
+Run `flutter test test/tool/feature_generator_test.dart` after generator changes.
 
 Never bypass architecture layers.
 
@@ -219,7 +224,7 @@ Does this exist already? Can it be reused / moved to `core/` / made generic? Doe
 * ✅ No duplicate widgets/logic — checked `core/` first
 * ✅ Clean Architecture layers respected (UI → Controller → UseCase → Repository → RepoImpl → ApiClient)
 * ✅ Controllers contain no JSON parsing / direct API calls
-* ✅ Routes registered in `app_routes.dart` + `app_pages.dart`
+* ✅ Generated page routes registered in `app_pages.dart` (optional aliases in `app_routes.dart`)
 * ✅ `devAutoFill`-style code wrapped in `assert()`
 * ✅ No unnecessary dependencies
 * ✅ `flutter analyze` clean

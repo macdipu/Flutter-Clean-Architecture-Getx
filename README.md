@@ -6,452 +6,121 @@ A Flutter project with Clean Architecture and automated feature generation.
 
 ## Environment Setup
 
-Copy `env_example` to `.env` and fill in values:
+Copy `.env/example.json` to the flavor file you need and fill in values:
 
 ```bash
-cp env_example .env
+cp .env/example.json .env/dev.json
 ```
 
-The app loads config at runtime from `.env` via `flutter_dotenv`.
-
-> **⚠️ Before production:** The `.env` file is bundled in the APK as a Flutter asset, which means anyone who decompiles the APK can read it. Before shipping to production, switch to compile-time injection instead:
->
-> 1. Remove `.env` from `pubspec.yaml` assets
-> 2. Remove `flutter_dotenv` dependency
-> 3. Replace `dotenv.env['KEY']` getters in `AppConfig` with `String.fromEnvironment('KEY')`
-> 4. Pass secrets at build time: `flutter build apk --release --dart-define-from-file=.env`
->
-> This way secrets never land in the binary.
-
----
-
-## 🚀 Quick Start - Feature Generator
-
-Generate complete feature modules in seconds!
+`.env/` holds per-flavor JSON (`dev.json`, `staging.json`, `prod.json`). Only
+`example.json` is committed — the real files are gitignored and never bundled
+as Flutter assets. Config is injected at compile time and read via
+`String.fromEnvironment`/`bool.fromEnvironment` in `AppConfig`
+(`lib/app/flavours/app_config.dart`), so nothing lands in the binary as a
+plaintext file that a decompiled APK/IPA could expose:
 
 ```bash
-dart generate_feature.dart <feature_name>
+flutter run --dart-define-from-file=.env/dev.json
+flutter build apk --release --dart-define-from-file=.env/prod.json
 ```
 
-**Example:**
+This covers public/build-time config only. Runtime user/session secrets (auth
+tokens, etc.) go through `flutter_secure_storage`, never this mechanism. True
+server-side secrets (API keys, signing secrets) never enter the app at all —
+they stay on the backend.
+
+---
+
+## Feature generator
+
+Run from the project root with the pinned SDK:
+
 ```bash
-dart generate_feature.dart user_profile
+fvm flutter pub get
+fvm dart run generate_feature.dart user_profile --dry-run
+fvm dart run generate_feature.dart user_profile
 ```
 
-**What it generates:**
-- ✅ Complete folder structure (8 folders)
-- ✅ All necessary files (10 files, ~700 lines)
-- ✅ Clean Architecture setup
-- ✅ GetX state management
-- ✅ Cache implementation
-- ✅ HTTP client integration
-- ✅ Dependency injection
+The generator reads the package name from `pubspec.yaml`, creates ten formatted
+Dart files, and refuses to overwrite an existing feature unless you pass
+`--force`. `--force` replaces the ten generated files, including customizations;
+it preserves other files. Use `--help` for usage. Names must be lowercase
+snake_case (for example `user_profile`), with no empty segments or reserved words.
 
-**Time saved:** 93% faster (40 minutes → 3 minutes)
+Generated structure:
 
----
-
-## 📋 4-Step Setup Process
-
-After generation, customize these 4 things (takes 2-3 minutes):
-
-### 1️⃣ Update Entity
-**File:** `domain/entity/<feature>_item.dart`
-
-```dart
-class UserProfileItem {
-  String? id;
-  String? email;
-  String? fullName;
-  // Add your fields here
-  
-  UserProfileItem({this.id, this.email, this.fullName});
-  
-  UserProfileItem.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    email = json['email'];
-    fullName = json['fullName'];
-  }
-  
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'email': email, 'fullName': fullName};
-  }
-}
-```
-
----
-
-### 2️⃣ Update Response Model
-**File:** `data/model/item_list_response.dart`
-
-```dart
-class ItemData {
-  // Match API field names (usually PascalCase)
-  ItemData.fromJson(dynamic json) {
-    _id = json['Id'];           // ← API field name
-    _email = json['Email'];     // ← API field name
-    _fullName = json['FullName']; // ← API field name
-  }
-}
-```
-
-**Your API Response Format:**
-```json
-{
-  "Success": true,
-  "Data": [
-    {
-      "Id": "123",
-      "Email": "user@example.com",
-      "FullName": "John Doe"
-    }
-  ],
-  "ErrorMessage": null
-}
-```
-
----
-
-### 3️⃣ Update HTTP Implementation
-**File:** `data/repo_impl/<feature>_http_impl.dart`
-
-**Step A:** Add endpoint to `lib/core/data/http/urls/api_urls.dart`:
-```dart
-class ApiUrl {
-  String get getAllUserProfile => "/api/users/profile";
-}
-```
-
-**Step B:** Update HTTP implementation:
-```dart
-@override
-ResultFuture<UserProfileItemList> getUserProfileList() async {
-  try {
-    final response = await client.authorizedGet(urls.getAllUserProfile);
-    
-    if (response.messageCode == 200) {
-      ItemListResponse itemList = ItemListResponse.fromJson(response.response);
-      
-      List<UserProfileItem> list = [];
-      for (var item in itemList.data!) {
-        list.add(UserProfileItem(
-          id: item.id,
-          email: item.email,
-          fullName: item.fullName,
-        ));
-      }
-      
-      return Right(UserProfileItemList(userProfileItems: list));
-    }
-    return const Left(ConnectionFailure("Failed to fetch data"));
-  } catch (e) {
-    return Left(ConnectionFailure(e.toString()));
-  }
-}
-```
-
----
-
-### 4️⃣ Register Routes
-
-**Step A:** Add route constant - `lib/res/routes/app_routes.dart`:
-```dart
-class AppRoutes {
-  static const String login = '/login';
-  static const String trades = '/trades';
-  static const String userProfile = '/user_profile';  // ← Add
-}
-```
-
-**Step B:** Register pages - `lib/res/routes/app_pages.dart`:
-```dart
-import 'package:aminul_haque/features/user_profile/presentation/pages.dart';
-
-class AppPages {
-  static final List<GetPage> routes = [
-    ...AuthPages.routes,
-    ...UserProfilePages.routes,  // ← Add
-  ];
-}
-```
-
----
-
-## ✅ Final Checklist
-
-```
-□ Generated feature folder
-□ Updated entity with fields
-□ Updated response model with API fields
-□ Added API endpoint in api_urls.dart
-□ Updated HTTP implementation
-□ Added route constant in app_routes.dart
-□ Imported and registered in app_pages.dart
-□ Customized UI screen
-□ Tested screen loads
-□ Tested data fetches
-□ Tested pull-to-refresh
-```
-
----
-
-## 📝 Naming Convention Examples
-
-| Feature Name | Entity Class | Controller | Route Constant |
-|--------------|-------------|------------|----------------|
-| `user_profile` | `UserProfileItem` | `UserProfileScreenController` | `userProfile` |
-| `product_list` | `ProductListItem` | `ProductListScreenController` | `productList` |
-| `order_history` | `OrderHistoryItem` | `OrderHistoryScreenController` | `orderHistory` |
-
----
-
-## 🎨 Bonus: Customize UI
-
-**File:** `presentation/screens/<feature>_screen.dart`
-
-```dart
-class _ListTile extends StatelessWidget {
-  const _ListTile({required this.item});
-  final UserProfileItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-          child: Text(item.fullName?[0] ?? '?'),
-        ),
-        title: Text(item.fullName ?? 'N/A'),
-        subtitle: Text(item.email ?? ''),
-        trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          // Navigate to detail screen
-        },
-      ),
-    );
-  }
-}
-```
-
----
-
-## 🧪 Test Navigation
-
-```dart
-// Navigate to your new feature
-Get.toNamed(AppRoutes.userProfile);
-
-// Or with arguments
-Get.toNamed(AppRoutes.userProfile, arguments: {'id': '123'});
-```
-
----
-
-## 🆘 Common Errors
-
-**Error: Route not found**
-→ Check route name in `app_routes.dart` matches `pages.dart`
-
-**Error: Dependency not found**
-→ Verify binding is added in `pages.dart`
-
-**Error: Type mismatch**
-→ Entity fields must match response model fields
-
-**Error: 401/403**
-→ Use `client.authorizedGet()` not `client.get()`
-
----
-
-## 📚 File Reference
-
-```
-features/<feature_name>/
+```text
+lib/features/user_profile/
 ├── data/
-│   ├── model/
-│   │   └── item_list_response.dart      ← Step 2
+│   ├── model/user_profile_list_response.dart
 │   └── repo_impl/
-│       ├── <feature>_http_impl.dart      ← Step 3
-│       └── <feature>_cache_impl.dart     
+│       ├── user_profile_http_impl.dart
+│       └── user_profile_cache_impl.dart
 ├── domain/
-│   ├── entity/
-│   │   └── <feature>_item.dart           ← Step 1
-│   ├── repo/
-│   └── usecase/
+│   ├── entity/user_profile_item.dart
+│   ├── repo/user_profile_repository.dart
+│   └── usecase/user_profile_use_case.dart
 └── presentation/
-    ├── bindings/
-    ├── controller/
-    ├── screens/
-    │   └── <feature>_screen.dart         ← UI customization
-    └── pages.dart                        ← Step 4B
+    ├── bindings/user_profile_binding.dart
+    ├── controller/user_profile_screen_controller.dart
+    ├── screens/user_profile_screen.dart
+    └── pages.dart
 ```
 
----
+Complete the feature in these steps:
 
-## 🎯 That's It!
+1. Add business fields to `domain/entity/user_profile_item.dart`.
+2. Update the DTO's `fromJson`, `toJson`, `fromEntity`, and `toEntity` mappings in
+   `data/model/user_profile_list_response.dart`. These mappings also serialize
+   the cache, so keep them consistent. The default response envelope uses
+   `Success`, `Data`, and `ErrorMessage`, with `id`/`name` item fields.
+3. Set `_endpoint` in `data/repo_impl/user_profile_http_impl.dart` to your absolute
+   API URL, or replace it with your URL provider. The default implementation uses
+   `authorizedGet`, so authentication must already be initialized. Until an
+   endpoint is configured, it returns a visible configuration error without
+   making a request.
+4. Import the generated pages into `lib/res/routes/app_pages.dart` and add
+   `...UserProfilePages.routes` to `AppPages.routes`. Use your actual package name
+   in the import, or use a relative import:
 
-Just **4 steps** to a fully working feature:
-1. Entity fields
-2. Response model
-3. HTTP endpoint
-4. Route registration
+   ```dart
+   import '../../features/user_profile/presentation/pages.dart';
+   ```
 
-**Reference:** Check `lib/features/trades/` for a complete example.
+5. Navigate with `Get.toNamed(UserProfilePages.routeName)`. Generated pages own
+   their route constant, so they compile before registration. If you prefer
+   central route constants, add an alias to `AppRoutes` yourself.
+6. Customize and localize the generated screen's text, then test the API mapping
+   and screen with your data.
 
----
+Generated behavior:
 
-## 📖 Complete Documentation
+- Initial load uses a valid cached response when available (one-day TTL).
+- Pull-to-refresh and Retry pass `forceRefresh: true` through the use case and
+  repository to bypass the cache and save fresh data.
+- Invalid or unavailable cached data falls back to the remote repository. A cache
+  write failure does not discard a successful response. A failed refresh keeps
+  the previous cached value and visible list.
+- The screen supports loading, empty, error/retry, data, and refresh states.
+  Short and empty lists remain scrollable for pull-to-refresh.
+- Unexpected controller failures reset loading and show an inline error.
+- DTOs own serialization; domain entities remain pure Dart. Bindings connect
+  HTTP → cache repository → use case → controller.
 
-For more detailed information, see:
-- **QUICK_START_CHEAT_SHEET.md** - Fast 4-step guide
-- **FEATURE_SETUP_GUIDE.md** - Complete walkthrough with examples
-- **ARCHITECTURE_OVERVIEW.md** - Deep dive into clean architecture
-- **VISUAL_SUMMARY.md** - Visual workflow and diagrams
-- **INDEX.md** - Documentation navigation hub
+The generated cache key is feature-scoped and versioned. For user-specific data,
+include the account ID in the cache key or clear that feature's data on logout.
+Bump the cache-key version when changing an incompatible cached schema.
 
----
+Run generator regression tests:
 
-## 🏗️ Clean Architecture Flow
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         PRESENTATION LAYER                          │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │  Screen (UI)                                                 │   │
-│  │  • Displays data                                             │   │
-│  │  • Handles user input                                        │   │
-│  │  • Shows loading/error states                                │   │
-│  └────────────────────────┬─────────────────────────────────────┘   │
-│                           │ Observes                                │
-│                           ▼                                         │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │  Controller (GetX)                                           │   │
-│  │  • Manages UI state                                          │   │
-│  │  • Calls use cases                                           │   │
-│  │  • Handles business logic                                    │   │
-│  └────────────────────────┬─────────────────────────────────────┘   │
-│                           │ Calls                                   │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │  Binding (Dependency Injection)                              │   │
-│  │  • Initializes dependencies                                  │   │
-│  │  • Manages lifecycle                                         │   │
-│  └─────────────────────────────────────────────────────────────┘   │
-└────────────────────────────┬────────────────────────────────────────┘
-                             │
-┌────────────────────────────┼────────────────────────────────────────┐
-│                         DOMAIN LAYER                                │
-│                            │                                         │
-│  ┌─────────────────────────▼─────────────────────────────────────┐ │
-│  │  Use Case                                                      │ │
-│  │  • Contains business rules                                     │ │
-│  │  • Orchestrates data flow                                      │ │
-│  │  • Returns Either<Failure, Data>                               │ │
-│  └────────────────────────┬───────────────────────────────────────┘ │
-│                           │ Calls                                   │
-│  ┌─────────────────────────▼─────────────────────────────────────┐ │
-│  │  Repository Interface                                          │ │
-│  │  • Defines contract                                            │ │
-│  │  • Abstract methods                                            │ │
-│  └────────────────────────────────────────────────────────────────┘ │
-│                                                                      │
-│  ┌──────────────────────────────────────────────────────────────┐  │
-│  │  Entity                                                       │  │
-│  │  • Pure business objects                                      │  │
-│  │  • No dependencies                                            │  │
-│  └──────────────────────────────────────────────────────────────┘  │
-└────────────────────────────┬─────────────────────────────────────────┘
-                             │
-┌────────────────────────────┼─────────────────────────────────────────┐
-│                         DATA LAYER                                  │
-│                            │                                         │
-│  ┌─────────────────────────▼─────────────────────────────────────┐ │
-│  │  Cache Implementation                                          │ │
-│  │  • Checks local cache first                                    │ │
-│  │  • Falls back to HTTP if needed                                │ │
-│  │  • Saves data locally                                          │ │
-│  └────────────────────────┬───────────────────────────────────────┘ │
-│                           │ Delegates to                            │
-│  ┌─────────────────────────▼─────────────────────────────────────┐ │
-│  │  HTTP Implementation                                           │ │
-│  │  • Makes API calls                                             │ │
-│  │  • Handles network errors                                      │ │
-│  │  • Maps response to entity                                     │ │
-│  └────────────────────────┬───────────────────────────────────────┘ │
-│                           │ Uses                                    │
-│  ┌─────────────────────────▼─────────────────────────────────────┐ │
-│  │  Response Model                                                │ │
-│  │  • Maps API JSON                                               │ │
-│  │  • Handles serialization                                       │ │
-│  └────────────────────────┬───────────────────────────────────────┘ │
-│                           │                                         │
-└────────────────────────────┼─────────────────────────────────────────┘
-                             │
-                             ▼
-                    ┌────────────────┐
-                    │   REST API     │
-                    │   (Backend)    │
-                    └────────────────┘
+```bash
+fvm flutter test test/tool/feature_generator_test.dart
 ```
 
----
-
-## 📊 Project Structure
-
-```
-lib/
-├── features/
-│   ├── trades/              ← Example feature (reference this!)
-│   ├── authentication/
-│   └── your_feature/        ← Generated features go here
-├── core/
-│   ├── data/
-│   │   ├── cache/
-│   │   └── http/
-│   ├── domain/
-│   │   ├── usecase/
-│   │   └── error/
-│   └── presentation/
-│       └── widgets/
-└── res/
-    ├── routes/
-    │   ├── app_routes.dart  ← Add route constants here
-    │   └── app_pages.dart   ← Register pages here
-    └── strings/
-```
-
----
-
-## 💡 Key Principles
-
-### 1. Separation of Concerns
-- **Presentation**: What user sees
-- **Domain**: What app does
-- **Data**: Where data comes from
-
-### 2. Dependency Rule
-- Domain doesn't depend on anything
-- Data depends on domain
-- Presentation depends on domain
-
-### 3. Testability
-- Each layer can be tested independently
-- Mock interfaces for testing
-- No tight coupling
-
-### 4. Maintainability
-- Change API? Update data layer only
-- Change UI? Update presentation only
-- Change business logic? Update domain only
-
----
-
-## 🚀 Getting Started
-
-1. **Clone the repository**
-2. **Run:** `flutter pub get`
-3. **Generate a feature:** `dart generate_feature.dart my_feature`
-4. **Follow the 4-step setup process above**
-5. **Run the app:** `flutter run`
+The suite checks CLI validation, overwrite protection, symbolic-link protection,
+package renaming, formatting, generated-code analysis, cache policies, and
+controller/widget behavior in a temporary project. Existing generated features
+are not migrated automatically.
 
 ---
 

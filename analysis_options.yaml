@@ -7,6 +7,12 @@ analyzer:
     - macos/Flutter/ephemeral/**
     - .idea/**
     - packages/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 linter:
   rules:
