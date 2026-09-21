@@ -4,25 +4,40 @@ A Flutter project with Clean Architecture and automated feature generation.
 
 ---
 
-## Environment Setup
+## ⚙️ Environment Setup
 
-Copy `.env/example.json` to the flavor file you need and fill in values:
+Config (`API_BASE_URL`, `API_VERSION`, `APP_DEBUG`, `DEFAULT_LOCALE`, `DEVICE_SECRET`)
+is injected at build time via `--dart-define-from-file`, not `.env`/`flutter_dotenv`.
+Values live in `.env/*.json`, read in `lib/app/flavours/app_config.dart`.
 
-```bash
-cp .env/example.json .env/dev.json
+```text
+.env/
+├── example.json   # committed template, blank values
+├── dev.json       # gitignored — copy from example.json and fill in
+├── staging.json   # gitignored
+└── prod.json      # gitignored
 ```
 
-`.env/` holds per-flavor JSON (`dev.json`, `staging.json`, `prod.json`). Only
-`example.json` is committed — the real files are gitignored and never bundled
-as Flutter assets. Config is injected at compile time and read via
-`String.fromEnvironment`/`bool.fromEnvironment` in `AppConfig`
-(`lib/app/flavours/app_config.dart`), so nothing lands in the binary as a
-plaintext file that a decompiled APK/IPA could expose:
+1. Copy the template: `cp .env/example.json .env/dev.json` (and
+   `staging.json`/`prod.json` if you need those builds).
+2. Fill in the real values — get them from a teammate or your secrets
+   manager, never commit them.
+3. Run with the flag directly: `flutter run --dart-define-from-file=.env/dev.json`
 
 ```bash
 flutter run --dart-define-from-file=.env/dev.json
 flutter build apk --release --dart-define-from-file=.env/prod.json
 ```
+
+**VS Code**: no `.vscode/launch.json` committed yet. Add one with a
+"Run (dev)" config using `toolArgs: ["--dart-define-from-file", ".env/dev.json"]`
+(duplicate for staging/prod) to pick a flavor from the Run and Debug panel.
+
+**Android Studio**: `.idea/` isn't committed, so each machine needs this once:
+**Run → Edit Configurations → main.dart** (create it if missing, pointing at
+`lib/main.dart`) → **Additional run args** → set to
+`--dart-define-from-file=.env/dev.json` (swap the filename for staging/prod
+configs).
 
 This covers public/build-time config only. Runtime user/session secrets (auth
 tokens, etc.) go through `flutter_secure_storage`, never this mechanism. True
