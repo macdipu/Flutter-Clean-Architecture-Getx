@@ -1,17 +1,31 @@
-import '../preference/shared_preference.dart';
+import '../preference/base_preference.dart';
+import '../preference/plain_preference.dart';
+import '../preference/secure_preference.dart';
 import 'base_cache.dart';
 
 class PreferenceCache extends BaseCache {
+  PreferenceCache({
+    BasePreference secure = const SecurePreference(),
+    BasePreference plain = const PlainPreference(),
+  })  : _secure = secure,
+        _plain = plain;
+
+  final BasePreference _secure;
+  final BasePreference _plain;
+
   static const String _lastCachedAtKey = 'cache_control:last_cached_at';
+  static final RegExp _cacheEntryPattern = RegExp(r'(:data|:expires_at)$');
+
+  BasePreference _store(bool secure) => secure ? _secure : _plain;
 
   @override
-  Future<String?> get(String key) async {
-    final data = await SharedPreference.getValue('$key:data');
+  Future<String?> get(String key, {bool secure = false}) async {
+    final store = _store(secure);
+    final data = await store.getValue('$key:data');
     if (data == null) return null;
 
-    final expiresAt = await SharedPreference.getValue('$key:expires_at');
-    if (expiresAt != null && int.parse(expiresAt) < DateTime.now().millisecondsSinceEpoch) {
-      await remove(key);
+    if (await _isExpiredIn(store, key)) {
+      await remove(key, secure: secure);
       return null;
     }
 
@@ -19,30 +33,33 @@ class PreferenceCache extends BaseCache {
   }
 
   @override
-  Future<void> put(String key, String value, Duration duration) async {
+  Future<void> put(String key, String value, Duration duration, {bool secure = false}) async {
+    final store = _store(secure);
     await Future.wait([
-      SharedPreference.setValue('$key:data', value),
-      SharedPreference.setValue('$key:expires_at', DateTime.now().add(duration).millisecondsSinceEpoch.toString()),
+      store.setValue('$key:data', value),
+      store.setValue('$key:expires_at', DateTime.now().add(duration).millisecondsSinceEpoch.toString()),
       _setLastCachedAt(),
     ]);
   }
 
   @override
-  Future<void> forever(String key, String value) async {
+  Future<void> forever(String key, String value, {bool secure = false}) async {
+    final store = _store(secure);
     await Future.wait([
-      SharedPreference.setValue('$key:data', value),
+      store.setValue('$key:data', value),
+      store.remove('$key:expires_at'),
       _setLastCachedAt(),
     ]);
   }
 
   @override
-  Future<bool> has(String key) async {
-    final data = await SharedPreference.getValue('$key:data');
+  Future<bool> has(String key, {bool secure = false}) async {
+    final store = _store(secure);
+    final data = await store.getValue('$key:data');
     if (data == null) return false;
 
-    final expiresAt = await SharedPreference.getValue('$key:expires_at');
-    if (expiresAt != null && int.parse(expiresAt) < DateTime.now().millisecondsSinceEpoch) {
-      await remove(key);
+    if (await _isExpiredIn(store, key)) {
+      await remove(key, secure: secure);
       return false;
     }
 
@@ -50,38 +67,58 @@ class PreferenceCache extends BaseCache {
   }
 
   @override
-  Future<bool> isExpired(String key) async {
-    final expiresAt = await SharedPreference.getValue('$key:expires_at');
-    if (expiresAt == null) return false;
-    return int.parse(expiresAt) < DateTime.now().millisecondsSinceEpoch;
+  Future<bool> isExpired(String key, {bool secure = false}) => _isExpiredIn(_store(secure), key);
+
+  Future<bool> _isExpiredIn(BasePreference store, String key) async {
+    final raw = await store.getValue('$key:expires_at');
+    if (raw == null) return false;
+    final expiresAt = int.tryParse(raw);
+    // Unparseable expiry means corrupted storage; treat as expired so it gets evicted.
+    if (expiresAt == null) return true;
+    return expiresAt < DateTime.now().millisecondsSinceEpoch;
   }
 
   @override
-  Future<void> remove(String key) async {
+  Future<void> remove(String key, {bool secure = false}) async {
+    final store = _store(secure);
     await Future.wait([
-      SharedPreference.remove('$key:data'),
-      SharedPreference.remove('$key:expires_at'),
+      store.remove('$key:data'),
+      store.remove('$key:expires_at'),
     ]);
   }
 
   @override
   Future<void> removeMultiple(RegExp keyPattern) async {
-    await SharedPreference.removeMultiple(keyPattern);
+    await Future.wait([
+      _secure.removeMultiple(keyPattern),
+      _plain.removeMultiple(keyPattern),
+    ]);
+  }
+
+  @override
+  Future<void> clearAppSessionCache() async {
+    await Future.wait([
+      removeMultiple(_cacheEntryPattern),
+      _plain.remove(_lastCachedAtKey),
+    ]);
   }
 
   @override
   Future<void> flushAll() async {
-    await SharedPreference.removeAll();
+    await Future.wait([
+      _secure.removeAll(),
+      _plain.removeAll(),
+    ]);
   }
 
   Future<void> _setLastCachedAt() async {
-    await SharedPreference.setValue(_lastCachedAtKey, DateTime.now().toString());
+    await _plain.setValue(_lastCachedAtKey, DateTime.now().toString());
   }
 
   @override
   Future<DateTime?> lastCachedAt() async {
-    final value = await SharedPreference.getValue(_lastCachedAtKey);
+    final value = await _plain.getValue(_lastCachedAtKey);
     if (value == null) return null;
-    return DateTime.parse(value);
+    return DateTime.tryParse(value);
   }
 }

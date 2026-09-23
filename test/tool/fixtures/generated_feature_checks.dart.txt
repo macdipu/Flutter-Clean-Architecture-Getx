@@ -19,11 +19,11 @@ class MemoryCache extends PreferenceCache {
   bool failRead = false;
   bool failWrite = false;
   int writes = 0;
-  @override Future<String?> get(String key) async {
+  @override Future<String?> get(String key, {bool secure = false}) async {
     if (failRead) throw StateError('read failed');
     return value;
   }
-  @override Future<void> put(String key, String value, Duration duration) async {
+  @override Future<void> put(String key, String value, Duration duration, {bool secure = false}) async {
     writes++;
     if (failWrite) throw StateError('write failed');
     this.value = value;

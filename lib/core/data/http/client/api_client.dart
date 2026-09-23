@@ -50,7 +50,7 @@ class ApiClient {
   bool hasToken() => _token != null;
 
   Future<void> setToken() async {
-    final cached = await _cache.get(SharedPreferenceConstant.customerInfo);
+    final cached = await _cache.get(SharedPreferenceConstant.customerInfo, secure: true);
     if (cached != null) {
       final json = jsonDecode(cached) as Map<String, dynamic>;
       _token = JWT(
@@ -62,11 +62,10 @@ class ApiClient {
 
   JWT? getToken() => _token;
 
-  void removeToken() {
+  Future<void> removeToken() async {
     _token = null;
-    _cache.flushAll().then((_) {
-      getx.Get.offAllNamed(AppRoutes.login);
-    });
+    await _cache.clearAppSessionCache();
+    unawaited(getx.Get.offAllNamed(AppRoutes.login));
   }
 
   Future<Resource> get(String uri, {Map<String, dynamic>? queryParams}) async {
@@ -249,7 +248,7 @@ class ApiClient {
       } catch (e) {
         _isRefreshing = false;
         _refreshListeners.clear();
-        removeToken();
+        await removeToken();
         rethrow;
       }
     } else {
@@ -281,11 +280,11 @@ class ApiClient {
       final newAccess = data['access_token'] as String? ?? '';
       final newRefresh = data['refresh_token'] as String? ?? '';
 
-      final cached = await _cache.get(SharedPreferenceConstant.customerInfo);
+      final cached = await _cache.get(SharedPreferenceConstant.customerInfo, secure: true);
       final json = cached != null ? (jsonDecode(cached) as Map<String, dynamic>) : <String, dynamic>{};
       json['access_token'] = newAccess;
       json['refresh_token'] = newRefresh;
-      await _cache.forever(SharedPreferenceConstant.customerInfo, jsonEncode(json));
+      await _cache.forever(SharedPreferenceConstant.customerInfo, jsonEncode(json), secure: true);
       await setToken();
     } else {
       throw ApiException(response.messageCode ?? 400, response.message ?? 'Failed to refresh token');

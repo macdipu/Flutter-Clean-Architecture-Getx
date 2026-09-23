@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:customer/core/data/cache/client/base_cache_repository.dart';
 import 'package:customer/core/data/cache/preference/shared_preference_constants.dart';
@@ -19,8 +18,8 @@ class AuthCacheImpl extends BaseCacheRepository implements AuthRepository {
 
     if (result.isRight()) {
       UserInfo? userInfo = result.fold((l) => null, (r) => r);
-      await cache.forever(
-          SharedPreferenceConstant.customerInfo, userInfo!.toJsonString());
+      await cache.forever(SharedPreferenceConstant.customerInfo, userInfo!.toJsonString(),
+          secure: true);
 
       await authHttpImpl.jwtUpdated();
     }
@@ -32,5 +31,4 @@ class AuthCacheImpl extends BaseCacheRepository implements AuthRepository {
   Future<void> jwtUpdated() async {
     await authHttpImpl.jwtUpdated();
   }
-
 }
