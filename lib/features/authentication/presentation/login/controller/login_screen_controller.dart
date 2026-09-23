@@ -20,6 +20,7 @@ class LoginScreenController extends BaseController {
   final Rxn<PhoneNumber> phoneNumber = Rxn<PhoneNumber>();
 
   String get currentLangCode => _localeController.currentLangCode.value;
+  RxBool get isTogglingLocale => _localeController.isTogglingLocale;
 
   List<Function> get devAutoFill {
     assert(() {

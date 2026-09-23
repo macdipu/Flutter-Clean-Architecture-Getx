@@ -50,7 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-
           ],
         ),
       ),
@@ -66,13 +65,28 @@ class _LoginScreenState extends State<LoginScreen> {
             : _controller.currentLangCode;
 
         final label = code == 'bn' ? 'বাংলা' : 'English';
+        final toggling = _controller.isTogglingLocale.value;
 
         return TextButton.icon(
-          onPressed: _controller.toggleLocale,
-          icon: Icon(
-            Icons.language,
-            size: 14,
-            color: context.primary,
+          onPressed: toggling ? null : _controller.toggleLocale,
+          icon: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: toggling
+                ? SizedBox(
+                    key: const ValueKey('locale-loading'),
+                    width: 14,
+                    height: 14,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: context.primary,
+                    ),
+                  )
+                : Icon(
+                    Icons.language,
+                    key: const ValueKey('locale-icon'),
+                    size: 14,
+                    color: context.primary,
+                  ),
           ),
           label: Text(
             label,
@@ -168,5 +182,4 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
   }
-
 }
